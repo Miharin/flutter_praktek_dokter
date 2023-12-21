@@ -71,7 +71,10 @@ class LoginScreen extends StatelessWidget {
                         ? const Size(500.0, 50.0)
                         : Size(constraint.maxWidth * 0.8, 40.0),
                     onPressed: () {
-                      return const CustomDialog();
+                      return CustomDialog(
+                        onChanged: (value) =>
+                            _authController.setAuth('token', value),
+                      );
                     },
                   )
                 ]),

@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CustomDialog extends StatelessWidget {
-  const CustomDialog({super.key});
+  const CustomDialog({super.key, required this.onChanged});
+  final Function(String) onChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -13,6 +14,7 @@ class CustomDialog extends StatelessWidget {
             title: const Text("Please Input Token !"),
             content: TextField(
               obscureText: true,
+              onChanged: onChanged,
               decoration: InputDecoration(
                   prefixIcon: const Icon(Icons.password_rounded),
                   border: const OutlineInputBorder(
