@@ -3,16 +3,34 @@ import 'package:get/get.dart';
 
 class RegisterHelper extends GetxController {
   var registerData = {
-    'NIK': '',
-    'TempatLahir': '',
-    'TanggalLahir': '',
-    'JenisKelamin': '',
-    'GolonganDarah': '',
-    'Agama': '',
-    'StatusPerkawinan': '',
-    'Pekerjaan': '',
-    'Kewarganegaraan': '',
+    'NIK': ''.obs,
+    'TempatLahir': ''.obs,
+    'TanggalLahir': ''.obs,
+    'JenisKelamin': ''.obs,
+    'GolonganDarah': ''.obs,
+    'Agama': ''.obs,
+    'StatusPerkawinan': ''.obs,
+    'Pekerjaan': ''.obs,
+    'Kewarganegaraan': ''.obs,
   }.obs;
+
+  var index = 0.obs;
+
+  onStepCancel(currentIndex) {
+    if (currentIndex > 0) {
+      index.value = currentIndex - 1;
+    }
+  }
+
+  onStepContinue(totalSteps) {
+    if (index >= 0 && index < totalSteps - 1) {
+      index.value += 1;
+    }
+  }
+
+  onStepTapped(currentIndex) {
+    index.value = currentIndex;
+  }
 
   final TextEditingController nikControler = TextEditingController();
   final TextEditingController tempatlahirControler = TextEditingController();
@@ -36,7 +54,7 @@ class RegisterHelper extends GetxController {
   var pekerjaanVerification = false.obs;
   var kewarganegaraanVerification = false.obs;
 
-  setregisterData(name, value, isValid) {
+  setRegisterData(name, value, isValid) {
     registerData[name] = value;
     switch (name) {
       case "NIK":

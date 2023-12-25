@@ -17,14 +17,17 @@ class LoginScreen extends StatelessWidget {
     return LayoutBuilder(builder: (context, constraint) {
       // Constrained For Text Field
       var constrained = BoxConstraints(
-          maxWidth: constraint.maxWidth > 500 ? 500 : constraint.maxWidth * 0.8,
-          minWidth:
-              constraint.maxWidth > 500 ? 500 : constraint.maxWidth * 0.8);
+        maxWidth: constraint.maxWidth > 500 ? 500 : constraint.maxWidth * 0.8,
+        minWidth: constraint.maxWidth > 500 ? 500 : constraint.maxWidth * 0.8,
+      );
 
       // Constrained For Button
       var constrainedButton = constraint.maxWidth > 500.0
           ? const Size(500.0, 50.0)
-          : Size(constraint.maxWidth * 0.8, 40.0);
+          : Size(
+              constraint.maxWidth * 0.8,
+              40.0,
+            );
 
       // Custom Dialog
       var customDialog = CustomDialog(
@@ -57,36 +60,39 @@ class LoginScreen extends StatelessWidget {
       );
 
       // All Text Fields
-      var textFields = [
-        {
-          "controller": _authController.emailController,
-          "label": "Email",
-          "onChanged": (value) => _authController.setAuth(
-                'email',
-                _authController.emailController.text,
-                _authController.emailController.text.isEmail,
+      var textFields = Obx(() => Column(
+            children: [
+              CustomTextField(
+                controller: _authController.emailController,
+                label: "Email",
+                onChanged: (value) => _authController.setAuth(
+                  'email',
+                  _authController.emailController.text,
+                  _authController.emailController.text.isEmail,
+                ),
+                verification: _authController.emailVerification.value,
+                errorText: "Format Email Tidak Sesuai",
+                constraints: constrained,
+                icon: Icons.email_rounded,
               ),
-          "verification": _authController.emailVerification.value,
-          "errorText": "Format Email Tidak Sesuai",
-          "constraints": constrained,
-          "icon": Icons.email_rounded
-        },
-        {
-          "controller": _authController.passwordController,
-          "label": "Password",
-          "onChanged": (value) => _authController.setAuth(
-                'email',
-                _authController.passwordController.text,
-                _authController.passwordController.text.isEmail,
+              const Gap(10.0),
+              CustomTextField(
+                controller: _authController.passwordController,
+                label: "Password",
+                onChanged: (value) => _authController.setAuth(
+                  'password',
+                  _authController.passwordController.text,
+                  _authController.passwordController.text.isEmail,
+                ),
+                verification: _authController.passwordVerification.value,
+                errorText:
+                    "Password Harus Memiliki Panjang Minimal 8 Karakter atau Numerik",
+                constraints: constrained,
+                icon: Icons.lock_rounded,
+                obscureText: true,
               ),
-          "verification": _authController.passwordVerification.value,
-          "errorText":
-              "Password Harus Memiliki Panjang Minimal 8 Karakter atau Numerik",
-          "constraints": constrained,
-          "icon": Icons.lock_rounded,
-          "obscureText": true,
-        },
-      ].obs;
+            ],
+          ));
 
       // Return
       return Center(
@@ -117,34 +123,9 @@ class LoginScreen extends StatelessWidget {
                 const Gap(5.0),
 
                 // Email and Password Text Field with Map
-                Obx(
-                  () => Column(
-                    children: [
-                      ...textFields.map((textField) {
-                        return Column(
-                          children: [
-                            CustomTextField(
-                              controller: textField["controller"]
-                                  as TextEditingController,
-                              label: textField["label"].toString(),
-                              onChanged: textField["onChanged"] as dynamic
-                                  Function(String),
-                              verification: textField["verification"] as bool,
-                              errorText: textField['errorText'].toString(),
-                              constraints:
-                                  textField["constraints"] as BoxConstraints,
-                              icon: textField["icon"] as IconData,
-                              obscureText: textField["obscureText"] != null
-                                  ? true
-                                  : false,
-                            ),
-                            const Gap(10.0),
-                          ],
-                        );
-                      }).toList(),
-                    ],
-                  ),
-                ),
+                textFields,
+                const Gap(10.0),
+
                 // Button to Input Token
                 Obx(
                   () => CustomFilledButton(

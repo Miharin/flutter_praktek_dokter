@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({
-    super.key,
-    required this.label,
-    required this.constraints,
-    required this.onChanged,
-    required this.controller,
-    required this.verification,
-    required this.errorText,
-    this.obscureText,
-    this.icon,
-    this.border,
-  });
+  const CustomTextField(
+      {super.key,
+      required this.label,
+      required this.constraints,
+      required this.onChanged,
+      required this.controller,
+      required this.verification,
+      required this.errorText,
+      this.obscureText,
+      this.icon,
+      this.border,
+      this.type});
 
   // Required Properties
   final TextEditingController controller;
@@ -26,6 +27,7 @@ class CustomTextField extends StatelessWidget {
   final IconData? icon;
   final bool? obscureText;
   final InputBorder? border;
+  final TextInputType? type;
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +50,10 @@ class CustomTextField extends StatelessWidget {
 
     // Return
     return TextField(
+      keyboardType: type ?? TextInputType.text,
+      inputFormatters: type == TextInputType.number
+          ? [FilteringTextInputFormatter.digitsOnly]
+          : [],
       onChanged: onChanged,
       // If Obscure Text is Empty or Null Set Obscure Text to False
       obscureText: obscureText ?? false,

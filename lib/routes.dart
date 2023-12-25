@@ -14,7 +14,7 @@ class Routes {
     ),
     GetPage(
       name: '/register',
-      page: () => const AuthScreen(
+      page: () => AuthScreen(
         title: 'Register Screen',
         child: RegisterScreen(),
       ),
