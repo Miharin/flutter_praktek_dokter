@@ -27,13 +27,10 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var verificationFinal = !verification && controller.text.isNotEmpty;
-    var defaultBorder = OutlineInputBorder(
-      borderRadius: const BorderRadius.all(
+    const defaultBorder = OutlineInputBorder(
+      borderRadius: BorderRadius.all(
         Radius.circular(10.0),
       ),
-      borderSide: verificationFinal
-          ? const BorderSide(color: Colors.greenAccent)
-          : const BorderSide(),
     );
     const errorBorder = OutlineInputBorder(
         borderRadius: BorderRadius.all(
