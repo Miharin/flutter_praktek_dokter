@@ -14,7 +14,7 @@ class AuthScreen extends StatelessWidget {
       appBar: CustomAppbar(
         title: title,
         actions: [
-          IconButton(
+          TextButton.icon(
             icon: title == "Login Screen"
                 ? const Icon(Icons.person_add_rounded)
                 : const Icon(Icons.login_rounded),
@@ -23,8 +23,7 @@ class AuthScreen extends StatelessWidget {
                   ? Get.offNamed('/register')
                   : Get.offNamed('/');
             },
-            tooltip: title == "Login Screen" ? "Register" : "Login",
-            hoverColor: Colors.white.withOpacity(0.5),
+            label: Text(title == "Login Screen" ? "Register" : "Login"),
           ),
         ],
       ),
