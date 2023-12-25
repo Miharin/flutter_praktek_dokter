@@ -15,94 +15,123 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraint) {
+      // Constrained For Text Field
+      var constrained = BoxConstraints(
+          maxWidth: constraint.maxWidth > 500 ? 500 : constraint.maxWidth * 0.8,
+          minWidth:
+              constraint.maxWidth > 500 ? 500 : constraint.maxWidth * 0.8);
+
+      // Constrained For Button
+      var constrainedButton = constraint.maxWidth > 500.0
+          ? const Size(500.0, 50.0)
+          : Size(constraint.maxWidth * 0.8, 40.0);
+
+      // Custom Dialog
+      var customDialog = CustomDialog(
+        title: "Please Input Token !",
+        content: CustomTextField(
+            label: "Token",
+            constraints: constrained,
+            onChanged: (value) => _authController.setAuth(
+                  'password',
+                  _authController.tokenController.text,
+                  _authController.tokenController.text.isNotEmpty &&
+                      _authController.tokenController.text.length >= 10,
+                ),
+            controller: _authController.tokenController,
+            verification: _authController.tokenVerification.value,
+            errorText:
+                "Token Harus Memiliki Panjang Minimal 8 Karakter atau Numerik"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Get.back();
+            },
+            child: const Text("Cancel"),
+          ),
+          TextButton(
+            onPressed: () {},
+            child: const Text("Login"),
+          ),
+        ],
+      );
+
+      // Return
       return Center(
         child: Card(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Login",
-                    style: TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.w700,
-                    ),
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                // Header
+                const Text(
+                  "Login",
+                  style: TextStyle(
+                    fontSize: 30.0,
+                    fontWeight: FontWeight.w700,
                   ),
-                  ConstrainedBox(
-                    constraints: BoxConstraints(
-                        maxWidth: constraint.maxWidth > 500
-                            ? 500
-                            : constraint.maxWidth * 0.8),
-                    child: const Divider(
-                      indent: 3.0,
-                      endIndent: 3.0,
-                    ),
+                ),
+                // Text Field and Button with Constrained Box
+                ConstrainedBox(
+                  constraints: constrained,
+                  child: const Divider(
+                    indent: 3.0,
+                    endIndent: 3.0,
                   ),
-                  const Gap(5.0),
-                  Obx(
-                    () => CustomTextField(
-                      controller: _authController.emailController,
-                      label: "Email",
-                      onChanged: (value) => _authController.setAuth(
-                        'email',
-                        _authController.emailController.text,
-                        _authController.emailController.text.isEmail,
-                      ),
-                      verification: _authController.emailVerification.value,
-                      errorText: "Format Email Tidak Sesuai",
-                      constraints: BoxConstraints(
-                          maxWidth: constraint.maxWidth > 500
-                              ? 500
-                              : constraint.maxWidth * 0.8),
-                      icon: Icons.email_rounded,
+                ),
+                const Gap(5.0),
+                // Email Text Field
+                Obx(
+                  () => CustomTextField(
+                    controller: _authController.emailController,
+                    label: "Email",
+                    onChanged: (value) => _authController.setAuth(
+                      'email',
+                      _authController.emailController.text,
+                      _authController.emailController.text.isEmail,
                     ),
+                    verification: _authController.emailVerification.value,
+                    errorText: "Format Email Tidak Sesuai",
+                    constraints: constrained,
+                    icon: Icons.email_rounded,
                   ),
-                  const Gap(10.0),
-                  Obx(
-                    () => CustomTextField(
-                      controller: _authController.passwordController,
-                      label: "Password",
-                      onChanged: (value) => _authController.setAuth(
-                        'password',
-                        _authController.passwordController.text,
-                        _authController.passwordController.text.isNotEmpty &&
-                            _authController.passwordController.text.length >= 8,
-                      ),
-                      verification: _authController.passwordVerification.value,
-                      errorText:
-                          "Password Harus Memiliki Panjang Minimal 8 Karakter atau Numerik",
-                      icon: Icons.lock_rounded,
-                      obscureText: true,
-                      constraints: BoxConstraints(
-                          maxWidth: constraint.maxWidth > 500
-                              ? 500
-                              : constraint.maxWidth * 0.8),
+                ),
+                const Gap(10.0),
+                // Password Text Field
+                Obx(
+                  () => CustomTextField(
+                    controller: _authController.passwordController,
+                    label: "Password",
+                    onChanged: (value) => _authController.setAuth(
+                      'password',
+                      _authController.passwordController.text,
+                      _authController.passwordController.text.isNotEmpty &&
+                          _authController.passwordController.text.length >= 8,
                     ),
+                    verification: _authController.passwordVerification.value,
+                    errorText:
+                        "Password Harus Memiliki Panjang Minimal 8 Karakter atau Numerik",
+                    icon: Icons.lock_rounded,
+                    obscureText: true,
+                    constraints: constrained,
                   ),
-                  const Gap(10.0),
-                  Obx(
-                    () => CustomFilledButton(
-                      label: "Login",
-                      icon: const Icon(Icons.login_rounded),
-                      width: constraint.maxWidth > 500.0
-                          ? const Size(500.0, 50.0)
-                          : Size(constraint.maxWidth * 0.8, 40.0),
-                      onPressed: _authController.disabledLoginButton.value
-                          ? null
-                          : () {
-                              return CustomDialog(
-                                onChanged: (value) => _authController.setAuth(
-                                  'token',
-                                  value,
-                                  value.length >= 10,
-                                ),
-                              );
-                            },
-                    ),
-                  )
-                ]),
+                ),
+                const Gap(10.0),
+                // Button to Input Token
+                Obx(
+                  () => CustomFilledButton(
+                    label: "Login",
+                    icon: const Icon(Icons.login_rounded),
+                    width: constrainedButton,
+                    onPressed: _authController.disabledLoginButton.value
+                        ? null
+                        : () => Get.dialog(customDialog),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       );

@@ -10,6 +10,7 @@ class CustomFilledButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Return if icon not Null Then Set Widget To FillledButton.icon
     return icon != null
         ? FilledButton.icon(
             label: Text(label),
@@ -24,6 +25,8 @@ class CustomFilledButton extends StatelessWidget {
             ),
             onPressed: onPressed,
           )
+
+        // Otherwise Set Widget To FilledButton
         : FilledButton(
             style: FilledButton.styleFrom(
               shape: const RoundedRectangleBorder(

@@ -10,6 +10,7 @@ class AuthHelper extends GetxController {
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController tokenController = TextEditingController();
 
   var emailVerification = false.obs;
   var passwordVerification = false.obs;
