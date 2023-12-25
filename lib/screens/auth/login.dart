@@ -56,6 +56,38 @@ class LoginScreen extends StatelessWidget {
         ],
       );
 
+      // All Text Fields
+      var textFields = [
+        {
+          "controller": _authController.emailController,
+          "label": "Email",
+          "onChanged": (value) => _authController.setAuth(
+                'email',
+                _authController.emailController.text,
+                _authController.emailController.text.isEmail,
+              ),
+          "verification": _authController.emailVerification.value,
+          "errorText": "Format Email Tidak Sesuai",
+          "constraints": constrained,
+          "icon": Icons.email_rounded
+        },
+        {
+          "controller": _authController.passwordController,
+          "label": "Password",
+          "onChanged": (value) => _authController.setAuth(
+                'email',
+                _authController.passwordController.text,
+                _authController.passwordController.text.isEmail,
+              ),
+          "verification": _authController.passwordVerification.value,
+          "errorText":
+              "Password Harus Memiliki Panjang Minimal 8 Karakter atau Numerik",
+          "constraints": constrained,
+          "icon": Icons.lock_rounded,
+          "obscureText": true,
+        },
+      ].obs;
+
       // Return
       return Center(
         child: Card(
@@ -73,6 +105,7 @@ class LoginScreen extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
+
                 // Text Field and Button with Constrained Box
                 ConstrainedBox(
                   constraints: constrained,
@@ -82,43 +115,36 @@ class LoginScreen extends StatelessWidget {
                   ),
                 ),
                 const Gap(5.0),
-                // Email Text Field
+
+                // Email and Password Text Field with Map
                 Obx(
-                  () => CustomTextField(
-                    controller: _authController.emailController,
-                    label: "Email",
-                    onChanged: (value) => _authController.setAuth(
-                      'email',
-                      _authController.emailController.text,
-                      _authController.emailController.text.isEmail,
-                    ),
-                    verification: _authController.emailVerification.value,
-                    errorText: "Format Email Tidak Sesuai",
-                    constraints: constrained,
-                    icon: Icons.email_rounded,
+                  () => Column(
+                    children: [
+                      ...textFields.map((textField) {
+                        return Column(
+                          children: [
+                            CustomTextField(
+                              controller: textField["controller"]
+                                  as TextEditingController,
+                              label: textField["label"].toString(),
+                              onChanged: textField["onChanged"] as dynamic
+                                  Function(String),
+                              verification: textField["verification"] as bool,
+                              errorText: textField['errorText'].toString(),
+                              constraints:
+                                  textField["constraints"] as BoxConstraints,
+                              icon: textField["icon"] as IconData,
+                              obscureText: textField["obscureText"] != null
+                                  ? true
+                                  : false,
+                            ),
+                            const Gap(10.0),
+                          ],
+                        );
+                      }).toList(),
+                    ],
                   ),
                 ),
-                const Gap(10.0),
-                // Password Text Field
-                Obx(
-                  () => CustomTextField(
-                    controller: _authController.passwordController,
-                    label: "Password",
-                    onChanged: (value) => _authController.setAuth(
-                      'password',
-                      _authController.passwordController.text,
-                      _authController.passwordController.text.isNotEmpty &&
-                          _authController.passwordController.text.length >= 8,
-                    ),
-                    verification: _authController.passwordVerification.value,
-                    errorText:
-                        "Password Harus Memiliki Panjang Minimal 8 Karakter atau Numerik",
-                    icon: Icons.lock_rounded,
-                    obscureText: true,
-                    constraints: constrained,
-                  ),
-                ),
-                const Gap(10.0),
                 // Button to Input Token
                 Obx(
                   () => CustomFilledButton(

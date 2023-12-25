@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -7,6 +11,10 @@ class AuthHelper extends GetxController {
     'password': '',
     'token': '',
   }.obs;
+
+  var db = FirebaseFirestore.instance;
+
+  var useIsLogin = false.obs;
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -36,6 +44,47 @@ class AuthHelper extends GetxController {
       disabledLoginButton.value = false;
     } else {
       disabledLoginButton.value = true;
+    }
+  }
+
+  Stream<User?> checkAuthState() {
+    return FirebaseAuth.instance.authStateChanges();
+  }
+
+  void signIn() async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+        email: auth['email']!,
+        password: auth['password']!,
+      )
+          .then((value) {
+        final users = db.collection("Users");
+        final query = users
+            .where(
+              Filter.and(
+                Filter(
+                  "email",
+                  isEqualTo: auth['email'],
+                ),
+                Filter(
+                  "password",
+                  isEqualTo: auth['password'],
+                ),
+                Filter(
+                  "token",
+                  isEqualTo: auth['token'],
+                ),
+              ),
+            )
+            .limit(1);
+        query.get().then((DocumentSnapshot authData) {
+              final userData = authData.data() as Map<String, dynamic>;
+              return userData;
+            } as FutureOr Function(QuerySnapshot<Map<String, dynamic>> value));
+      });
+    } catch (error) {
+      debugPrint(error.toString());
     }
   }
 }
