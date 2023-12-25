@@ -41,41 +41,66 @@ class LoginScreen extends StatelessWidget {
                     ),
                   ),
                   const Gap(5.0),
-                  CustomTextField(
-                    label: "Email",
-                    onChanged: (value) =>
-                        _authController.setAuth('email', value),
-                    icon: const Icon(Icons.email_rounded),
-                    constraints: BoxConstraints(
-                        maxWidth: constraint.maxWidth > 500
-                            ? 500
-                            : constraint.maxWidth * 0.8),
+                  Obx(
+                    () => CustomTextField(
+                      controller: _authController.emailController,
+                      label: "Email",
+                      onChanged: (value) => _authController.setAuth(
+                        'email',
+                        _authController.emailController.text,
+                        _authController.emailController.text.isEmail,
+                      ),
+                      verification: _authController.emailVerification.value,
+                      errorText: "Format Email Tidak Sesuai",
+                      constraints: BoxConstraints(
+                          maxWidth: constraint.maxWidth > 500
+                              ? 500
+                              : constraint.maxWidth * 0.8),
+                      icon: Icons.email_rounded,
+                    ),
                   ),
                   const Gap(10.0),
-                  CustomTextField(
-                    obscureText: true,
-                    onChanged: (value) =>
-                        _authController.setAuth('password', value),
-                    label: "Password",
-                    icon: const Icon(Icons.lock_rounded),
-                    constraints: BoxConstraints(
-                        maxWidth: constraint.maxWidth > 500
-                            ? 500
-                            : constraint.maxWidth * 0.8),
+                  Obx(
+                    () => CustomTextField(
+                      controller: _authController.passwordController,
+                      label: "Password",
+                      onChanged: (value) => _authController.setAuth(
+                        'password',
+                        _authController.passwordController.text,
+                        _authController.passwordController.text.isNotEmpty &&
+                            _authController.passwordController.text.length >= 8,
+                      ),
+                      verification: _authController.passwordVerification.value,
+                      errorText:
+                          "Password Harus Memiliki Panjang Minimal 8 Karakter atau Numerik",
+                      icon: Icons.lock_rounded,
+                      obscureText: true,
+                      constraints: BoxConstraints(
+                          maxWidth: constraint.maxWidth > 500
+                              ? 500
+                              : constraint.maxWidth * 0.8),
+                    ),
                   ),
                   const Gap(10.0),
-                  CustomFilledButton(
-                    label: "Login",
-                    icon: const Icon(Icons.login_rounded),
-                    width: constraint.maxWidth > 500.0
-                        ? const Size(500.0, 50.0)
-                        : Size(constraint.maxWidth * 0.8, 40.0),
-                    onPressed: () {
-                      return CustomDialog(
-                        onChanged: (value) =>
-                            _authController.setAuth('token', value),
-                      );
-                    },
+                  Obx(
+                    () => CustomFilledButton(
+                      label: "Login",
+                      icon: const Icon(Icons.login_rounded),
+                      width: constraint.maxWidth > 500.0
+                          ? const Size(500.0, 50.0)
+                          : Size(constraint.maxWidth * 0.8, 40.0),
+                      onPressed: _authController.disabledLoginButton.value
+                          ? null
+                          : () {
+                              return CustomDialog(
+                                onChanged: (value) => _authController.setAuth(
+                                  'token',
+                                  value,
+                                  value.length >= 10,
+                                ),
+                              );
+                            },
+                    ),
                   )
                 ]),
           ),
