@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:flutter_praktek_dokter/widget/custom_text_field/custom_text_field.dart';
 import 'package:flutter_praktek_dokter/helpers/auth/register_helper.dart';
+import 'package:flutter_praktek_dokter/widget/custom_drop_down.dart/custom_drop_down.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
@@ -25,11 +26,11 @@ class RegisterScreen extends StatelessWidget {
           return Obx(() => Card(
                 child: Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Column(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Row(
+                      Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -49,6 +50,15 @@ class RegisterScreen extends StatelessWidget {
                           ),
                           const Gap(10.0),
                           CustomTextField(
+                              label: "Nama",
+                              constraints: constrained,
+                              onChanged: (value) => {},
+                              controller: _registerHelper.namaControler,
+                              verification:
+                                  _registerHelper.namaVerification.value,
+                              errorText: "WajibDiIsi"),
+                          const Gap(10.0),
+                          CustomTextField(
                               label: "TempatLahir",
                               constraints: constrained,
                               onChanged: (value) => {},
@@ -58,26 +68,17 @@ class RegisterScreen extends StatelessWidget {
                               errorText: "WajibDiIsi"),
                           const Gap(10.0),
                           CustomTextField(
-                            label: "Tanggal Lahir",
-                            constraints: constrained,
-                            onChanged: (value) =>
-                                _registerHelper.setRegisterData(
-                              "TanggalLahir",
-                              _registerHelper.tanggallahirControler.text,
-                              _registerHelper
-                                      .tanggallahirControler.text.length ==
-                                  16,
-                            ),
-                            controller: _registerHelper.tanggallahirControler,
-                            verification:
-                                _registerHelper.tanggallairVerification.value,
-                            errorText: "WajibDiIsi",
-                            type: TextInputType.datetime,
-                          ),
+                              label: "Pekerjaan",
+                              constraints: constrained,
+                              onChanged: (value) => {},
+                              controller: _registerHelper.pekerjaanControler,
+                              verification:
+                                  _registerHelper.pekerjaanVerification.value,
+                              errorText: "WajibDiIsi"),
                         ],
                       ),
                       const Gap(10.0),
-                      Row(children: [
+                      Column(children: [
                         CustomTextField(
                             label: "JenisKelamin",
                             constraints: constrained,
@@ -97,6 +98,22 @@ class RegisterScreen extends StatelessWidget {
                             errorText: "WajibDiIsi"),
                         const Gap(10.0),
                         CustomTextField(
+                          label: "Tanggal Lahir",
+                          constraints: constrained,
+                          onChanged: (value) => _registerHelper.setRegisterData(
+                            "TanggalLahir",
+                            _registerHelper.tanggallahirControler.text,
+                            _registerHelper.tanggallahirControler.text.length ==
+                                16,
+                          ),
+                          controller: _registerHelper.tanggallahirControler,
+                          verification:
+                              _registerHelper.tanggallairVerification.value,
+                          errorText: "WajibDiIsi",
+                          type: TextInputType.datetime,
+                        ),
+                        const Gap(10.0),
+                        CustomTextField(
                             label: "Agama",
                             constraints: constrained,
                             onChanged: (value) => {},
@@ -106,7 +123,7 @@ class RegisterScreen extends StatelessWidget {
                             errorText: "WajibDiIsi"),
                       ]),
                       const Gap(10.0),
-                      Row(
+                      Column(
                         children: [
                           CustomTextField(
                               label: "StatusPerkawinan",
@@ -119,15 +136,6 @@ class RegisterScreen extends StatelessWidget {
                               errorText: "WajibDiIsi"),
                           const Gap(10.0),
                           CustomTextField(
-                              label: "Pekerjaan",
-                              constraints: constrained,
-                              onChanged: (value) => {},
-                              controller: _registerHelper.pekerjaanControler,
-                              verification:
-                                  _registerHelper.pekerjaanVerification.value,
-                              errorText: "WajibDiIsi"),
-                          const Gap(10.0),
-                          CustomTextField(
                               label: "Kewarganegaraan",
                               constraints: constrained,
                               onChanged: (value) => {},
@@ -136,6 +144,11 @@ class RegisterScreen extends StatelessWidget {
                               verification: _registerHelper
                                   .kewarganegaraanVerification.value,
                               errorText: "WajibDiIsi"),
+                          const Gap(10.0),
+                          const CustomDropDown(
+                            list: ["aa", "AA"],
+                            label: "woke",
+                          )
                         ],
                       )
                     ],

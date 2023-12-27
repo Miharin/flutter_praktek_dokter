@@ -33,6 +33,7 @@ class RegisterHelper extends GetxController {
   }
 
   final TextEditingController nikControler = TextEditingController();
+  final TextEditingController namaControler = TextEditingController();
   final TextEditingController tempatlahirControler = TextEditingController();
   final TextEditingController tanggallahirControler = TextEditingController();
   final TextEditingController jeniskelaminControler = TextEditingController();
@@ -45,6 +46,7 @@ class RegisterHelper extends GetxController {
       TextEditingController();
 
   var nikVerification = false.obs;
+  var namaVerification = false.obs;
   var tempatlahirVerification = false.obs;
   var tanggallairVerification = false.obs;
   var jeniskelaminVerification = false.obs;
@@ -60,10 +62,15 @@ class RegisterHelper extends GetxController {
       case "NIK":
         isValid ? nikVerification.value = true : nikVerification.value = false;
         break;
-      case "TempatLahir":
+      case "Nama":
         isValid
             ? tempatlahirVerification.value = true
             : tempatlahirVerification.value = false;
+        break;
+      case "TempatLahir":
+        isValid
+            ? namaVerification.value = true
+            : namaVerification.value = false;
         break;
       case "TanggalLahir":
         isValid
