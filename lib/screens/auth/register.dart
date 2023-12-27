@@ -161,14 +161,14 @@ class RegisterScreen extends StatelessWidget {
         ),
       )
     ];
-    return Stepper(
-      currentStep: _registerHelper.index.value,
-      onStepCancel: () =>
-          _registerHelper.onStepCancel(_registerHelper.index.value),
-      onStepContinue: () => _registerHelper.onStepContinue(steps.length),
-      onStepTapped: (value) =>
-          _registerHelper.onStepTapped(_registerHelper.index.value),
-      steps: steps,
-    );
+    return Obx(() => Stepper(
+          currentStep: _registerHelper.index.value,
+          onStepCancel: () =>
+              _registerHelper.onStepCancel(_registerHelper.index.value),
+          onStepContinue: () => _registerHelper.onStepContinue(steps.length),
+          onStepTapped: (value) =>
+              _registerHelper.onStepTapped(_registerHelper.index.value),
+          steps: steps,
+        ));
   }
 }
