@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_praktek_dokter/widget/custom_dialog/custom_dialog.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 import 'package:flutter_praktek_dokter/widget/custom_text_field/custom_text_field.dart';
@@ -16,6 +17,8 @@ class RegisterScreen extends StatelessWidget {
       Step(
         title: const Text("DataDiri"),
         content: LayoutBuilder(builder: (context, constraints) {
+          double maxWidth =
+              constraints.maxWidth > 500 ? 500 : constraints.maxWidth * 0.8;
           var constrained = BoxConstraints(
             maxWidth:
                 constraints.maxWidth > 500 ? 500 : constraints.maxWidth * 0.8,
@@ -23,128 +26,218 @@ class RegisterScreen extends StatelessWidget {
                 constraints.maxWidth > 500 ? 500 : constraints.maxWidth * 0.8,
           );
 
-          return Obx(() => Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
+          return Obx(() => Card(
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Center(
+                    child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CustomTextField(
-                          label: "NIK",
-                          constraints: constrained,
-                          onChanged: (value) => _registerHelper.setRegisterData(
-                            "NIK",
-                            _registerHelper.nikControler.text,
-                            _registerHelper.nikControler.text.length == 16,
-                          ),
-                          controller: _registerHelper.nikControler,
-                          verification: _registerHelper.nikVerification.value,
-                          errorText: "NIK harus Memiliki Panjang 16 Digit",
-                          type: TextInputType.number,
+                        Column(
+                          children: [
+                            CustomTextField(
+                              label: "NIK",
+                              constraints: constrained,
+                              onChanged: (value) =>
+                                  _registerHelper.setRegisterData(
+                                "NIK",
+                                _registerHelper.nikControler.text,
+                                _registerHelper.nikControler.text.length == 16,
+                              ),
+                              controller: _registerHelper.nikControler,
+                              verification:
+                                  _registerHelper.nikVerification.value,
+                              errorText: "NIK harus Memiliki Panjang 16 Digit",
+                              type: TextInputType.number,
+                            ),
+                            const Gap(10.0),
+                            CustomTextField(
+                                label: "Nama Lengkap",
+                                constraints: constrained,
+                                onChanged: (value) => {},
+                                controller: _registerHelper.namaControler,
+                                verification:
+                                    _registerHelper.namaVerification.value,
+                                errorText: "Wajib Di Isi"),
+                          ],
                         ),
                         const Gap(10.0),
-                        CustomTextField(
-                            label: "TempatLahir",
-                            constraints: constrained,
-                            onChanged: (value) => {},
-                            controller: _registerHelper.tempatlahirControler,
-                            verification:
-                                _registerHelper.tempatlahirVerification.value,
-                            errorText: "WajibDiIsi"),
+                        Column(
+                          children: [
+                            CustomTextField(
+                              label: "Tempat Lahir",
+                              constraints: constrained,
+                              onChanged: (value) => {},
+                              controller: _registerHelper.tempatlahirControler,
+                              verification:
+                                  _registerHelper.tanggallairVerification.value,
+                              errorText: "Wajib Di Isi",
+                              type: TextInputType.datetime,
+                            ),
+                            const Gap(10.0),
+                            CustomTextField(
+                                label: "Tanggal Lahir",
+                                constraints: constrained,
+                                onChanged: (value) => {},
+                                controller:
+                                    _registerHelper.tanggallahirControler,
+                                verification: _registerHelper
+                                    .tanggallairVerification.value,
+                                errorText: "Wajib Di Isi"),
+                          ],
+                        ),
                         const Gap(10.0),
-                        CustomTextField(
-                          label: "Tanggal Lahir",
-                          constraints: constrained,
-                          onChanged: (value) => _registerHelper.setRegisterData(
-                            "TanggalLahir",
-                            _registerHelper.tanggallahirControler.text,
-                            _registerHelper.tanggallahirControler.text.length ==
-                                16,
-                          ),
-                          controller: _registerHelper.tanggallahirControler,
-                          verification:
-                              _registerHelper.tanggallairVerification.value,
-                          errorText: "WajibDiIsi",
-                          type: TextInputType.datetime,
+                        Column(
+                          children: [
+                            CustomDropDown(
+                              width: maxWidth,
+                              label: "Jenis Kelamin",
+                              list: const [
+                                "Tidak Diketauhi",
+                                "Laki-Laki",
+                                "Perempuan",
+                                "Tidak Dapat Ditentukan",
+                                "Tidak Mengisi"
+                              ],
+                              controller: _registerHelper.jeniskelaminControler,
+                              verification: _registerHelper
+                                  .jeniskelaminVerification.value,
+                              errorText: "Wajib Di Isi",
+                            ),
+                            const Gap(10.0),
+                            CustomDropDown(
+                              width: maxWidth,
+                              label: "Agama",
+                              list: const [
+                                "Buddha",
+                                "Kristen(Protestan)",
+                                "Katolik",
+                                "Hindu",
+                                "Konghucu",
+                                "islam",
+                                "Penghayat",
+                              ],
+                              controller: _registerHelper.agamaControler,
+                              verification:
+                                  _registerHelper.agamaVerification.value,
+                              errorText: "Wajib Di Isi",
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    const Gap(10.0),
-                    Row(children: [
-                      CustomTextField(
-                          label: "JenisKelamin",
-                          constraints: constrained,
-                          onChanged: (value) => {},
-                          controller: _registerHelper.jeniskelaminControler,
-                          verification:
-                              _registerHelper.jeniskelaminVerification.value,
-                          errorText: "WajibDiIsi"),
-                      const Gap(10.0),
-                      CustomTextField(
-                          label: "GolonganDarah",
-                          constraints: constrained,
-                          onChanged: (value) => {},
-                          controller: _registerHelper.golongandarahControler,
-                          verification:
-                              _registerHelper.golongandarahVerification.value,
-                          errorText: "WajibDiIsi"),
-                      const Gap(10.0),
-                      CustomTextField(
-                          label: "Agama",
-                          constraints: constrained,
-                          onChanged: (value) => {},
-                          controller: _registerHelper.agamaControler,
-                          verification: _registerHelper.agamaVerification.value,
-                          errorText: "WajibDiIsi"),
-                    ]),
-                    const Gap(10.0),
-                    Row(
-                      children: [
-                        CustomTextField(
-                            label: "StatusPerkawinan",
-                            constraints: constrained,
-                            onChanged: (value) => {},
-                            controller:
-                                _registerHelper.statusperkawinanControler,
-                            verification: _registerHelper
-                                .statusperkawinanVerification.value,
-                            errorText: "WajibDiIsi"),
-                        const Gap(10.0),
-                        CustomTextField(
-                            label: "Pekerjaan",
-                            constraints: constrained,
-                            onChanged: (value) => {},
-                            controller: _registerHelper.pekerjaanControler,
-                            verification:
-                                _registerHelper.pekerjaanVerification.value,
-                            errorText: "WajibDiIsi"),
-                        const Gap(10.0),
-                        CustomTextField(
-                            label: "Kewarganegaraan",
-                            constraints: constrained,
-                            onChanged: (value) => {},
-                            controller:
-                                _registerHelper.kewarganegaraanControler,
-                            verification: _registerHelper
-                                .kewarganegaraanVerification.value,
-                            errorText: "WajibDiIsi"),
-                      ],
-                    )
-                  ],
+                  ),
                 ),
               ));
         }),
       ),
-      const Step(
-        title: Text("xD"),
-        content: TextField(
-          decoration: InputDecoration(
-            label: Text("2"),
-          ),
+      Step(
+        title: const Text("Alamat Lengkap"),
+        content: LayoutBuilder(
+          builder: (context, constraints) {
+            var constrained = BoxConstraints(
+              maxWidth: constraints.maxWidth > constraints.maxWidth * 0.25
+                  ? constraints.maxWidth * 0.239
+                  : constraints.maxWidth * 0.8,
+              minWidth: constraints.maxWidth > constraints.maxWidth * 0.25
+                  ? constraints.maxWidth * 0.239
+                  : constraints.maxWidth * 0.8,
+            );
+            return Card(
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Gap(10.0),
+                      Row(
+                        children: [
+                          CustomTextField(
+                              label: "RT(Rukun Tetangga)",
+                              constraints: constrained,
+                              onChanged: (value) => {},
+                              controller: _registerHelper.rtControler,
+                              verification:
+                                  _registerHelper.rtVerification.value,
+                              errorText: "Wajib Di Isi"),
+                          const Gap(10.0),
+                          CustomTextField(
+                              label: "RW(Rukun Warga)",
+                              constraints: constrained,
+                              onChanged: (value) => {},
+                              controller: _registerHelper.rwControler,
+                              verification:
+                                  _registerHelper.rwVerification.value,
+                              errorText: "Wajib Di Isi"),
+                          const Gap(10.0),
+                          CustomTextField(
+                              label: "Kelurahan/Desa",
+                              constraints: constrained,
+                              onChanged: (value) => {},
+                              controller: _registerHelper.desaControler,
+                              verification:
+                                  _registerHelper.desaVerification.value,
+                              errorText: "Wajib Di Isi"),
+                          const Gap(10.0),
+                          CustomTextField(
+                              label: "Kecamatan",
+                              constraints: constrained,
+                              onChanged: (value) => {},
+                              controller: _registerHelper.kecamatanControler,
+                              verification:
+                                  _registerHelper.kecamatanVerification.value,
+                              errorText: "Wajib Di Isi"),
+                        ],
+                      ),
+                      const Gap(10.0),
+                      Row(
+                        children: [
+                          CustomTextField(
+                              label: "Kota/Kabupaten",
+                              constraints: constrained,
+                              onChanged: (value) => {},
+                              controller: _registerHelper.kabupatenControler,
+                              verification:
+                                  _registerHelper.kabupatenVerification.value,
+                              errorText: "Wajib Di Isi"),
+                          const Gap(10.0),
+                          CustomTextField(
+                              label: "KodePos",
+                              constraints: constrained,
+                              onChanged: (value) => {},
+                              controller: _registerHelper.kodeposControler,
+                              verification:
+                                  _registerHelper.kodeposVerification.value,
+                              errorText: "Wajib Di Isi"),
+                          const Gap(10.0),
+                          CustomTextField(
+                              label: "Provinsi",
+                              constraints: constrained,
+                              onChanged: (value) => {},
+                              controller: _registerHelper.provinsiControler,
+                              verification:
+                                  _registerHelper.provinsiVerification.value,
+                              errorText: "Wajib Di Isi"),
+                          const Gap(10.0),
+                          CustomTextField(
+                              label: "Negara",
+                              constraints: constrained,
+                              onChanged: (value) => {},
+                              controller: _registerHelper.negaraControler,
+                              verification:
+                                  _registerHelper.negaraVerification.value,
+                              errorText: "Wajib Di Isi"),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
         ),
       ),
       const Step(
@@ -159,7 +252,8 @@ class RegisterScreen extends StatelessWidget {
     return Obx(() => Padding(
           padding: const EdgeInsets.all(20.0),
           child: Stepper(
-            elevation: 4.0,
+            type: StepperType.horizontal,
+            elevation: 0.0,
             currentStep: _registerHelper.index.value,
             onStepCancel: () =>
                 _registerHelper.onStepCancel(_registerHelper.index.value),
@@ -216,6 +310,24 @@ class RegisterScreen extends StatelessWidget {
                             child: const Text('Cancel'),
                           )
                         : const Text(""),
+                    const Gap(5.0),
+                    OutlinedButton.icon(
+                      icon: const Icon(Icons.help),
+                      onPressed: () => Get.dialog(
+                        CustomDialog(
+                          title: "Help",
+                          content: const Text("Help"),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Get.back();
+                                },
+                                child: const Text("Back"))
+                          ],
+                        ),
+                      ),
+                      label: const Text("Help"),
+                    ),
                   ],
                 ),
               );

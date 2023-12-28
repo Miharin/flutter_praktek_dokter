@@ -4,11 +4,20 @@ import 'package:get/get.dart';
 class RegisterHelper extends GetxController {
   var registerData = {
     'NIK': ''.obs,
+    'Nama': ''.obs,
     'TempatLahir': ''.obs,
     'TanggalLahir': ''.obs,
     'JenisKelamin': ''.obs,
-    'GolonganDarah': ''.obs,
     'Agama': ''.obs,
+    'GolonganDarah': ''.obs,
+    'RT': ''.obs,
+    'RW': ''.obs,
+    'Kelurahan/Desa': ''.obs,
+    'Kecamatan': ''.obs,
+    'Kota/Kabupaten': ''.obs,
+    'KodePos': ''.obs,
+    'Provinsi': ''.obs,
+    'Negara': ''.obs,
     'StatusPerkawinan': ''.obs,
     'Pekerjaan': ''.obs,
     'Kewarganegaraan': ''.obs,
@@ -37,8 +46,15 @@ class RegisterHelper extends GetxController {
   final TextEditingController tempatlahirControler = TextEditingController();
   final TextEditingController tanggallahirControler = TextEditingController();
   final TextEditingController jeniskelaminControler = TextEditingController();
-  final TextEditingController golongandarahControler = TextEditingController();
   final TextEditingController agamaControler = TextEditingController();
+  final TextEditingController rtControler = TextEditingController();
+  final TextEditingController rwControler = TextEditingController();
+  final TextEditingController desaControler = TextEditingController();
+  final TextEditingController kecamatanControler = TextEditingController();
+  final TextEditingController kabupatenControler = TextEditingController();
+  final TextEditingController kodeposControler = TextEditingController();
+  final TextEditingController provinsiControler = TextEditingController();
+  final TextEditingController negaraControler = TextEditingController();
   final TextEditingController statusperkawinanControler =
       TextEditingController();
   final TextEditingController pekerjaanControler = TextEditingController();
@@ -50,8 +66,15 @@ class RegisterHelper extends GetxController {
   var tempatlahirVerification = false.obs;
   var tanggallairVerification = false.obs;
   var jeniskelaminVerification = false.obs;
-  var golongandarahVerification = false.obs;
   var agamaVerification = false.obs;
+  var rtVerification = false.obs;
+  var rwVerification = false.obs;
+  var desaVerification = false.obs;
+  var kecamatanVerification = false.obs;
+  var kabupatenVerification = false.obs;
+  var kodeposVerification = false.obs;
+  var provinsiVerification = false.obs;
+  var negaraVerification = false.obs;
   var statusperkawinanVerification = false.obs;
   var pekerjaanVerification = false.obs;
   var kewarganegaraanVerification = false.obs;
@@ -82,10 +105,41 @@ class RegisterHelper extends GetxController {
             ? jeniskelaminVerification.value = true
             : jeniskelaminVerification.value = false;
         break;
-      case "GolonganDarah":
+      case "RT":
+        isValid ? rtVerification.value = true : rtVerification.value = false;
+        break;
+      case "RW":
+        isValid ? rwVerification.value = true : rwVerification.value = false;
+        break;
+      case "Kelurahan/Desa":
         isValid
-            ? golongandarahVerification.value = true
-            : golongandarahVerification.value = false;
+            ? desaVerification.value = true
+            : desaVerification.value = false;
+        break;
+      case "Kecamatan":
+        isValid
+            ? kecamatanVerification.value = true
+            : kecamatanVerification.value = false;
+        break;
+      case "Kota/Kabupaten":
+        isValid
+            ? kabupatenVerification.value = true
+            : kabupatenVerification.value = false;
+        break;
+      case "KodePos":
+        isValid
+            ? kodeposVerification.value = true
+            : kodeposVerification.value = false;
+        break;
+      case "Provinsi":
+        isValid
+            ? provinsiVerification.value = true
+            : provinsiVerification.value = false;
+        break;
+      case "Negara":
+        isValid
+            ? negaraVerification.value = true
+            : negaraVerification.value = false;
         break;
       case "Agama":
         isValid
