@@ -35,8 +35,9 @@ class LoginScreen extends StatelessWidget {
         content: CustomTextField(
             label: "Token",
             constraints: constrained,
+            obscureText: true,
             onChanged: (value) => _authController.setAuth(
-                  'password',
+                  'token',
                   _authController.tokenController.text,
                   _authController.tokenController.text.isNotEmpty &&
                       _authController.tokenController.text.length >= 10,
@@ -44,7 +45,7 @@ class LoginScreen extends StatelessWidget {
             controller: _authController.tokenController,
             verification: _authController.tokenVerification.value,
             errorText:
-                "Token Harus Memiliki Panjang Minimal 8 Karakter atau Numerik"),
+                "Token Harus Memiliki Panjang Minimal 10 Karakter atau Numerik"),
         actions: [
           TextButton(
             onPressed: () {
@@ -53,7 +54,10 @@ class LoginScreen extends StatelessWidget {
             child: const Text("Cancel"),
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              _authController.signIn();
+              Get.back();
+            },
             child: const Text("Login"),
           ),
         ],
@@ -82,14 +86,14 @@ class LoginScreen extends StatelessWidget {
                 onChanged: (value) => _authController.setAuth(
                   'password',
                   _authController.passwordController.text,
-                  _authController.passwordController.text.isEmail,
+                  _authController.passwordController.text.length > 8,
                 ),
                 verification: _authController.passwordVerification.value,
                 errorText:
                     "Password Harus Memiliki Panjang Minimal 8 Karakter atau Numerik",
                 constraints: constrained,
                 icon: Icons.lock_rounded,
-                obscureText: true,
+                obscureText: false,
               ),
             ],
           ));
