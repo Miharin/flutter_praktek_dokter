@@ -13,19 +13,21 @@ class AuthScreen extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppbar(
         title: title,
-        actions: [
-          TextButton.icon(
-            icon: title == "Login Screen"
-                ? const Icon(Icons.person_add_rounded)
-                : const Icon(Icons.login_rounded),
-            onPressed: () {
-              title == "Login Screen"
-                  ? Get.offNamed('/register')
-                  : Get.offNamed('/');
-            },
-            label: Text(title == "Login Screen" ? "Register" : "Login"),
-          ),
-        ],
+        actions: title == "Dashboard Screen"
+            ? null
+            : [
+                TextButton.icon(
+                  icon: title == "Login Screen"
+                      ? const Icon(Icons.person_add_rounded)
+                      : const Icon(Icons.login_rounded),
+                  onPressed: () {
+                    title == "Login Screen"
+                        ? Get.offNamed('/register')
+                        : Get.offNamed('/');
+                  },
+                  label: Text(title == "Login Screen" ? "Register" : "Login"),
+                ),
+              ],
       ),
       body: child,
     );

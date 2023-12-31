@@ -93,7 +93,7 @@ class LoginScreen extends StatelessWidget {
                     "Password Harus Memiliki Panjang Minimal 8 Karakter atau Numerik",
                 constraints: constrained,
                 icon: Icons.lock_rounded,
-                obscureText: false,
+                obscureText: true,
               ),
             ],
           ));
