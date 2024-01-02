@@ -4,23 +4,17 @@ import 'package:get/get.dart';
 class RegisterHelper extends GetxController {
   var registerData = {
     'NIK': ''.obs,
+    'Email': ''.obs,
+    'Password': ''.obs,
     'Nama': ''.obs,
     'TempatLahir': ''.obs,
     'TanggalLahir': ''.obs,
-    'JenisKelamin': ''.obs,
-    'Agama': ''.obs,
-    'GolonganDarah': ''.obs,
     'RT': ''.obs,
     'RW': ''.obs,
     'Kelurahan/Desa': ''.obs,
     'Kecamatan': ''.obs,
     'Kota/Kabupaten': ''.obs,
     'KodePos': ''.obs,
-    'Provinsi': ''.obs,
-    'Negara': ''.obs,
-    'StatusPerkawinan': ''.obs,
-    'Pekerjaan': ''.obs,
-    'Kewarganegaraan': ''.obs,
   }.obs;
 
   var index = 0.obs;
@@ -42,48 +36,46 @@ class RegisterHelper extends GetxController {
   }
 
   final TextEditingController nikControler = TextEditingController();
+  final TextEditingController emailControler = TextEditingController();
+  final TextEditingController passwordControler = TextEditingController();
   final TextEditingController namaControler = TextEditingController();
   final TextEditingController tempatlahirControler = TextEditingController();
   final TextEditingController tanggallahirControler = TextEditingController();
-  final TextEditingController jeniskelaminControler = TextEditingController();
-  final TextEditingController agamaControler = TextEditingController();
   final TextEditingController rtControler = TextEditingController();
   final TextEditingController rwControler = TextEditingController();
   final TextEditingController desaControler = TextEditingController();
   final TextEditingController kecamatanControler = TextEditingController();
   final TextEditingController kabupatenControler = TextEditingController();
   final TextEditingController kodeposControler = TextEditingController();
-  final TextEditingController provinsiControler = TextEditingController();
-  final TextEditingController negaraControler = TextEditingController();
-  final TextEditingController statusperkawinanControler =
-      TextEditingController();
-  final TextEditingController pekerjaanControler = TextEditingController();
-  final TextEditingController kewarganegaraanControler =
-      TextEditingController();
 
   var nikVerification = false.obs;
+  var emailVerification = false.obs;
+  var passwordVerification = false.obs;
   var namaVerification = false.obs;
   var tempatlahirVerification = false.obs;
   var tanggallairVerification = false.obs;
-  var jeniskelaminVerification = false.obs;
-  var agamaVerification = false.obs;
   var rtVerification = false.obs;
   var rwVerification = false.obs;
   var desaVerification = false.obs;
   var kecamatanVerification = false.obs;
   var kabupatenVerification = false.obs;
   var kodeposVerification = false.obs;
-  var provinsiVerification = false.obs;
-  var negaraVerification = false.obs;
-  var statusperkawinanVerification = false.obs;
-  var pekerjaanVerification = false.obs;
-  var kewarganegaraanVerification = false.obs;
 
   setRegisterData(name, value, isValid) {
     registerData[name] = value;
     switch (name) {
       case "NIK":
         isValid ? nikVerification.value = true : nikVerification.value = false;
+        break;
+      case "Email":
+        isValid
+            ? namaVerification.value = true
+            : namaVerification.value = false;
+        break;
+      case "Password":
+        isValid
+            ? namaVerification.value = true
+            : namaVerification.value = false;
         break;
       case "Nama":
         isValid
@@ -99,11 +91,6 @@ class RegisterHelper extends GetxController {
         isValid
             ? tanggallairVerification.value = true
             : tanggallairVerification.value = false;
-        break;
-      case "JenisKelamin":
-        isValid
-            ? jeniskelaminVerification.value = true
-            : jeniskelaminVerification.value = false;
         break;
       case "RT":
         isValid ? rtVerification.value = true : rtVerification.value = false;
@@ -130,36 +117,6 @@ class RegisterHelper extends GetxController {
         isValid
             ? kodeposVerification.value = true
             : kodeposVerification.value = false;
-        break;
-      case "Provinsi":
-        isValid
-            ? provinsiVerification.value = true
-            : provinsiVerification.value = false;
-        break;
-      case "Negara":
-        isValid
-            ? negaraVerification.value = true
-            : negaraVerification.value = false;
-        break;
-      case "Agama":
-        isValid
-            ? agamaVerification.value = true
-            : agamaVerification.value = false;
-        break;
-      case "StatusPerkawinan":
-        isValid
-            ? statusperkawinanVerification.value = true
-            : statusperkawinanVerification.value = false;
-        break;
-      case "Pekerjaan":
-        isValid
-            ? pekerjaanVerification.value = true
-            : pekerjaanVerification.value = false;
-        break;
-      case "Kewarganegaraan":
-        isValid
-            ? kewarganegaraanVerification.value = true
-            : kewarganegaraanVerification.value = false;
       default:
     }
   }
