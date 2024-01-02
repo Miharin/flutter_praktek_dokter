@@ -14,7 +14,7 @@ class AuthHelper extends GetxController {
 
   var db = FirebaseFirestore.instance;
 
-  var useIsLogin = false.obs;
+  var userIsLogin = false.obs;
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -58,9 +58,9 @@ class AuthHelper extends GetxController {
         email: auth['email']!,
         password: auth['password']!,
       )
-          .then((value) {
+          .then((value) async {
         final users = db.collection("Users");
-        final query = users
+        final query = await users
             .where(
               Filter.and(
                 Filter(
@@ -77,11 +77,16 @@ class AuthHelper extends GetxController {
                 ),
               ),
             )
-            .limit(1);
-        query.get().then((DocumentSnapshot authData) {
-              final userData = authData.data() as Map<String, dynamic>;
-              return userData;
-            } as FutureOr Function(QuerySnapshot<Map<String, dynamic>> value));
+            .limit(1)
+            .get();
+
+        for (var authData in query.docs) {
+          print('data: ${authData.data()}');
+          userIsLogin.value = authData.data().isNotEmpty ? true : false;
+          userIsLogin.value
+              ? Get.snackbar("Login Success", authData.data()['email'])
+              : null;
+        }
       });
     } catch (error) {
       debugPrint(error.toString());
