@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField(
-      {super.key,
-      required this.label,
-      required this.constraints,
-      required this.controller,
-      required this.verification,
-      required this.errorText,
-      this.onChanged,
-      this.ontap,
-      this.readonly,
-      this.obscureText,
-      this.icon,
-      this.border,
-      this.type});
+  const CustomTextField({
+    super.key,
+    required this.label,
+    required this.constraints,
+    required this.controller,
+    required this.verification,
+    required this.errorText,
+    this.onChanged,
+    this.ontap,
+    this.readonly,
+    this.obscureText,
+    this.icon,
+    this.border,
+    this.type,
+    this.suffixIcon,
+  });
 
   // Required Properties
   final TextEditingController controller;
@@ -30,6 +31,7 @@ class CustomTextField extends StatelessWidget {
   final void Function()? ontap;
   final IconData? icon;
   final bool? readonly;
+  final IconButton? suffixIcon;
   final bool? obscureText;
   final InputBorder? border;
   final TextInputType? type;
@@ -68,7 +70,11 @@ class CustomTextField extends StatelessWidget {
         // if Icon is Empty Then Null
         prefixIcon: icon != null
             ? Icon(
-                icon,
+                controller.text.isNotEmpty
+                    ? !verification
+                        ? icon
+                        : Icons.check
+                    : icon,
                 // If Text is Empty Set Colors to Black
                 color: controller.text.isNotEmpty
                     // If Verification == true then Colors set to Green
@@ -78,6 +84,7 @@ class CustomTextField extends StatelessWidget {
                     : Colors.black,
               )
             : null,
+        suffixIcon: suffixIcon,
         border: border ?? defaultBorder,
         label: Text(label),
         constraints: constraints,
