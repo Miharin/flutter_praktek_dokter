@@ -3,6 +3,7 @@ import 'package:flutter_praktek_dokter/widget/custom_text_field/custom_text_fiel
 import 'package:flutter_praktek_dokter/helpers/auth/register_helper.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class RegisterScreenV2 extends StatelessWidget {
   RegisterScreenV2({super.key});
@@ -120,14 +121,30 @@ class RegisterScreenV2 extends StatelessWidget {
                                     errorText: "Wajib Di Isi"),
                                 const Gap(60.0),
                                 CustomTextField(
-                                    label: "Tanggal Lahir",
-                                    constraints: constrained,
-                                    onChanged: (value) => {},
-                                    controller:
-                                        _registerHelper.tanggallahirControler,
-                                    verification: _registerHelper
-                                        .tanggallairVerification.value,
-                                    errorText: "Wajib Di Isi"),
+                                  icon: Icons.calendar_today,
+                                  readonly: true,
+                                  label: 'TanggaLahir',
+                                  constraints: constrained,
+                                  ontap: () async {
+                                    DateTime? pickedDate = await showDatePicker(
+                                        context: context,
+                                        firstDate: DateTime(1900),
+                                        lastDate: DateTime.now(),
+                                        initialDate: DateTime.now());
+                                    if (pickedDate != null) {
+                                      String formattedDate =
+                                          DateFormat.yMMMMd('in-in')
+                                              .format(pickedDate);
+                                      _registerHelper.tanggallahirControler
+                                          .text = formattedDate;
+                                    }
+                                  },
+                                  controller:
+                                      _registerHelper.tanggallahirControler,
+                                  verification: _registerHelper
+                                      .tanggallairVerification.value,
+                                  errorText: 'Wajib Di Isi',
+                                )
                               ],
                             ),
                             const Gap(10.0),
@@ -221,5 +238,19 @@ class RegisterScreenV2 extends StatelessWidget {
         ),
       );
     });
+  }
+}
+
+class CalenderPicker extends GetxController {
+  TextEditingController dateinput = TextEditingController();
+
+  calenderPicker(formattedDate) {
+    dateinput.text = formattedDate;
+  }
+
+  @override
+  void dispose() {
+    dateinput.dispose();
+    super.dispose();
   }
 }
