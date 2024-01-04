@@ -78,4 +78,12 @@ class AuthHelper extends GetxController {
       debugPrint(error.toString());
     }
   }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    tokenController.dispose();
+    super.dispose();
+  }
 }
