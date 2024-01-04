@@ -64,7 +64,11 @@ class CustomTextField extends StatelessWidget {
         // if Icon is Empty Then Null
         prefixIcon: icon != null
             ? Icon(
-                icon,
+                controller.text.isNotEmpty
+                    ? !verification
+                        ? icon
+                        : Icons.check
+                    : icon,
                 // If Text is Empty Set Colors to Black
                 color: controller.text.isNotEmpty
                     // If Verification == true then Colors set to Green

@@ -36,6 +36,7 @@ class LoginScreen extends StatelessWidget {
           () => CustomTextField(
               label: "Token",
               constraints: constrained,
+              icon: Icons.password,
               suffixIcon: IconButton(
                 icon: Icon(_authController.showToken.value
                     ? Icons.visibility_off
@@ -61,14 +62,16 @@ class LoginScreen extends StatelessWidget {
             },
             child: const Text("Cancel"),
           ),
-          TextButton(
-            onPressed: _authController.disabledLoginButton.value
-                ? null
-                : () {
-                    _authController.signIn();
-                    Get.back();
-                  },
-            child: const Text("Login"),
+          Obx(
+            () => TextButton(
+              onPressed: _authController.disabledTokenButton.value
+                  ? null
+                  : () {
+                      _authController.signIn();
+                      Get.back();
+                    },
+              child: const Text("Login"),
+            ),
           ),
         ],
       );
