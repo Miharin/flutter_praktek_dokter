@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_praktek_dokter/helpers/auth/auth_helper.dart';
 import 'package:flutter_praktek_dokter/screens/auth/auth_screen.dart';
 import 'package:flutter_praktek_dokter/screens/auth/login.dart';
-import 'package:flutter_praktek_dokter/screens/auth/registerV2.dart';
+import 'package:flutter_praktek_dokter/screens/auth/registerv2.dart';
 import 'package:flutter_praktek_dokter/widget/custom_button/custom_filled_button.dart';
 import 'package:get/get.dart';
 

@@ -32,20 +32,22 @@ class LoginScreen extends StatelessWidget {
       // Custom Dialog
       var customDialog = CustomDialog(
         title: "Please Input Token !",
-        content: CustomTextField(
-            label: "Token",
-            constraints: constrained,
-            obscureText: true,
-            onChanged: (value) => _authController.setAuth(
-                  'token',
-                  _authController.tokenController.text,
-                  _authController.tokenController.text.isNotEmpty &&
-                      _authController.tokenController.text.length >= 10,
-                ),
-            controller: _authController.tokenController,
-            verification: _authController.tokenVerification.value,
-            errorText:
-                "Token Harus Memiliki Panjang Minimal 10 Karakter atau Numerik"),
+        content: Obx(
+          () => CustomTextField(
+              label: "Token",
+              constraints: constrained,
+              obscureText: true,
+              onChanged: (value) => _authController.setAuth(
+                    'token',
+                    _authController.tokenController.text,
+                    _authController.tokenController.text.isNotEmpty &&
+                        _authController.tokenController.text.length >= 10,
+                  ),
+              controller: _authController.tokenController,
+              verification: _authController.tokenVerification.value,
+              errorText:
+                  "Token Harus Memiliki Panjang Minimal 10 Karakter atau Numerik"),
+        ),
         actions: [
           TextButton(
             onPressed: () {
