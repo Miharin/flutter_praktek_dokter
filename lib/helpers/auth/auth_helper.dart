@@ -58,34 +58,20 @@ class AuthHelper extends GetxController {
         email: auth['email']!,
         password: auth['password']!,
       )
-          .then((value) async {
+          .then((userCredential) async {
         final users = db.collection("Users");
-        final query = await users
-            .where(
-              Filter.and(
-                Filter(
-                  "email",
-                  isEqualTo: auth['email'],
-                ),
-                Filter(
-                  "password",
-                  isEqualTo: auth['password'],
-                ),
-                Filter(
-                  "token",
-                  isEqualTo: auth['token'],
-                ),
-              ),
-            )
-            .limit(1)
-            .get();
+        final query = users.doc(userCredential.user?.uid).get();
 
-        for (var authData in query.docs) {
-          print('data: ${authData.data()}');
-          userIsLogin.value = authData.data().isNotEmpty ? true : false;
-          userIsLogin.value
-              ? Get.snackbar("Login Success", authData.data()['email'])
-              : null;
+        try {
+          await query.then((userData) {
+            final data = userData.data() as Map<String, dynamic>;
+            userIsLogin.value = data['token'] == auth['token'] ? true : false;
+            userIsLogin.value
+                ? Get.snackbar("Login Success", data['email'])
+                : null;
+          });
+        } catch (e) {
+          debugPrint("Error getting document: $e");
         }
       });
     } catch (error) {

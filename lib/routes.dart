@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_praktek_dokter/helpers/auth/auth_helper.dart';
 import 'package:flutter_praktek_dokter/screens/auth/auth_screen.dart';
 import 'package:flutter_praktek_dokter/screens/auth/login.dart';
-import 'package:flutter_praktek_dokter/screens/auth/register.dart';
 import 'package:flutter_praktek_dokter/screens/auth/registerV2.dart';
 import 'package:flutter_praktek_dokter/widget/custom_button/custom_filled_button.dart';
 import 'package:get/get.dart';
@@ -28,27 +27,35 @@ class Routes {
                   }
                   return Obx(
                     () => AnimatedCrossFade(
+                      layoutBuilder: (
+                        topChild,
+                        topChildKey,
+                        bottomChild,
+                        bottomChildKey,
+                      ) =>
+                          topChild,
                       firstChild: AuthScreen(
                         title: "Login Screen",
                         child: LoginScreen(),
                       ),
-                      secondChild: SizedBox.shrink(
-                        child: AuthScreen(
-                          title: "Dashboard Screen",
-                          child: Center(
-                            child: CustomFilledButton(
+                      secondChild: AuthScreen(
+                        title: "Dashboard Screen",
+                        child: Column(
+                          children: [
+                            Text(snapshot.data.toString()),
+                            CustomFilledButton(
                               label: "Logout",
                               onPressed: () async {
                                 await FirebaseAuth.instance.signOut();
                                 _isUserLogin.userIsLogin.value = false;
                               },
                             ),
-                          ),
+                          ],
                         ),
                       ),
-                      crossFadeState: _isUserLogin.userIsLogin.value
-                          ? CrossFadeState.showSecond
-                          : CrossFadeState.showFirst,
+                      crossFadeState: !_isUserLogin.userIsLogin.value
+                          ? CrossFadeState.showFirst
+                          : CrossFadeState.showSecond,
                       duration: const Duration(milliseconds: 1000),
                     ),
                   );
