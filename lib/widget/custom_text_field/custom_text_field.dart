@@ -2,18 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField(
-      {super.key,
-      required this.label,
-      required this.constraints,
-      required this.onChanged,
-      required this.controller,
-      required this.verification,
-      required this.errorText,
-      this.obscureText,
-      this.icon,
-      this.border,
-      this.type});
+  const CustomTextField({
+    super.key,
+    required this.label,
+    required this.constraints,
+    required this.onChanged,
+    required this.controller,
+    required this.verification,
+    required this.errorText,
+    this.obscureText,
+    this.icon,
+    this.border,
+    this.type,
+    this.suffixIcon,
+  });
 
   // Required Properties
   final TextEditingController controller;
@@ -25,6 +27,7 @@ class CustomTextField extends StatelessWidget {
 
   // Properties Optionals
   final IconData? icon;
+  final IconButton? suffixIcon;
   final bool? obscureText;
   final InputBorder? border;
   final TextInputType? type;
@@ -71,6 +74,7 @@ class CustomTextField extends StatelessWidget {
                     : Colors.black,
               )
             : null,
+        suffixIcon: suffixIcon,
         border: border ?? defaultBorder,
         label: Text(label),
         constraints: constraints,

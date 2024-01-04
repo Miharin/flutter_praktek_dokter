@@ -36,7 +36,13 @@ class LoginScreen extends StatelessWidget {
           () => CustomTextField(
               label: "Token",
               constraints: constrained,
-              obscureText: true,
+              suffixIcon: IconButton(
+                icon: Icon(_authController.showToken.value
+                    ? Icons.visibility_off
+                    : Icons.visibility),
+                onPressed: () => _authController.showTokenToggle(),
+              ),
+              obscureText: _authController.showToken.value ? false : true,
               onChanged: (value) => _authController.setAuth(
                     'token',
                     _authController.tokenController.text,
@@ -56,10 +62,12 @@ class LoginScreen extends StatelessWidget {
             child: const Text("Cancel"),
           ),
           TextButton(
-            onPressed: () {
-              _authController.signIn();
-              Get.back();
-            },
+            onPressed: _authController.disabledLoginButton.value
+                ? null
+                : () {
+                    _authController.signIn();
+                    Get.back();
+                  },
             child: const Text("Login"),
           ),
         ],
@@ -95,7 +103,13 @@ class LoginScreen extends StatelessWidget {
                     "Password Harus Memiliki Panjang Minimal 8 Karakter atau Numerik",
                 constraints: constrained,
                 icon: Icons.lock_rounded,
-                obscureText: true,
+                suffixIcon: IconButton(
+                  icon: Icon(_authController.showPassword.value
+                      ? Icons.visibility_off
+                      : Icons.visibility),
+                  onPressed: () => _authController.showPasswordToggle(),
+                ),
+                obscureText: _authController.showPassword.value ? false : true,
               ),
             ],
           ));

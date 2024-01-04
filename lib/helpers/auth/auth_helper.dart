@@ -24,26 +24,48 @@ class AuthHelper extends GetxController {
   var passwordVerification = false.obs;
   var tokenVerification = false.obs;
   var disabledLoginButton = true.obs;
+  var disabledTokenButton = true.obs;
+
+  var showPassword = false.obs;
+  var showToken = false.obs;
+
+  showPasswordToggle() {
+    showPassword.value = !showPassword.value;
+  }
+
+  showTokenToggle() {
+    showToken.value = !showToken.value;
+  }
 
   setAuth(name, value, isValid) {
     auth[name] = value;
-    if (name == "email") {
-      isValid
-          ? emailVerification.value = true
-          : emailVerification.value = false;
-    } else if (name == "password") {
-      isValid
-          ? passwordVerification.value = true
-          : passwordVerification.value = false;
-    } else {
-      isValid
-          ? tokenVerification.value = true
-          : tokenVerification.value = false;
+    switch (name) {
+      case "email":
+        isValid
+            ? emailVerification.value = true
+            : emailVerification.value = false;
+        break;
+      case "password":
+        isValid
+            ? passwordVerification.value = true
+            : passwordVerification.value = false;
+        break;
+      case "token":
+        isValid
+            ? tokenVerification.value = true
+            : tokenVerification.value = false;
+      default:
     }
     if (emailVerification.value && passwordVerification.value) {
       disabledLoginButton.value = false;
     } else {
       disabledLoginButton.value = true;
+    }
+
+    if (tokenVerification.value) {
+      disabledTokenButton.value = false;
+    } else {
+      disabledTokenButton.value = true;
     }
   }
 
