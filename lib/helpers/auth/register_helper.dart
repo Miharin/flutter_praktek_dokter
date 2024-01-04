@@ -3,18 +3,18 @@ import 'package:get/get.dart';
 
 class RegisterHelper extends GetxController {
   var registerData = {
-    'NIK': ''.obs,
-    'Email': ''.obs,
-    'Password': ''.obs,
-    'Nama': ''.obs,
-    'TempatLahir': ''.obs,
-    'TanggalLahir': ''.obs,
-    'RT': ''.obs,
-    'RW': ''.obs,
-    'Kelurahan/Desa': ''.obs,
-    'Kecamatan': ''.obs,
-    'Kota/Kabupaten': ''.obs,
-    'KodePos': ''.obs,
+    'NIK': '',
+    'Email': '',
+    'Password': '',
+    'Nama': '',
+    'TempatLahir': '',
+    'TanggalLahir': '',
+    'RT': '',
+    'RW': '',
+    'Kelurahan/Desa': '',
+    'Kecamatan': '',
+    'Kota/Kabupaten': '',
+    'KodePos': '',
   }.obs;
 
   var index = 0.obs;

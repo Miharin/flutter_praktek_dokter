@@ -13,6 +13,13 @@ class RegisterScreenV2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraint) {
+      _registerHelper.tanggallahirControler.text =
+          DateFormat.yMMMMd('in-in').format(DateTime.now()).toString();
+      _registerHelper.setRegisterData(
+        "TanggalLahir",
+        _registerHelper.tanggallahirControler.text,
+        _registerHelper.tanggallahirControler.text.isNotEmpty,
+      );
       var constrained = BoxConstraints(
         maxWidth: constraint.maxWidth > 700 ? 700 : constraint.maxWidth * 0.8,
         minWidth: constraint.maxWidth > 700 ? 700 : constraint.maxWidth * 0.8,
@@ -137,6 +144,13 @@ class RegisterScreenV2 extends StatelessWidget {
                                               .format(pickedDate);
                                       _registerHelper.tanggallahirControler
                                           .text = formattedDate;
+                                      _registerHelper.setRegisterData(
+                                        "TanggalLahir",
+                                        _registerHelper
+                                            .tanggallahirControler.text,
+                                        _registerHelper.tanggallahirControler
+                                            .text.isNotEmpty,
+                                      );
                                     }
                                   },
                                   controller:
