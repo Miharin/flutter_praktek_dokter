@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_praktek_dokter/models/user/authentication_model.dart';
 import 'package:get/get.dart';
 
 class AuthHelper extends GetxController {
@@ -85,13 +86,18 @@ class AuthHelper extends GetxController {
         final query = users.doc(userCredential.user!.uid).get();
 
         query.then((userData) {
-          final data = userData.data();
-          if (data!["token"] == auth["token"]) {
+          final data = userData.data()!;
+          final user = AuthenticationModel.fromJson(data);
+          if (user.token == auth["token"]) {
             userIsLogin.value = true;
-            Get.snackbar("Login Success", data["Name"]);
-            emailController.text = "";
-            passwordController.text = "";
-            tokenController.text = "";
+            Get.snackbar(
+              "Login Success",
+              "Welcome ${user.username}",
+              backgroundColor: Colors.white,
+            );
+            emailController.clear();
+            passwordController.clear();
+            tokenController.clear();
           }
         });
       });
