@@ -6,10 +6,12 @@ class CustomTextField extends StatelessWidget {
     super.key,
     required this.label,
     required this.constraints,
-    required this.onChanged,
     required this.controller,
     required this.verification,
     required this.errorText,
+    this.onChanged,
+    this.ontap,
+    this.readonly,
     this.obscureText,
     this.icon,
     this.border,
@@ -20,13 +22,15 @@ class CustomTextField extends StatelessWidget {
   // Required Properties
   final TextEditingController controller;
   final String label;
-  final Function(String) onChanged;
   final bool verification;
   final String errorText;
   final BoxConstraints constraints;
 
   // Properties Optionals
+  final Function(String)? onChanged;
+  final void Function()? ontap;
   final IconData? icon;
+  final bool? readonly;
   final IconButton? suffixIcon;
   final bool? obscureText;
   final InputBorder? border;
@@ -58,8 +62,10 @@ class CustomTextField extends StatelessWidget {
           ? [FilteringTextInputFormatter.digitsOnly]
           : [],
       onChanged: onChanged,
+      onTap: ontap,
       // If Obscure Text is Empty or Null Set Obscure Text to False
       obscureText: obscureText ?? false,
+      readOnly: readonly ?? false,
       decoration: InputDecoration(
         // if Icon is Empty Then Null
         prefixIcon: icon != null
