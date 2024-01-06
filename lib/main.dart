@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_praktek_dokter/routes.dart';
 import 'package:get/get.dart';
 
@@ -7,6 +8,7 @@ import 'package:flutter_praktek_dokter/firebase_options.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
+  await dotenv.load(fileName: ".env");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   initializeDateFormatting('in_in', null).then((_) => runApp(const MyApp()));
 }

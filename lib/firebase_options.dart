@@ -3,8 +3,9 @@
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-/// Default [FirebaseOptions] for use with your Firebase apps.
+/// Default [FirebaseOptions] as String for use with your Firebase apps.
 ///
 /// Example:
 /// ```dart
@@ -43,39 +44,39 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCq1lbLbL3YJHt0YQdfP_Hb7-prCcHFMtI',
-    appId: '1:267569417104:web:fc591b3aaeee5722f14115',
-    messagingSenderId: '267569417104',
-    projectId: 'praktek-dokter-app',
-    authDomain: 'praktek-dokter-app.firebaseapp.com',
-    storageBucket: 'praktek-dokter-app.appspot.com',
-    measurementId: 'G-WCHJ23D3MT',
+  static FirebaseOptions web = FirebaseOptions(
+    apiKey: dotenv.env['WEB-API-KEY'] as String,
+    appId: dotenv.env['WEB-APP-ID'] as String,
+    messagingSenderId: dotenv.env['WEB-MESSAGING-SENDER-ID'] as String,
+    projectId: dotenv.env['WEB-PROJECT-ID'] as String,
+    authDomain: dotenv.env['WEB-AUTH-DOMAIN'] as String,
+    storageBucket: dotenv.env['WEB-STORAGE-BUCKET'] as String,
+    measurementId: dotenv.env['WEB-MEASUREMENT-ID'] as String,
   );
 
-  static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyARvwcGcCbBLURfJfhvQjQyyCTonscWnFQ',
-    appId: '1:267569417104:android:e16b8f1d4562b080f14115',
-    messagingSenderId: '267569417104',
-    projectId: 'praktek-dokter-app',
-    storageBucket: 'praktek-dokter-app.appspot.com',
+  static FirebaseOptions android = FirebaseOptions(
+    apiKey: dotenv.env['ANDROID-API-KEY'] as String,
+    appId: dotenv.env['ANDROID-APP-ID'] as String,
+    messagingSenderId: dotenv.env['ANDROID-MESSAGING-SENDER-ID'] as String,
+    projectId: dotenv.env['ANDROID-PROJECT-ID'] as String,
+    storageBucket: dotenv.env['ANDROID-STORAGE-BUCKET'] as String,
   );
 
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyClU9MYSy-_dt3V1mk5YpTDhqkbLqjmMhY',
-    appId: '1:267569417104:ios:5db4c97d2e610469f14115',
-    messagingSenderId: '267569417104',
-    projectId: 'praktek-dokter-app',
-    storageBucket: 'praktek-dokter-app.appspot.com',
-    iosBundleId: 'com.example.flutterPraktekDokter',
+  static FirebaseOptions ios = FirebaseOptions(
+    apiKey: dotenv.env['IOS-API-KEY'] as String,
+    appId: dotenv.env['IOS-APP-ID'] as String,
+    messagingSenderId: dotenv.env['IOS-MESSAGING-SENDER-ID'] as String,
+    projectId: dotenv.env['IOS-PROJECT-ID'] as String,
+    storageBucket: dotenv.env['IOS-STORAGE-BUCKET'] as String,
+    iosBundleId: dotenv.env['IOS-BUNDLE-ID'] as String,
   );
 
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyClU9MYSy-_dt3V1mk5YpTDhqkbLqjmMhY',
-    appId: '1:267569417104:ios:cf6b244bc229ae44f14115',
-    messagingSenderId: '267569417104',
-    projectId: 'praktek-dokter-app',
-    storageBucket: 'praktek-dokter-app.appspot.com',
-    iosBundleId: 'com.example.flutterPraktekDokter.RunnerTests',
+  static FirebaseOptions macos = FirebaseOptions(
+    apiKey: dotenv.env['MACOS-API-KEY'] as String,
+    appId: dotenv.env['MACOS-APP-ID'] as String,
+    messagingSenderId: dotenv.env['MACOS-MESSAGING-SENDER-ID'] as String,
+    projectId: dotenv.env['MACOS-PROJECT-ID'] as String,
+    storageBucket: dotenv.env['MACOS-STORAGE-BUCKET'] as String,
+    iosBundleId: dotenv.env['MACOS-BUNDLE-ID'] as String,
   );
 }
