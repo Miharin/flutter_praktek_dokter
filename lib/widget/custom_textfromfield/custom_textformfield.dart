@@ -18,6 +18,7 @@ class CustomTextFromField extends StatelessWidget {
     this.border,
     this.type,
     this.suffixIcon,
+    required this.listController,
   });
 
   // Required Properties
@@ -26,6 +27,7 @@ class CustomTextFromField extends StatelessWidget {
   final bool verification;
   final String errorText;
   final BoxConstraints constraints;
+  final List<TextEditingController> listController;
 
   // Properties Optionals
   final Function(String)? onChanged;
@@ -55,9 +57,6 @@ class CustomTextFromField extends StatelessWidget {
           Radius.circular(10.0),
         ),
         borderSide: BorderSide(color: Colors.red));
-
-    final List<TextEditingController> listController =
-        List.generate(lengthList, (index) => TextEditingController());
 
     //Return
     return Shortcuts(

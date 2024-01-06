@@ -61,6 +61,15 @@ class RegisterHelper extends GetxController {
   var kabupatenVerification = false.obs;
   var kodeposVerification = false.obs;
 
+  final List<TextEditingController> listController = [];
+
+  generateController(lengthList) {
+    for (var i = 0; i < lengthList; i++) {
+      listController.add(TextEditingController());
+    }
+    return listController;
+  }
+
   setRegisterData(name, value, isValid) {
     registerData[name] = value;
     switch (name) {

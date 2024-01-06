@@ -13,6 +13,8 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraint) {
+        final controller = _registerHelper.generateController(4);
+        final verification = [];
         // _registerHelper.tanggallahirControler.text =
         //     DateFormat.yMMMMd('in-in').format(DateTime.now()).toString();
         // _registerHelper.setRegisterData(
@@ -59,24 +61,27 @@ class RegisterScreen extends StatelessWidget {
                             endIndent: 20.0,
                             color: Colors.black38,
                           ),
-                          CustomTextFromField(
-                            listLabel: const [
-                              "Email",
-                              "Password",
-                              "NIK",
-                              "Nama",
-                            ],
-                            type: const [
-                              TextInputType.emailAddress,
-                              TextInputType.text,
-                              TextInputType.number,
-                              TextInputType.datetime
-                            ],
-                            lengthList: 4,
-                            constraints: constrainedV2,
-                            verification:
-                                _registerHelper.emailVerification.value,
-                            errorText: 'Wajib Di Isi',
+                          Obx(
+                            () => CustomTextFromField(
+                              listController: controller,
+                              listLabel: const [
+                                "Email",
+                                "Password",
+                                "NIK",
+                                "Nama",
+                              ],
+                              type: const [
+                                TextInputType.emailAddress,
+                                TextInputType.text,
+                                TextInputType.number,
+                                TextInputType.datetime
+                              ],
+                              lengthList: 4,
+                              constraints: constrainedV2,
+                              verification:
+                                  _registerHelper.rtVerification.value,
+                              errorText: 'Wajib Di Isi',
+                            ),
                           ),
                         ],
                       ),
