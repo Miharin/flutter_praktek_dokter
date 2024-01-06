@@ -25,79 +25,64 @@ class RegisterScreen extends StatelessWidget {
           minWidth: constraint.maxWidth > 700 ? 700 : constraint.maxWidth * 0.8,
         );
         var constrainedV2 = BoxConstraints(
-          maxWidth: constraint.maxWidth > 500 ? 500 : constraint.maxWidth * 0.8,
-          minWidth: constraint.maxWidth > 500 ? 500 : constraint.maxWidth * 0.8,
+          maxWidth: constraint.maxWidth <= 700
+              ? (constraint.maxWidth - 100) / 2
+              : (constraint.maxWidth - 200) / 4,
         );
-        return Center(
-          child: Padding(
-            padding: const EdgeInsets.all(70.0),
-            child: Card(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          top: 6.0,
-                          left: 6.0,
-                          right: 6.0,
-                          bottom: 6.0,
-                        ),
-                        child: ExpansionTile(
-                          shape: const RoundedRectangleBorder(
-                              side: BorderSide.none),
-                          title: Center(
-                            child: Text(
-                              "Autentikasi".toUpperCase(),
-                              style: const TextStyle(
-                                  fontSize: 16.0, fontWeight: FontWeight.bold),
-                            ),
+        return Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Card(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                        top: 6.0,
+                        left: 6.0,
+                        right: 6.0,
+                        bottom: 6.0,
+                      ),
+                      child: ExpansionTile(
+                        shape:
+                            const RoundedRectangleBorder(side: BorderSide.none),
+                        title: Center(
+                          child: Text(
+                            "Autentikasi".toUpperCase(),
+                            style: const TextStyle(
+                                fontSize: 16.0, fontWeight: FontWeight.bold),
                           ),
-                          children: [
-                            const Divider(
-                              indent: 100.0,
-                              endIndent: 100.0,
-                              color: Colors.black38,
-                            ),
-                            Wrap(
-                              direction: Axis.horizontal,
-                              spacing: 10,
-                              runSpacing: 10,
-                              children: [
-                                CustomTextFromField(
-                                  listLabel: const ["Email", "Password"],
-                                  lengthList: 2,
-                                  constraints: constrained,
-                                  controller: _registerHelper.emailControler,
-                                  verification:
-                                      _registerHelper.emailVerification.value,
-                                  errorText: 'Wajib Di Isi',
-                                ),
-                              ],
-                            ),
-                            const Gap(10.0),
-                            Wrap(
-                              direction: Axis.horizontal,
-                              spacing: 10,
-                              runSpacing: 10,
-                              children: [
-                                CustomTextFromField(
-                                  listLabel: const ["NIK", "Nama"],
-                                  lengthList: 2,
-                                  constraints: constrained,
-                                  controller: _registerHelper.nikControler,
-                                  verification:
-                                      _registerHelper.nikVerification.value,
-                                  errorText: '',
-                                )
-                              ],
-                            )
-                          ],
                         ),
+                        children: [
+                          const Divider(
+                            indent: 20.0,
+                            endIndent: 20.0,
+                            color: Colors.black38,
+                          ),
+                          CustomTextFromField(
+                            listLabel: const [
+                              "Email",
+                              "Password",
+                              "NIK",
+                              "Nama",
+                            ],
+                            type: const [
+                              TextInputType.emailAddress,
+                              TextInputType.text,
+                              TextInputType.number,
+                              TextInputType.datetime
+                            ],
+                            lengthList: 4,
+                            constraints: constrainedV2,
+                            verification:
+                                _registerHelper.emailVerification.value,
+                            errorText: 'Wajib Di Isi',
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
