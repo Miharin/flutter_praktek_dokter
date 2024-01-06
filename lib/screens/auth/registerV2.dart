@@ -42,16 +42,23 @@ class RegisterScreenV2 extends StatelessWidget {
                         child: ExpansionTile(
                           shape: const RoundedRectangleBorder(
                               side: BorderSide.none),
-                          title: const Center(child: Text("Autentikasi")),
+                          title: const Center(
+                              child: Text(
+                            "AUTENTIKASI",
+                            style: TextStyle(
+                                fontSize: 16.0, fontWeight: FontWeight.bold),
+                          )),
                           children: [
                             const Divider(
+                              indent: 125.0,
+                              endIndent: 125.0,
                               color: Colors.black38,
                             ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
+                            Wrap(
+                              direction: Axis.horizontal,
+                              spacing: 10,
+                              runSpacing: 10,
                               children: [
-                                const Gap(10.0),
                                 CustomTextField(
                                     label: "Email",
                                     constraints: constrained,
@@ -60,7 +67,6 @@ class RegisterScreenV2 extends StatelessWidget {
                                     verification:
                                         _registerHelper.emailVerification.value,
                                     errorText: "Wajib Di Isi"),
-                                const Gap(50.0),
                                 CustomTextField(
                                     label: "Password",
                                     constraints: constrained,
@@ -73,11 +79,11 @@ class RegisterScreenV2 extends StatelessWidget {
                               ],
                             ),
                             const Gap(10.0),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
+                            Wrap(
+                              direction: Axis.horizontal,
+                              spacing: 10,
+                              runSpacing: 10,
                               children: [
-                                const Gap(10.0),
                                 CustomTextField(
                                     label: "NIK",
                                     constraints: constrained,
@@ -86,7 +92,6 @@ class RegisterScreenV2 extends StatelessWidget {
                                     verification:
                                         _registerHelper.nikVerification.value,
                                     errorText: "Wajib Di Isi"),
-                                const Gap(50.0),
                                 CustomTextField(
                                     label: "Nama",
                                     constraints: constrained,
@@ -107,15 +112,22 @@ class RegisterScreenV2 extends StatelessWidget {
                         child: ExpansionTile(
                           shape: const RoundedRectangleBorder(
                               side: BorderSide.none),
-                          title: const Center(child: Text("Profile")),
+                          title: const Center(
+                              child: Text(
+                            "PROFILE",
+                            style: TextStyle(
+                                fontSize: 16.0, fontWeight: FontWeight.bold),
+                          )),
                           children: [
                             const Divider(
+                              indent: 125.0,
+                              endIndent: 125.0,
                               color: Colors.black38,
                             ),
-                            const Gap(10.0),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.min,
+                            Wrap(
+                              direction: Axis.horizontal,
+                              spacing: 10,
+                              runSpacing: 10,
                               children: [
                                 CustomTextField(
                                     label: "Tempat Lahir",
@@ -126,7 +138,6 @@ class RegisterScreenV2 extends StatelessWidget {
                                     verification: _registerHelper
                                         .tempatlahirVerification.value,
                                     errorText: "Wajib Di Isi"),
-                                const Gap(60.0),
                                 CustomTextField(
                                   icon: Icons.calendar_today,
                                   readonly: true,
@@ -158,22 +169,30 @@ class RegisterScreenV2 extends StatelessWidget {
                                   verification: _registerHelper
                                       .tanggallairVerification.value,
                                   errorText: 'Wajib Di Isi',
-                                )
+                                ),
                               ],
                             ),
                             const Gap(10.0),
                             ExpansionTile(
-                              title: const Center(child: Text("Alamat")),
+                              title: const Center(
+                                  child: Text(
+                                "Alamat",
+                                style: TextStyle(
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.bold),
+                              )),
                               shape: const RoundedRectangleBorder(
                                   side: BorderSide.none),
                               children: [
                                 const Divider(
+                                  indent: 125.0,
+                                  endIndent: 125.0,
                                   color: Colors.black38,
                                 ),
-                                const Gap(10.0),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
+                                Wrap(
+                                  direction: Axis.horizontal,
+                                  spacing: 10,
+                                  runSpacing: 10,
                                   children: [
                                     CustomTextField(
                                         label: "RT",
@@ -183,7 +202,6 @@ class RegisterScreenV2 extends StatelessWidget {
                                         verification: _registerHelper
                                             .rtVerification.value,
                                         errorText: "Wajib Di Isi"),
-                                    const Gap(50.0),
                                     CustomTextField(
                                         label: "RW",
                                         constraints: constrainedV2,
@@ -192,7 +210,6 @@ class RegisterScreenV2 extends StatelessWidget {
                                         verification: _registerHelper
                                             .rwVerification.value,
                                         errorText: "Wajib Di Isi"),
-                                    const Gap(50.0),
                                     CustomTextField(
                                         label: "Kelurahan/Desa",
                                         constraints: constrainedV2,
@@ -205,9 +222,10 @@ class RegisterScreenV2 extends StatelessWidget {
                                   ],
                                 ),
                                 const Gap(10.0),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisSize: MainAxisSize.min,
+                                Wrap(
+                                  direction: Axis.horizontal,
+                                  spacing: 10,
+                                  runSpacing: 10,
                                   children: [
                                     CustomTextField(
                                         label: "Kecamatan",
@@ -218,7 +236,6 @@ class RegisterScreenV2 extends StatelessWidget {
                                         verification: _registerHelper
                                             .kecamatanVerification.value,
                                         errorText: "Wajib Di Isi"),
-                                    const Gap(50.0),
                                     CustomTextField(
                                         label: "Kota/Kabupaten",
                                         constraints: constrainedV2,
@@ -228,7 +245,6 @@ class RegisterScreenV2 extends StatelessWidget {
                                         verification: _registerHelper
                                             .kabupatenVerification.value,
                                         errorText: "Wajib Di Isi"),
-                                    const Gap(50.0),
                                     CustomTextField(
                                         label: "KodePos",
                                         constraints: constrainedV2,
