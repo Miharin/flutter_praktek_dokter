@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_praktek_dokter/helpers/auth/register_helper.dart';
 import 'package:flutter_praktek_dokter/widget/custom_textfromfield/custom_textformfield.dart';
-import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -11,6 +10,8 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(_registerHelper.nama);
+    print(_registerHelper.listVerification);
     return LayoutBuilder(
       builder: (context, constraint) {
         final controller = _registerHelper.generateController(4);
@@ -79,7 +80,7 @@ class RegisterScreen extends StatelessWidget {
                               lengthList: 4,
                               constraints: constrainedV2,
                               verification:
-                                  _registerHelper.rtVerification.value,
+                                  _registerHelper.listVerification.isEmpty,
                               errorText: 'Wajib Di Isi',
                             ),
                           ),

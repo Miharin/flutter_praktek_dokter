@@ -2,20 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RegisterHelper extends GetxController {
-  var registerData = {
-    'NIK': '',
-    'Email': '',
-    'Password': '',
-    'Nama': '',
-    'TempatLahir': '',
-    'TanggalLahir': '',
-    'RT': '',
-    'RW': '',
-    'Kelurahan/Desa': '',
-    'Kecamatan': '',
-    'Kota/Kabupaten': '',
-    'KodePos': '',
-  }.obs;
+  final List nama = [
+    'NIK',
+    'Email',
+    'Password',
+    'Nama',
+    'TempatLahir',
+    'TanggalLahir',
+    'RT',
+    'RW',
+    'Kelurahan/Desa',
+    'Kecamatan',
+    'Kota/Kabupaten',
+    'KodePos',
+  ].obs;
+  generatenama(lenghtlistverification) {
+    for (var i = 0; i < lenghtlistverification; i++) {
+      nama.add(());
+    }
+  }
 
   var index = 0.obs;
 
@@ -35,33 +40,15 @@ class RegisterHelper extends GetxController {
     index.value = currentIndex;
   }
 
-  final TextEditingController nikControler = TextEditingController();
-  final TextEditingController emailControler = TextEditingController();
-  final TextEditingController passwordControler = TextEditingController();
-  final TextEditingController namaControler = TextEditingController();
-  final TextEditingController tempatlahirControler = TextEditingController();
-  final TextEditingController tanggallahirControler = TextEditingController();
-  final TextEditingController rtControler = TextEditingController();
-  final TextEditingController rwControler = TextEditingController();
-  final TextEditingController desaControler = TextEditingController();
-  final TextEditingController kecamatanControler = TextEditingController();
-  final TextEditingController kabupatenControler = TextEditingController();
-  final TextEditingController kodeposControler = TextEditingController();
+  final List listVerification = List.generate(13, (index) => false).obs;
+  generateVerification(lenghtlistverification) {
+    for (var i = 0; i < lenghtlistverification; i++) {
+      listVerification.add(());
+    }
+  }
 
-  var nikVerification = false.obs;
-  var emailVerification = false.obs;
-  var passwordVerification = false.obs;
-  var namaVerification = false.obs;
-  var tempatlahirVerification = false.obs;
-  var tanggallairVerification = false.obs;
-  var rtVerification = false.obs;
-  var rwVerification = false.obs;
-  var desaVerification = false.obs;
-  var kecamatanVerification = false.obs;
-  var kabupatenVerification = false.obs;
-  var kodeposVerification = false.obs;
-
-  final List<TextEditingController> listController = [];
+  final List<TextEditingController> listController =
+      List.generate(13, (index) => TextEditingController());
 
   generateController(lengthList) {
     for (var i = 0; i < lengthList; i++) {
@@ -71,62 +58,15 @@ class RegisterHelper extends GetxController {
   }
 
   setRegisterData(name, value, isValid) {
-    registerData[name] = value;
-    switch (name) {
-      case "NIK":
-        isValid ? nikVerification.value = true : nikVerification.value = false;
-        break;
-      case "Email":
-        isValid
-            ? namaVerification.value = true
-            : namaVerification.value = false;
-        break;
-      case "Password":
-        isValid
-            ? namaVerification.value = true
-            : namaVerification.value = false;
-        break;
-      case "Nama":
-        isValid
-            ? tempatlahirVerification.value = true
-            : tempatlahirVerification.value = false;
-        break;
-      case "TempatLahir":
-        isValid
-            ? namaVerification.value = true
-            : namaVerification.value = false;
-        break;
-      case "TanggalLahir":
-        isValid
-            ? tanggallairVerification.value = true
-            : tanggallairVerification.value = false;
-        break;
-      case "RT":
-        isValid ? rtVerification.value = true : rtVerification.value = false;
-        break;
-      case "RW":
-        isValid ? rwVerification.value = true : rwVerification.value = false;
-        break;
-      case "Kelurahan/Desa":
-        isValid
-            ? desaVerification.value = true
-            : desaVerification.value = false;
-        break;
-      case "Kecamatan":
-        isValid
-            ? kecamatanVerification.value = true
-            : kecamatanVerification.value = false;
-        break;
-      case "Kota/Kabupaten":
-        isValid
-            ? kabupatenVerification.value = true
-            : kabupatenVerification.value = false;
-        break;
-      case "KodePos":
-        isValid
-            ? kodeposVerification.value = true
-            : kodeposVerification.value = false;
-      default:
+    final Map<String, dynamic> list = {
+      "nama": nama,
+      "verification": listVerification,
+      "length": 13
+    };
+    for (var i = 0; i < list["lenght"]; i++) {
+      if ("tanggal" == list["nama"]![i]) {
+        list["verification"]![i] = true;
+      }
     }
   }
 }
