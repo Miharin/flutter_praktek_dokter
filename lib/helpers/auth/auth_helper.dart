@@ -85,7 +85,7 @@ class AuthHelper extends GetxController {
         final users = db.collection("Users");
         final query = users.doc(userCredential.user!.uid).get();
 
-        query.then((userData) {
+        await query.then((userData) async {
           final data = userData.data()!;
           final user = AuthenticationModel.fromJson(data);
           if (user.token == auth["token"]) {
