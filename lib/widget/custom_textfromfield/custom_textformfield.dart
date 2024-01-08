@@ -93,7 +93,6 @@ class CustomTextFromField extends StatelessWidget {
                             String formattedDate =
                                 DateFormat.yMMMMd('in-in').format(pickedDate);
                             listController[index].text = formattedDate;
-                            print(formattedDate);
                           }
                         }
                       },
