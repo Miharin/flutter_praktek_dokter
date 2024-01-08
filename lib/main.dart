@@ -8,6 +8,7 @@ import 'package:flutter_praktek_dokter/firebase_options.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   initializeDateFormatting('in_in', null).then((_) => runApp(const MyApp()));
