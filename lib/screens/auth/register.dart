@@ -13,7 +13,7 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraint) {
-        final controller = _registerHelper.generateController(4);
+        final listRegister = _registerHelper.generateList();
         final verification = [];
         var constrained = BoxConstraints(
           maxWidth: constraint.maxWidth > 700 ? 700 : constraint.maxWidth * 0.8,
@@ -32,167 +32,20 @@ class RegisterScreen extends StatelessWidget {
         return Padding(
           padding: const EdgeInsets.all(20.0),
           child: Card(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    child: Padding(
-                      padding: const EdgeInsets.only(),
-                      child: ExpansionTile(
-                        shape: const RoundedRectangleBorder(
-                          side: BorderSide.none,
-                        ),
-                        title: Center(
-                          child: Text(
-                            "Autentikasi".toUpperCase(),
-                            style: const TextStyle(
-                                fontSize: 16.0, fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        children: [
-                          const Divider(
-                            indent: 20.0,
-                            endIndent: 20.0,
-                            color: Colors.black38,
-                          ),
-                          Obx(
-                            () => CustomTextFromField(
-                              listLabel: const [
-                                "Email",
-                                "Password",
-                                "NIK",
-                                "Nama",
-                              ],
-                              type: const [
-                                TextInputType.emailAddress,
-                                TextInputType.text,
-                                TextInputType.number,
-                                TextInputType.name
-                              ],
-                              lengthList: 4,
-                              constraints: constrainedV2,
-                              verification:
-                                  _registerHelper.listVerification.isEmpty,
-                              errorText: 'Wajib Di Isi',
-                              listController: controller,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  ExpansionTile(
-                    shape: const RoundedRectangleBorder(side: BorderSide.none),
-                    title: Center(
-                        child: Text(
-                      "Bio Data".toUpperCase(),
-                      style: const TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )),
-                    children: [
-                      const Divider(
-                        indent: 20.0,
-                        endIndent: 20.0,
-                        color: Colors.black38,
-                      ),
-                      Obx(
-                        () => CustomTextFromField(
-                          listLabel: const [
-                            "Tempat Lahir",
-                            "TanggaLahir",
-                          ],
-                          lengthList: 2,
-                          constraints: constrained,
-                          verification:
-                              _registerHelper.listVerification.isEmpty,
-                          errorText: "Wajib Di Isi",
-                          listController: controller,
-                        ),
-                      ),
-                      ExpansionTile(
-                        shape: const RoundedRectangleBorder(
-                          side: BorderSide.none,
-                        ),
-                        title: Center(
-                            child: Text(
-                          "Alamat".toUpperCase(),
-                          style: const TextStyle(
-                              fontSize: 16.0, fontWeight: FontWeight.bold),
-                        )),
-                        children: [
-                          const Divider(
-                            indent: 20.0,
-                            endIndent: 20.0,
-                            color: Colors.black38,
-                          ),
-                          Obx(
-                            () => CustomTextFromField(
-                              listLabel: const [
-                                "RT",
-                                "TW",
-                                "Kelurahan/Desa",
-                                "Kecamatan",
-                                "Kota/Kabupaten",
-                                "KodePos",
-                              ],
-                              lengthList: 6,
-                              constraints: constrainedV2,
-                              verification:
-                                  _registerHelper.listVerification.isEmpty,
-                              errorText: "Wajib Di Isi",
-                              listController: controller,
-                            ),
-                          )
-                        ],
-                      )
-                    ],
-                  ),
-                  ExpansionTile(
-                    shape: const RoundedRectangleBorder(
-                      side: BorderSide.none,
-                    ),
-                    title: Center(
-                      child: Text(
-                        "Bio Data Lengkap".toUpperCase(),
-                        style: const TextStyle(
-                          fontSize: 16.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    children: [
-                      const Divider(
-                        indent: 20.0,
-                        endIndent: 20.0,
-                        color: Colors.black38,
-                      ),
-                      Obx(
-                        () => CustomTextFromField(
-                          listLabel: const [
-                            "Email",
-                            "Password",
-                            "NIK",
-                            "Nama",
-                          ],
-                          type: const [
-                            TextInputType.emailAddress,
-                            TextInputType.text,
-                            TextInputType.number,
-                            TextInputType.name
-                          ],
-                          lengthList: 4,
-                          constraints: constrainedV2,
-                          verification:
-                              _registerHelper.listVerification.isEmpty,
-                          errorText: 'Wajib Di Isi',
-                          listController: controller,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
+            child: Padding(
+              padding: const EdgeInsets.only(),
+              child: Obx(
+                () => CustomTextFromField(
+                  listLabel: listRegister["label"],
+                  type: listRegister["type"],
+                  lengthList: listRegister['length'],
+                  constraints: constrainedV2,
+                  verification: listRegister["verification"].isEmpty,
+                  errorText: listRegister["error_text"],
+                  listController: listRegister["controller"],
+                  breakpoint: listRegister["breakpoint"],
+                  breakpointTitle: listRegister["breakpoint_title"],
+                ),
               ),
             ),
           ),

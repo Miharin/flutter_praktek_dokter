@@ -2,23 +2,72 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class RegisterHelper extends GetxController {
-  final List nama = [
-    'NIK',
-    'Email',
-    'Password',
-    'Nama',
-    'TempatLahir',
-    'TanggalLahir',
-    'RT',
-    'RW',
-    'Kelurahan/Desa',
-    'Kecamatan',
-    'Kota/Kabupaten',
-    'KodePos',
-  ].obs;
-  generatenama(lenghtlistverification) {
-    for (var i = 0; i < lenghtlistverification; i++) {
-      nama.add(());
+  final int lengthList = 12;
+
+  generateList() {
+    final Map listRegister = {
+      "length": lengthList,
+      "breakpoint": [3, 6, lengthList],
+      "breakpoint_title": [
+        "AUTENTIKASI",
+        "BIO DATA",
+        "BIO DATA LENGKAP",
+      ],
+      "id": [
+        "NIK",
+        "Email",
+        "Password",
+        "Nama",
+        "TempatLahir",
+        "TanggalLahir",
+        "RT",
+        "RW",
+        "Kelurahan/Desa",
+        "Kecamatan",
+        "Kota/Kabupaten",
+        "KodePos",
+      ],
+      "label": [
+        "NIK",
+        "Email",
+        "Password",
+        "Nama",
+        "Tempat Lahir",
+        "Tanggal Lahir",
+        "RT",
+        "RW",
+        "Kelurahan / Desa",
+        "Kecamatan",
+        "Kota / Kabupaten",
+        "Kode Pos",
+      ],
+      "type": [
+        TextInputType.number,
+        TextInputType.emailAddress,
+        TextInputType.text,
+        TextInputType.text,
+        TextInputType.text,
+        TextInputType.datetime,
+        TextInputType.number,
+        TextInputType.number,
+        TextInputType.text,
+        TextInputType.text,
+        TextInputType.text,
+        TextInputType.number,
+      ],
+      "value": List.generate(lengthList, (index) => ""),
+      "controller":
+          List.generate(lengthList, (index) => TextEditingController()),
+      "verification": List.generate(lengthList, (index) => false),
+      "required_parameters": [],
+      "error_text": List.generate(lengthList, (index) => "Wajib Di Isi"),
+    }.obs;
+    return listRegister;
+  }
+
+  setRegisterData(data, value, isValid) {
+    if (isValid == true) {
+      data["value"] = value;
     }
   }
 
@@ -38,35 +87,5 @@ class RegisterHelper extends GetxController {
 
   onStepTapped(currentIndex) {
     index.value = currentIndex;
-  }
-
-  final List listVerification = List.generate(13, (index) => false).obs;
-  generateVerification(lenghtlistverification) {
-    for (var i = 0; i < lenghtlistverification; i++) {
-      listVerification.add(());
-    }
-  }
-
-  final List<TextEditingController> listController =
-      List.generate(13, (index) => TextEditingController());
-
-  generateController(lengthList) {
-    for (var i = 0; i < lengthList; i++) {
-      listController.add(TextEditingController());
-    }
-    return listController;
-  }
-
-  setRegisterData(name, value, isValid) {
-    final Map<String, dynamic> list = {
-      "nama": nama,
-      "verification": listVerification,
-      "length": 13
-    };
-    for (var i = 0; i < list["lenght"]; i++) {
-      if ("tanggal" == list["nama"]![i]) {
-        list["verification"]![i] = true;
-      }
-    }
   }
 }
