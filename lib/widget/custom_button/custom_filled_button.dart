@@ -36,7 +36,7 @@ class CustomFilledButton extends StatelessWidget {
               ),
               fixedSize: width,
             ),
-            onPressed: onPressed,
+            onPressed: onPressed ?? () {},
             child: Text(label),
           );
   }
