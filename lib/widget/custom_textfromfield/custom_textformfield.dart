@@ -16,6 +16,7 @@ class CustomTextFromField extends StatelessWidget {
     this.obscureText,
     this.icon,
     this.border,
+    this.valueList,
     this.type,
     this.suffixIcon,
     required this.listController,
@@ -35,6 +36,7 @@ class CustomTextFromField extends StatelessWidget {
 
   // Properties Optionals
   final Function(String)? onChanged;
+  final List<String>? valueList;
   final void Function()? ontap;
   final IconData? icon;
   final bool? readonly;
@@ -152,7 +154,6 @@ class CustomTextFromField extends StatelessWidget {
                           breakpointType[index] == TextInputType.number
                               ? [FilteringTextInputFormatter.digitsOnly]
                               : [],
-                      onChanged: onChanged,
                       onTap: () async {
                         if (breakpointType[index] == TextInputType.datetime) {
                           DateTime? pickedDate = await showDatePicker(
@@ -202,8 +203,7 @@ class CustomTextFromField extends StatelessWidget {
                       ),
                       controller: breakpointController[index],
                       onSaved: (String? value) {
-                        debugPrint(
-                            'Value for field ${breakpointLabel[index]} saved as "$value"');
+                        debugPrint(listController[index].toString());
                       },
                     ),
                   );

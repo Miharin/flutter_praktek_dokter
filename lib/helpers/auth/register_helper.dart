@@ -66,8 +66,10 @@ class RegisterHelper extends GetxController {
   }
 
   setRegisterData(data, value, isValid) {
+    data = value;
+    print(data);
     if (isValid == true) {
-      data["value"] = value;
+      data = value;
     }
   }
 
