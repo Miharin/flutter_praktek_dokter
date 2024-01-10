@@ -203,7 +203,8 @@ class CustomTextFromField extends StatelessWidget {
                       ),
                       controller: breakpointController[index],
                       onSaved: (String? value) {
-                        debugPrint(listController[index].toString());
+                        debugPrint(
+                            "Text Field ${breakpointLabel[index]} Value =  ${listController[index].text}");
                       },
                     ),
                   );

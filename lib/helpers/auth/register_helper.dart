@@ -65,14 +65,6 @@ class RegisterHelper extends GetxController {
     return listRegister;
   }
 
-  setRegisterData(data, value, isValid) {
-    data = value;
-    print(data);
-    if (isValid == true) {
-      data = value;
-    }
-  }
-
   var index = 0.obs;
 
   onStepCancel(currentIndex) {
