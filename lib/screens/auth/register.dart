@@ -37,6 +37,7 @@ class RegisterScreen extends StatelessWidget {
                         breakpoint: listRegister["breakpoint"],
                         breakpointTitle: listRegister["breakpoint_title"],
                         listIcon: listRegister["icons"],
+                        showIcon: listRegister["show-icons"],
                       ),
                     ),
                     const Gap(8.0),

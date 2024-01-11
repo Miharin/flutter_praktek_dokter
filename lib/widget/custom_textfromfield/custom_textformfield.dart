@@ -22,6 +22,7 @@ class CustomTextFromField extends StatelessWidget {
     required this.listController,
     required this.breakpoint,
     required this.breakpointTitle,
+    this.showIcon,
   });
 
   // Required Properties
@@ -44,6 +45,7 @@ class CustomTextFromField extends StatelessWidget {
   final bool? obscureText;
   final InputBorder? border;
   final List<TextInputType>? type;
+  final List<bool>? showIcon;
   @override
   Widget build(BuildContext context) {
     // Verification Final Bool
@@ -107,6 +109,12 @@ class CustomTextFromField extends StatelessWidget {
                   final breakpointIcon = index == 0
                       ? listIcon!.getRange(0, breakpoint[index]).toList()
                       : listIcon!
+                          .getRange(breakpoint[index - 1], breakpoint[index])
+                          .toList();
+
+                  final breakpointShowIcon = index == 0
+                      ? showIcon!.getRange(0, breakpoint[index]).toList()
+                      : showIcon!
                           .getRange(breakpoint[index - 1], breakpoint[index])
                           .toList();
 
@@ -179,7 +187,7 @@ class CustomTextFromField extends StatelessWidget {
                       readOnly: readonly ?? false,
                       decoration: InputDecoration(
                         // if Icon is Empty Then Null
-                        prefixIcon: listIcon != null
+                        prefixIcon: breakpointShowIcon[index]
                             ? Icon(
                                 breakpointController[index].text.isNotEmpty
                                     ? !verification
