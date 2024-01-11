@@ -3,7 +3,6 @@ import 'package:flutter_praktek_dokter/helpers/auth/auth_helper.dart';
 import 'package:flutter_praktek_dokter/screens/auth/auth_screen.dart';
 import 'package:flutter_praktek_dokter/screens/auth/login.dart';
 import 'package:flutter_praktek_dokter/screens/auth/register.dart';
-import 'package:flutter_praktek_dokter/screens/auth/registerv2.dart';
 import 'package:flutter_praktek_dokter/screens/protected/dashboard/dashboard_screen.dart';
 import 'package:get/get.dart';
 

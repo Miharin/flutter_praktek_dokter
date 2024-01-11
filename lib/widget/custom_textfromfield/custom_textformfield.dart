@@ -14,7 +14,7 @@ class CustomTextFromField extends StatelessWidget {
     this.ontap,
     this.readonly,
     this.obscureText,
-    this.icon,
+    this.listIcon,
     this.border,
     this.valueList,
     this.type,
@@ -38,7 +38,7 @@ class CustomTextFromField extends StatelessWidget {
   final Function(String)? onChanged;
   final List<String>? valueList;
   final void Function()? ontap;
-  final IconData? icon;
+  final List<IconData>? listIcon;
   final bool? readonly;
   final IconButton? suffixIcon;
   final bool? obscureText;
@@ -101,6 +101,12 @@ class CustomTextFromField extends StatelessWidget {
                   final breakpointController = index == 0
                       ? listController.getRange(0, breakpoint[index]).toList()
                       : listController
+                          .getRange(breakpoint[index - 1], breakpoint[index])
+                          .toList();
+
+                  final breakpointIcon = index == 0
+                      ? listIcon!.getRange(0, breakpoint[index]).toList()
+                      : listIcon!
                           .getRange(breakpoint[index - 1], breakpoint[index])
                           .toList();
 
@@ -173,13 +179,13 @@ class CustomTextFromField extends StatelessWidget {
                       readOnly: readonly ?? false,
                       decoration: InputDecoration(
                         // if Icon is Empty Then Null
-                        prefixIcon: icon != null
+                        prefixIcon: listIcon != null
                             ? Icon(
                                 breakpointController[index].text.isNotEmpty
                                     ? !verification
-                                        ? icon
+                                        ? breakpointIcon[index]
                                         : Icons.check
-                                    : icon,
+                                    : breakpointIcon[index],
                                 // If Text is Empty Set Colors to Black
                                 color: breakpointController[index]
                                         .text
