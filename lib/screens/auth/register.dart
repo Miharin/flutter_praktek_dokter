@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_praktek_dokter/helpers/auth/register_helper.dart';
 import 'package:flutter_praktek_dokter/widget/custom_button/custom_filled_button.dart';
+import 'package:flutter_praktek_dokter/widget/custom_card/custom_card.dart';
+import 'package:flutter_praktek_dokter/widget/custom_divider/custom_divider.dart';
+import 'package:flutter_praktek_dokter/widget/custom_expansion_panel/custom_expansion_panel.dart';
+import 'package:flutter_praktek_dokter/widget/custom_form/custom_form.dart';
 import 'package:flutter_praktek_dokter/widget/custom_textfromfield/custom_textformfield.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -26,18 +31,25 @@ class RegisterScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Obx(
-                      () => CustomTextFromField(
-                        listLabel: listRegister["label"],
-                        type: listRegister["type"],
-                        lengthList: listRegister['length'],
-                        verification: listRegister["verification"].isEmpty,
-                        valueList: listRegister["value"],
-                        errorText: listRegister["error_text"],
-                        listController: listRegister["controller"],
-                        breakpoint: listRegister["breakpoint"],
-                        breakpointTitle: listRegister["breakpoint_title"],
-                        listIcon: listRegister["icons"],
-                        showIcon: listRegister["show-icons"],
+                      () => CustomForm(
+                        trigger: LogicalKeyboardKey.enter,
+                        child: Wrap(
+                          children: [
+                            CustomCardWithHeader(
+                              header: "Autentikasi",
+                              children: Row(
+                                children: [
+                                  CustomTextFormField(
+                                    label: label,
+                                    controller: controller,
+                                    verification: verification,
+                                  )
+                                ],
+                              ),
+                              divider: const CustomDivider(),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     const Gap(8.0),

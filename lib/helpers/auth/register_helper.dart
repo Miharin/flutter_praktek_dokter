@@ -5,6 +5,7 @@ class RegisterHelper extends GetxController {
   final int lengthList = 12;
 
   generateList() {
+    final List registerList = [{}];
     final Map listRegister = {
       "length": lengthList,
       "breakpoint": [3, 6, lengthList],

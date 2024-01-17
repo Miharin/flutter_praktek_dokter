@@ -2,20 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField({
+class CustomTextFormFieldTest extends StatelessWidget {
+  const CustomTextFormFieldTest({
     super.key,
     required this.label,
     required this.controller,
     required this.verification,
-    this.keyboardType,
-    this.obscureText,
-    this.readOnly,
+    this.keyboardType = TextInputType.text,
+    this.obscureText = false,
+    this.readOnly = false,
     this.icon,
     this.suffixIcon,
-    this.errorMessage,
-    this.errorBorder,
-    this.border,
+    this.errorMessage = "",
+    this.errorBorder = const OutlineInputBorder(
+      borderRadius: BorderRadius.all(
+        Radius.circular(10.0),
+      ),
+    ),
+    this.border = const OutlineInputBorder(
+      borderRadius: BorderRadius.all(
+        Radius.circular(10.0),
+      ),
+      borderSide: BorderSide(color: Colors.red),
+    ),
     this.onSave,
   });
 
@@ -32,10 +41,10 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputType? keyboardType;
 
   // Is Text Form Field is Password Related ?
-  final bool? obscureText;
+  final bool obscureText;
 
   // Is Text Form Field Read Only ?
-  final bool? readOnly;
+  final bool readOnly;
 
 // Icon Properties
 
@@ -56,21 +65,6 @@ class CustomTextFormField extends StatelessWidget {
   // Input Border if Any
   final InputBorder? border;
 
-  // Default Border If border is Null
-  final InputBorder defaultBorder = const OutlineInputBorder(
-    borderRadius: BorderRadius.all(
-      Radius.circular(10.0),
-    ),
-  );
-
-  // Error Border
-  final defaultErrorBorder = const OutlineInputBorder(
-    borderRadius: BorderRadius.all(
-      Radius.circular(10.0),
-    ),
-    borderSide: BorderSide(color: Colors.red),
-  );
-
   // Function
   final Function(String?)? onSave;
 
@@ -84,7 +78,7 @@ class CustomTextFormField extends StatelessWidget {
 
     // return Text Form Field
     return TextFormField(
-      keyboardType: keyboardType ?? TextInputType.text,
+      keyboardType: keyboardType,
       inputFormatters: keyboardType == TextInputType.number
           ? [FilteringTextInputFormatter.digitsOnly]
           : [],
@@ -104,8 +98,8 @@ class CustomTextFormField extends StatelessWidget {
         }
       },
       // If Obscure Text is Empty or Null Set Obscure Text to False
-      obscureText: obscureText ?? false,
-      readOnly: readOnly ?? false,
+      obscureText: obscureText,
+      readOnly: readOnly,
       decoration: InputDecoration(
         // if Icon is Empty Then Null
         prefixIcon: icon != null
@@ -125,12 +119,11 @@ class CustomTextFormField extends StatelessWidget {
               )
             : null,
         suffixIcon: Icon(suffixIcon),
-        border: border ?? defaultBorder,
+        border: border,
         label: Text(label),
         // If errorVerificationFinal == true then send errorText and error Border
         errorText: errorVerification ? errorMessage : null,
-        errorBorder:
-            errorVerification ? errorBorder ?? defaultErrorBorder : null,
+        errorBorder: errorVerification ? errorBorder : null,
       ),
       controller: controller,
       onSaved: onSave,
