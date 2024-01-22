@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_card/custom_card.dart';
+import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_divider/custom_divider.dart';
+import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_expansion_panel/custom_expansion_panel.dart';
+import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_textfromfield/custom_textformfield.dart';
 import 'package:get/get.dart';
 
 class RegisterData {
@@ -110,4 +114,43 @@ class RegisterHelper extends GetxController {
     ),
   ].obs;
   final int lengthList = 12;
+  generetePanelItems() {
+    List panelItem = [
+      ExpansionPanelItem(
+        title: "Identity Additionals",
+        body: Obx(
+          () => CustomCardWithHeader(
+            header: "Identity Add",
+            fontzise: 18.0,
+            fontweight: FontWeight.bold,
+            divider: const CustomDivider(
+              space: 20.0,
+            ),
+            children: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: List.generate(
+                3,
+                (index) {
+                  index = index + 6;
+                  return CustomTextFormField(
+                    label: registerList[index].label,
+                    controller: registerList[index].controller,
+                    verification: registerList[index].verification,
+                    keyboardType: registerList[index].type,
+                    onSave: (value) => print(value),
+                  );
+                },
+              ).toList(),
+            ),
+          ),
+        ),
+      ),
+    ].obs;
+    return panelItem;
+  }
+
+  togglePanel(int index, List panelItems) {
+    panelItems[index].isExpanded.value = !panelItems[index].isExpanded.value;
+    print(panelItems[index].isExpanded);
+  }
 }

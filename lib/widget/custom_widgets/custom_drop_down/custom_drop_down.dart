@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
 class CustomDropDown extends StatelessWidget {
-  const CustomDropDown(
-      {super.key,
-      required this.list,
-      required this.label,
-      required this.controller,
-      required this.verification,
-      required this.errorText,
-      this.menuHeight,
-      this.width});
+  const CustomDropDown({
+    super.key,
+    required this.list,
+    required this.label,
+    required this.controller,
+    required this.verification,
+    required this.errorText,
+    this.menuHeight,
+    this.width,
+  });
   final String label;
   final List<String> list;
   final TextEditingController controller;

@@ -3,6 +3,7 @@ import 'package:flutter_praktek_dokter/helpers/auth/register_helper.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_button/custom_filled_button.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_card/custom_card.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_divider/custom_divider.dart';
+import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_expansion_panel/custom_expansion_panel.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_textfromfield/custom_textformfield.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List _panelItems = _registerHelper.generetePanelItems();
     return LayoutBuilder(
       builder: (context, constraint) {
         return SingleChildScrollView(
@@ -27,9 +29,12 @@ class RegisterScreen extends StatelessWidget {
                   children: [
                     Obx(
                       () => Wrap(
+                        runSpacing: 10.0,
                         children: [
                           CustomCardWithHeader(
                             header: "Autentikasi",
+                            fontzise: 18.0,
+                            fontweight: FontWeight.bold,
                             divider: const CustomDivider(
                               space: 20.0,
                             ),
@@ -50,7 +55,9 @@ class RegisterScreen extends StatelessWidget {
                             ),
                           ),
                           CustomCardWithHeader(
-                            header: "Autentikasi",
+                            header: "Identity",
+                            fontzise: 18.0,
+                            fontweight: FontWeight.bold,
                             divider: const CustomDivider(
                               space: 20.0,
                             ),
@@ -75,12 +82,32 @@ class RegisterScreen extends StatelessWidget {
                               ).toList(),
                             ),
                           ),
+                          CustomExpandableWidget(
+                            expansionCallback: (int index, bool isExpanded) {
+                              _registerHelper.togglePanel(index, _panelItems);
+                            },
+                            children: List.generate(
+                              _panelItems.length,
+                              (index) => ExpansionPanel(
+                                headerBuilder: ((context, isExpanded) =>
+                                    ListTile(
+                                      title: Text(_panelItems[index].title),
+                                    )),
+                                body: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: _panelItems[index].body,
+                                ),
+                                isExpanded: _panelItems[index].isExpanded,
+                                canTapOnHeader: true,
+                              ),
+                            ),
+                          )
                         ],
                       ),
                     ),
                     const Gap(8.0),
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const CustomFilledButton(label: "Submit"),
                         TextButton(
@@ -90,7 +117,7 @@ class RegisterScreen extends StatelessWidget {
                           child: const Text("Cancel"),
                         ),
                       ],
-                    )
+                    ),
                   ],
                 ),
               ),

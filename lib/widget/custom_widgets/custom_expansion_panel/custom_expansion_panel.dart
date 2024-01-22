@@ -25,7 +25,7 @@ class CustomExpandableWidget extends StatelessWidget {
     return SingleChildScrollView(
       child: ExpansionPanelList(
         expansionCallback: expansionCallback,
-        children: children,
+        children: children.toList(),
       ),
     );
   }
