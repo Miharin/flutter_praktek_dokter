@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_praktek_dokter/helpers/auth/auth_helper.dart';
 import 'package:flutter_praktek_dokter/screens/protected/protected_screen.dart';
-import 'package:flutter_praktek_dokter/widget/custom_button/custom_filled_button.dart';
+import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_button/custom_filled_button.dart';
 import 'package:get/get.dart';
 
 class DashboardScreen extends StatelessWidget {

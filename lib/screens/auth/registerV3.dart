@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_praktek_dokter/widget/custom_text_field/custom_text_field.dart';
+import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_text_field/custom_text_field.dart';
 import 'package:gap/gap.dart';
 
 class RegisterV3 extends StatelessWidget {
