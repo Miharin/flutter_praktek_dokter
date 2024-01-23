@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_card/custom_card.dart';
-import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_divider/custom_divider.dart';
-import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_expansion_panel/custom_expansion_panel.dart';
-import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_textfromfield/custom_textformfield.dart';
+import 'package:http/http.dart';
 import 'package:get/get.dart';
 
 class RegisterData {
@@ -49,108 +46,68 @@ class RegisterHelper extends GetxController {
           "Password Wajib Diisi dan Panjang Password Harus Lebih Dari 8 Digit",
     ),
     RegisterData(
-      id: "NIK",
+      id: "Name",
       label: "Nama",
       controller: TextEditingController(),
-      errorMessage:
-          "NIK Wajib Diisi dan Panjang NIK Harus Sama Dengan 16 Digit",
+      errorMessage: "Nama Wajib Diisi",
     ),
     RegisterData(
-      id: "NIK",
+      id: "Location_Birth",
       label: "Tempat Lahir",
       controller: TextEditingController(),
-      errorMessage:
-          "NIK Wajib Diisi dan Panjang NIK Harus Sama Dengan 16 Digit",
+      errorMessage: "Tempat Lahir Wajib Diisi",
     ),
     RegisterData(
-      id: "NIK",
+      id: "Date_Birth",
       label: "Tanggal Lahir",
       controller: TextEditingController(),
-      errorMessage:
-          "NIK Wajib Diisi dan Panjang NIK Harus Sama Dengan 16 Digit",
+      errorMessage: "Tanggal Lahir Wajib Diisi",
       type: TextInputType.datetime,
     ),
     RegisterData(
-      id: "NIK",
-      label: "NIK",
+      id: "RT",
+      label: "RT",
       controller: TextEditingController(),
-      errorMessage:
-          "NIK Wajib Diisi dan Panjang NIK Harus Sama Dengan 16 Digit",
+      errorMessage: "",
     ),
     RegisterData(
-      id: "NIK",
-      label: "NIK",
+      id: "RW",
+      label: "RW",
       controller: TextEditingController(),
-      errorMessage:
-          "NIK Wajib Diisi dan Panjang NIK Harus Sama Dengan 16 Digit",
+      errorMessage: "",
     ),
     RegisterData(
-      id: "NIK",
-      label: "NIK",
+      id: "Desa",
+      label: "Kelurahan / Desa",
       controller: TextEditingController(),
-      errorMessage:
-          "NIK Wajib Diisi dan Panjang NIK Harus Sama Dengan 16 Digit",
+      errorMessage: "",
     ),
     RegisterData(
-      id: "NIK",
-      label: "NIK",
+      id: "Kecamatan",
+      label: "Kecamatan",
       controller: TextEditingController(),
-      errorMessage:
-          "NIK Wajib Diisi dan Panjang NIK Harus Sama Dengan 16 Digit",
+      errorMessage: "",
     ),
     RegisterData(
-      id: "NIK",
-      label: "NIK",
+      id: "Kota",
+      label: "Kota / Kabupaten",
       controller: TextEditingController(),
-      errorMessage:
-          "NIK Wajib Diisi dan Panjang NIK Harus Sama Dengan 16 Digit",
+      errorMessage: "",
     ),
     RegisterData(
-      id: "NIK",
-      label: "NIK",
+      id: "Code_Pos",
+      label: "Kode Pos",
       controller: TextEditingController(),
-      errorMessage:
-          "NIK Wajib Diisi dan Panjang NIK Harus Sama Dengan 16 Digit",
+      errorMessage: "",
     ),
   ].obs;
-  final int lengthList = 12;
-  generetePanelItems() {
-    List panelItem = [
-      ExpansionPanelItem(
-        title: "Identity Additionals",
-        body: Obx(
-          () => CustomCardWithHeader(
-            header: "Identity Add",
-            fontzise: 18.0,
-            fontweight: FontWeight.bold,
-            divider: const CustomDivider(
-              space: 20.0,
-            ),
-            children: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: List.generate(
-                3,
-                (index) {
-                  index = index + 6;
-                  return CustomTextFormField(
-                    label: registerList[index].label,
-                    controller: registerList[index].controller,
-                    verification: registerList[index].verification,
-                    keyboardType: registerList[index].type,
-                    onSave: (value) => print(value),
-                  );
-                },
-              ).toList(),
-            ),
-          ),
-        ),
-      ),
-    ].obs;
-    return panelItem;
-  }
 
-  togglePanel(int index, List panelItems) {
-    panelItems[index].isExpanded.value = !panelItems[index].isExpanded.value;
-    print(panelItems[index].isExpanded);
+  getDataFromAPI() async {
+    final provinces = await get(
+      Uri.parse(
+          "https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json"),
+    );
+    print(provinces.statusCode);
+    print(provinces.body);
   }
 }

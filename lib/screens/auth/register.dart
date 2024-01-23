@@ -3,7 +3,6 @@ import 'package:flutter_praktek_dokter/helpers/auth/register_helper.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_button/custom_filled_button.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_card/custom_card.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_divider/custom_divider.dart';
-import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_expansion_panel/custom_expansion_panel.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_textfromfield/custom_textformfield.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -15,7 +14,7 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List _panelItems = _registerHelper.generetePanelItems();
+    _registerHelper.getDataFromAPI();
     return LayoutBuilder(
       builder: (context, constraint) {
         return SingleChildScrollView(
@@ -82,26 +81,58 @@ class RegisterScreen extends StatelessWidget {
                               ).toList(),
                             ),
                           ),
-                          CustomExpandableWidget(
-                            expansionCallback: (int index, bool isExpanded) {
-                              _registerHelper.togglePanel(index, _panelItems);
-                            },
-                            children: List.generate(
-                              _panelItems.length,
-                              (index) => ExpansionPanel(
-                                headerBuilder: ((context, isExpanded) =>
-                                    ListTile(
-                                      title: Text(_panelItems[index].title),
-                                    )),
-                                body: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: _panelItems[index].body,
-                                ),
-                                isExpanded: _panelItems[index].isExpanded,
-                                canTapOnHeader: true,
-                              ),
-                            ),
-                          )
+                          ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: 1,
+                              itemBuilder: (context, index) {
+                                return ExpansionTile(
+                                  title: const Text("Identity Addon"),
+                                  children: [
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: List.generate(
+                                        3,
+                                        (index) {
+                                          index = index + 6;
+                                          return CustomTextFormField(
+                                            label: _registerHelper
+                                                .registerList[index].label,
+                                            controller: _registerHelper
+                                                .registerList[index].controller,
+                                            verification: _registerHelper
+                                                .registerList[index]
+                                                .verification,
+                                            keyboardType: _registerHelper
+                                                .registerList[index].type,
+                                            onSave: (value) => print(value),
+                                          );
+                                        },
+                                      ).toList(),
+                                    ),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: List.generate(
+                                        3,
+                                        (index) {
+                                          index = index + 9;
+                                          return CustomTextFormField(
+                                            label: _registerHelper
+                                                .registerList[index].label,
+                                            controller: _registerHelper
+                                                .registerList[index].controller,
+                                            verification: _registerHelper
+                                                .registerList[index]
+                                                .verification,
+                                            keyboardType: _registerHelper
+                                                .registerList[index].type,
+                                            onSave: (value) => print(value),
+                                          );
+                                        },
+                                      ).toList(),
+                                    ),
+                                  ],
+                                );
+                              }),
                         ],
                       ),
                     ),
