@@ -11,33 +11,37 @@ class CustomFilledButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Return if icon not Null Then Set Widget To FillledButton.icon
-    return icon != null
-        ? FilledButton.icon(
-            label: Text(label),
-            icon: icon!,
-            style: FilledButton.styleFrom(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10.0),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8.0, 0.0, 4.0, 8.0),
+      child: icon != null
+          ? FilledButton.icon(
+              label: Text(label),
+              icon: icon!,
+              style: FilledButton.styleFrom(
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.0),
+                  ),
                 ),
+                fixedSize: width,
+                minimumSize: const Size.fromHeight(40.0),
               ),
-              fixedSize: width,
-            ),
-            onPressed: onPressed,
-          )
+              onPressed: onPressed,
+            )
 
-        // Otherwise Set Widget To FilledButton
-        : FilledButton(
-            style: FilledButton.styleFrom(
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10.0),
+          // Otherwise Set Widget To FilledButton
+          : FilledButton(
+              style: FilledButton.styleFrom(
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.0),
+                  ),
                 ),
+                fixedSize: width,
               ),
-              fixedSize: width,
+              onPressed: onPressed ?? () {},
+              child: Text(label),
             ),
-            onPressed: onPressed ?? () {},
-            child: Text(label),
-          );
+    );
   }
 }

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_divider/custom_dialog/custom_dialog.dart';
+import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_textfromfield/custom_textformfield.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
 import 'package:flutter_praktek_dokter/helpers/auth/auth_helper.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_button/custom_filled_button.dart';
-import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_text_field/custom_text_field.dart';
+// import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_text_field/custom_text_field.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -21,39 +22,39 @@ class LoginScreen extends StatelessWidget {
         minWidth: constraint.maxWidth > 500 ? 500 : constraint.maxWidth * 0.8,
       );
 
-      // Constrained For Button
-      var constrainedButton = constraint.maxWidth > 500.0
-          ? const Size(500.0, 50.0)
-          : Size(
-              constraint.maxWidth * 0.8,
-              40.0,
-            );
-
       // Custom Dialog
       var customDialog = CustomDialog(
         title: "Please Input Token !",
-        content: Obx(
-          () => CustomTextField(
-              label: "Token",
-              constraints: constrained,
-              icon: Icons.password,
-              suffixIcon: IconButton(
-                icon: Icon(_authController.showToken.value
-                    ? Icons.visibility_off
-                    : Icons.visibility),
-                onPressed: () => _authController.showTokenToggle(),
-              ),
-              obscureText: _authController.showToken.value ? false : true,
-              onChanged: (value) => _authController.setAuth(
+        content: ConstrainedBox(
+          constraints: constrained,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Obx(
+                () => CustomTextFormField(
+                  label: "Token",
+                  icon: Icons.password,
+                  suffixIcon: IconButton(
+                    icon: Icon(_authController.showToken.value
+                        ? Icons.visibility_off
+                        : Icons.visibility),
+                    onPressed: () => _authController.showTokenToggle(),
+                  ),
+                  obscureText: _authController.showToken.value ? false : true,
+                  onSave: (value) => _authController.setAuth(
                     'token',
                     _authController.tokenController.text,
                     _authController.tokenController.text.isNotEmpty &&
                         _authController.tokenController.text.length >= 10,
                   ),
-              controller: _authController.tokenController,
-              verification: _authController.tokenVerification.value,
-              errorText:
-                  "Token Harus Memiliki Panjang Minimal 10 Karakter atau Numerik"),
+                  controller: _authController.tokenController,
+                  verification: _authController.tokenVerification.value,
+                  errorMessage:
+                      "Token Harus Memiliki Panjang Minimal 10 Karakter atau Numerik",
+                ),
+              ),
+            ],
+          ),
         ),
         actions: [
           TextButton(
@@ -76,91 +77,114 @@ class LoginScreen extends StatelessWidget {
         ],
       );
 
-      // All Text Fields
-      var textFields = Obx(() => Column(
-            children: [
-              CustomTextField(
-                controller: _authController.emailController,
-                label: "Email",
-                onChanged: (value) => _authController.setAuth(
-                  'email',
-                  _authController.emailController.text,
-                  _authController.emailController.text.isEmail,
-                ),
-                verification: _authController.emailVerification.value,
-                errorText: "Format Email Tidak Sesuai",
-                constraints: constrained,
-                icon: Icons.email_rounded,
-              ),
-              const Gap(10.0),
-              CustomTextField(
-                controller: _authController.passwordController,
-                label: "Password",
-                onChanged: (value) => _authController.setAuth(
-                  'password',
-                  _authController.passwordController.text,
-                  _authController.passwordController.text.length > 8,
-                ),
-                verification: _authController.passwordVerification.value,
-                errorText:
-                    "Password Harus Memiliki Panjang Minimal 8 Karakter atau Numerik",
-                constraints: constrained,
-                icon: Icons.lock_rounded,
-                suffixIcon: IconButton(
-                  icon: Icon(_authController.showPassword.value
-                      ? Icons.visibility_off
-                      : Icons.visibility),
-                  onPressed: () => _authController.showPasswordToggle(),
-                ),
-                obscureText: _authController.showPassword.value ? false : true,
-              ),
-            ],
-          ));
-
       // Return
       return Center(
-        child: Card(
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Header
-                const Text(
-                  "Login",
-                  style: TextStyle(
-                    fontSize: 30.0,
-                    fontWeight: FontWeight.w700,
+        child: ConstrainedBox(
+          constraints: constrained,
+          child: Card(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Header
+                  const Text(
+                    "Login",
+                    style: TextStyle(
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
-                ),
 
-                // Text Field and Button with Constrained Box
-                ConstrainedBox(
-                  constraints: constrained,
-                  child: const Divider(
-                    indent: 3.0,
-                    endIndent: 3.0,
+                  // Text Field and Button with Constrained Box
+                  ConstrainedBox(
+                    constraints: constrained,
+                    child: const Divider(
+                      indent: 3.0,
+                      endIndent: 3.0,
+                    ),
                   ),
-                ),
-                const Gap(5.0),
+                  const Gap(5.0),
 
-                // Email and Password Text Field with Map
-                textFields,
-                const Gap(10.0),
-
-                // Button to Input Token
-                Obx(
-                  () => CustomFilledButton(
-                    label: "Login",
-                    icon: const Icon(Icons.login_rounded),
-                    width: constrainedButton,
-                    onPressed: _authController.disabledLoginButton.value
-                        ? null
-                        : () => Get.dialog(customDialog),
+                  // Email and Password Text Field with Map
+                  // textFields,
+                  Obx(
+                    () => Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: List.generate(_authController.loginList.length,
+                          (index) {
+                        bool isPassword =
+                            _authController.loginList[index].id == "password";
+                        return CustomTextFormField(
+                          label: _authController.loginList[index].label,
+                          icon: _authController.loginList[index].icon,
+                          controller:
+                              _authController.loginList[index].controller,
+                          verification: _authController
+                              .loginList[index].verification.value,
+                          obscureText:
+                              _authController.loginList[index].obscureText,
+                          suffixIcon: isPassword
+                              ? IconButton(
+                                  icon: Icon(_authController.showPassword.value
+                                      ? Icons.visibility_off
+                                      : Icons.visibility),
+                                  onPressed: () =>
+                                      _authController.showPasswordToggle(),
+                                )
+                              : null,
+                          errorMessage:
+                              _authController.loginList[index].errorMessage,
+                          onSave: (value) {
+                            if (!isPassword) {
+                              if (value!.isEmail) {
+                                _authController
+                                    .loginList[index].verification.value = true;
+                              } else {
+                                _authController.loginList[index].verification
+                                    .value = false;
+                              }
+                            } else {
+                              if (value!.length >= 8) {
+                                _authController
+                                    .loginList[index].verification.value = true;
+                              } else {
+                                _authController.loginList[index].verification
+                                    .value = false;
+                              }
+                            }
+                            List checkVerification = List.generate(
+                              _authController.loginList.length,
+                              (index) => _authController
+                                  .loginList[index].verification.value,
+                            );
+                            if (checkVerification.every((element) => element)) {
+                              _authController.disabledLoginButton.value = false;
+                            } else {
+                              _authController.disabledLoginButton.value = true;
+                            }
+                          },
+                        );
+                      }).toList(),
+                    ),
                   ),
-                )
-              ],
+                  const Gap(10.0),
+
+                  // Button to Input Token
+                  Flexible(
+                    child: Obx(
+                      () => CustomFilledButton(
+                        label: "Login",
+                        icon: const Icon(Icons.login_rounded),
+                        onPressed: _authController.disabledLoginButton.value
+                            ? null
+                            : () => Get.dialog(customDialog),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

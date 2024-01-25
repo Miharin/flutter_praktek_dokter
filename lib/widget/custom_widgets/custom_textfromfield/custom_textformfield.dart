@@ -43,7 +43,7 @@ class CustomTextFormField extends StatelessWidget {
   final IconData? icon;
 
   // Icon Inside Text Form Field
-  final IconData? suffixIcon;
+  final IconButton? suffixIcon;
 
 // Error Properties
 
@@ -81,7 +81,6 @@ class CustomTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     // Search if Error Verification true or false
     bool errorVerification = !verification && controller.text.isNotEmpty;
-
     // return Text Form Field
     return Flexible(
       flex: 1,
@@ -92,6 +91,7 @@ class CustomTextFormField extends StatelessWidget {
           inputFormatters: keyboardType == TextInputType.number
               ? [FilteringTextInputFormatter.digitsOnly]
               : [],
+          onChanged: onSave,
           // if Date Time onTap Popup Date Picker
           onTap: () async {
             if (keyboardType == TextInputType.datetime) {
@@ -116,7 +116,7 @@ class CustomTextFormField extends StatelessWidget {
                 ? Icon(
                     controller.text.isNotEmpty
                         ? !verification
-                            ? icon
+                            ? Icons.close_rounded
                             : Icons.check
                         : icon,
                     // If Text is Empty Set Colors to Black
@@ -128,7 +128,7 @@ class CustomTextFormField extends StatelessWidget {
                         : Colors.black,
                   )
                 : null,
-            suffixIcon: Icon(suffixIcon),
+            suffixIcon: suffixIcon,
             border: border ?? defaultBorder,
             label: Text(label),
             // If errorVerificationFinal == true then send errorText and error Border
@@ -137,7 +137,6 @@ class CustomTextFormField extends StatelessWidget {
                 errorVerification ? errorBorder ?? defaultErrorBorder : null,
           ),
           controller: controller,
-          onSaved: onSave,
         ),
       ),
     );

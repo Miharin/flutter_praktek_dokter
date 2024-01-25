@@ -6,7 +6,51 @@ import 'package:flutter/material.dart';
 import 'package:flutter_praktek_dokter/models/user/authentication_model.dart';
 import 'package:get/get.dart';
 
+class AuthField {
+  final String id;
+  final String label;
+  bool obscureText;
+  final TextEditingController controller;
+  final TextInputType type;
+  RxBool verification;
+  final String errorMessage;
+  final IconData? icon;
+  final Function(String?)? onSave;
+  final bool showIcon;
+
+  AuthField({
+    required this.id,
+    required this.label,
+    required this.controller,
+    this.onSave,
+    this.obscureText = false,
+    this.errorMessage = "",
+    this.icon,
+    this.type = TextInputType.text,
+    this.showIcon = false,
+  }) : verification = false.obs;
+}
+
 class AuthHelper extends GetxController {
+  final List<AuthField> loginList = [
+    AuthField(
+      id: "email",
+      label: "Email",
+      icon: Icons.email_rounded,
+      showIcon: true,
+      controller: TextEditingController(),
+      errorMessage: "Email Tidak Sesuai Format",
+    ),
+    AuthField(
+      id: "password",
+      label: "Password",
+      obscureText: true,
+      icon: Icons.lock_rounded,
+      showIcon: true,
+      controller: TextEditingController(),
+      errorMessage: "Password Wajib Diisi dan Minimal Terdiri dari 8 Digit",
+    ),
+  ].obs;
   var auth = {
     'email': '',
     'password': '',
@@ -16,6 +60,9 @@ class AuthHelper extends GetxController {
   var db = FirebaseFirestore.instance;
 
   var userIsLogin = false.obs;
+
+  final List<TextEditingController> controllers =
+      List.generate(3, (index) => TextEditingController()).toList();
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -32,6 +79,11 @@ class AuthHelper extends GetxController {
 
   showPasswordToggle() {
     showPassword.value = !showPassword.value;
+    for (var login in loginList) {
+      if (login.id == "password") {
+        login.obscureText = !login.obscureText;
+      }
+    }
   }
 
   showTokenToggle() {
