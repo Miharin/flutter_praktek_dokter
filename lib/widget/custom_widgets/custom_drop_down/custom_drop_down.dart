@@ -22,7 +22,7 @@ class CustomDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var errorVerificationFinal = !verification && controller.text.isNotEmpty;
+    // var errorVerificationFinal = !verification && controller.text.isNotEmpty;
     return LayoutBuilder(builder: (context, constraints) {
       return DropdownMenu<String>(
         controller: TextEditingController(),

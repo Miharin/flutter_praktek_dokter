@@ -138,6 +138,10 @@ class AuthHelper extends GetxController {
         final query = users.doc(userCredential.user!.uid).get();
 
         await query.then((userData) async {
+          // Catch if User Data if Empty
+          print(userData);
+
+          // If UserData is Not Empty Next();
           final data = userData.data()!;
           final user = AuthenticationModel.fromJson(data);
           if (user.token == auth["token"]) {
@@ -153,8 +157,12 @@ class AuthHelper extends GetxController {
           }
         });
       });
-    } catch (error) {
-      debugPrint(error.toString());
+    } on FirebaseAuthException catch (error) {
+      if (error.code == "user-not-found") {
+        print("No User Friend for That Email !");
+      } else if (error.code == 'wrong-password') {
+        print("Wrong Password Provided for That User !");
+      }
     }
   }
 
