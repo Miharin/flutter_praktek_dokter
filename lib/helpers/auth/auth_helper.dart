@@ -32,7 +32,7 @@ class AuthField {
 }
 
 class AuthHelper extends GetxController {
-  final List<AuthField> loginList = [
+  final RxList<AuthField> loginList = [
     AuthField(
       id: "email",
       label: "Email",
@@ -49,6 +49,18 @@ class AuthHelper extends GetxController {
       showIcon: true,
       controller: TextEditingController(),
       errorMessage: "Password Wajib Diisi dan Minimal Terdiri dari 8 Digit",
+    ),
+  ].obs;
+
+  final RxList<AuthField> tokenList = [
+    AuthField(
+      id: "token",
+      label: "Token",
+      obscureText: true,
+      icon: Icons.password_rounded,
+      showIcon: true,
+      controller: TextEditingController(),
+      errorMessage: "Token Wajib Diisi dan Minimat Terdiri dari 10 Digit",
     ),
   ].obs;
   var auth = {
@@ -76,6 +88,11 @@ class AuthHelper extends GetxController {
 
   var showPassword = false.obs;
   var showToken = false.obs;
+
+  toggleObscure(AuthField field) {
+    field.obscureText = !field.obscureText;
+    loginList.refresh();
+  }
 
   showPasswordToggle() {
     showPassword.value = !showPassword.value;
@@ -130,8 +147,8 @@ class AuthHelper extends GetxController {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(
-        email: auth['email']!,
-        password: auth['password']!,
+        email: loginList[0].controller.text,
+        password: loginList[1].controller.text,
       )
           .then((userCredential) async {
         final users = db.collection("Users");

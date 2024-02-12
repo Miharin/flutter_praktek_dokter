@@ -32,8 +32,8 @@ class LoginScreen extends StatelessWidget {
             children: [
               Obx(
                 () => CustomTextFormField(
-                  label: "Token",
-                  icon: Icons.password,
+                  label: _authController.tokenList[0].label,
+                  icon: _authController.tokenList[0].icon,
                   suffixIcon: IconButton(
                     icon: Icon(_authController.showToken.value
                         ? Icons.visibility_off
@@ -41,16 +41,16 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () => _authController.showTokenToggle(),
                   ),
                   obscureText: _authController.showToken.value ? false : true,
-                  onSave: (value) => _authController.setAuth(
-                    'token',
-                    _authController.tokenController.text,
-                    _authController.tokenController.text.isNotEmpty &&
-                        _authController.tokenController.text.length >= 10,
-                  ),
-                  controller: _authController.tokenController,
-                  verification: _authController.tokenVerification.value,
-                  errorMessage:
-                      "Token Harus Memiliki Panjang Minimal 10 Karakter atau Numerik",
+                  onSave: (value) {
+                    if (value!.isNotEmpty && value.length >= 10) {
+                      _authController.tokenList[0].verification.value = true;
+                    } else {
+                      _authController.tokenList[0].verification.value = false;
+                    }
+                  },
+                  controller: _authController.tokenList[0].controller,
+                  verification: _authController.tokenList[0].verification.value,
+                  errorMessage: _authController.tokenList[0].errorMessage,
                 ),
               ),
             ],
@@ -65,12 +65,12 @@ class LoginScreen extends StatelessWidget {
           ),
           Obx(
             () => TextButton(
-              onPressed: _authController.disabledTokenButton.value
-                  ? null
-                  : () {
+              onPressed: _authController.tokenList[0].verification.value
+                  ? () {
                       _authController.signIn();
                       Get.back();
-                    },
+                    }
+                  : null,
               child: const Text("Login"),
             ),
           ),
@@ -109,14 +109,14 @@ class LoginScreen extends StatelessWidget {
 
                   // Email and Password Text Field with Map
                   // textFields,
-                  Obx(
-                    () => Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: List.generate(_authController.loginList.length,
-                          (index) {
-                        bool isPassword =
-                            _authController.loginList[index].id == "password";
-                        return CustomTextFormField(
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: List.generate(_authController.loginList.length,
+                        (index) {
+                      bool isPassword =
+                          _authController.loginList[index].id == "password";
+                      return Obx(
+                        () => CustomTextFormField(
                           label: _authController.loginList[index].label,
                           icon: _authController.loginList[index].icon,
                           controller:
@@ -127,11 +127,16 @@ class LoginScreen extends StatelessWidget {
                               _authController.loginList[index].obscureText,
                           suffixIcon: isPassword
                               ? IconButton(
-                                  icon: Icon(_authController.showPassword.value
-                                      ? Icons.visibility_off
-                                      : Icons.visibility),
-                                  onPressed: () =>
-                                      _authController.showPasswordToggle(),
+                                  icon: Icon(
+                                    !_authController
+                                            .loginList[index].obscureText
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                  ),
+                                  onPressed: () {
+                                    _authController.toggleObscure(
+                                        _authController.loginList[index]);
+                                  },
                                 )
                               : null,
                           errorMessage:
@@ -165,9 +170,9 @@ class LoginScreen extends StatelessWidget {
                               _authController.disabledLoginButton.value = true;
                             }
                           },
-                        );
-                      }).toList(),
-                    ),
+                        ),
+                      );
+                    }).toList(),
                   ),
                   const Gap(10.0),
 
