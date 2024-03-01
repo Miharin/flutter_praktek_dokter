@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:get/get.dart';
@@ -21,6 +24,22 @@ class RegisterData {
     this.type = TextInputType.text,
     this.showIcon = false,
   }) : verification = false.obs.value;
+}
+
+class Provinces {
+  final String provinces;
+  final String provincesid;
+
+  Provinces(this.provinces, this.provincesid);
+
+  Provinces.fromJson(Map<String, dynamic> json)
+      : provinces = json["name"] as String,
+        provincesid = json["id"] as String;
+
+  Map<String, dynamic> toJson() => {
+        "Provinces": provinces,
+        "ProvincesId": provincesid,
+      };
 }
 
 class RegisterHelper extends GetxController {
@@ -65,8 +84,8 @@ class RegisterHelper extends GetxController {
       type: TextInputType.datetime,
     ),
     RegisterData(
-      id: "RT",
-      label: "RT",
+      id: "Provinces",
+      label: "Provinsi",
       controller: TextEditingController(),
       errorMessage: "",
     ),
@@ -106,8 +125,11 @@ class RegisterHelper extends GetxController {
     final provinces = await get(
       Uri.parse(
           "https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json"),
-    );
-    print(provinces.statusCode);
-    print(provinces.body);
+    ).then((value) => jsonDecode(value.body) as List<dynamic>);
+    final listProvinces = List.generate(
+            provinces.length, (index) => Provinces.fromJson(provinces[index]))
+        .toList();
+    print(listProvinces[0].provincesid);
+    for (var i = 0; i < listProvinces.length; i++) {}
   }
 }
