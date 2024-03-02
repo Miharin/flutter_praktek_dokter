@@ -8,36 +8,29 @@ class CustomDropDown extends StatelessWidget {
     required this.controller,
     required this.verification,
     required this.errorText,
-    this.menuHeight,
-    this.width,
   });
   final String label;
-  final List<String> list;
+  final List<dynamic> list;
   final TextEditingController controller;
   final bool verification;
-  final String errorText;
-
-  final double? menuHeight;
-  final double? width;
+  final String? errorText;
 
   @override
   Widget build(BuildContext context) {
     // var errorVerificationFinal = !verification && controller.text.isNotEmpty;
-    return LayoutBuilder(builder: (context, constraints) {
-      return DropdownMenu<String>(
-        controller: TextEditingController(),
-        width: width,
-        menuHeight: menuHeight,
-        inputDecorationTheme: const InputDecorationTheme(
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10.0)))),
-        label: Text(label),
-        onSelected: (String? value) {},
-        dropdownMenuEntries:
-            list.map<DropdownMenuEntry<String>>((String value) {
-          return DropdownMenuEntry<String>(value: value, label: value);
-        }).toList(),
-      );
-    });
+    return DropdownMenu<String>(
+      controller: controller,
+      expandedInsets: EdgeInsets.zero,
+      menuHeight: MediaQuery.of(context).size.height * 0.35,
+      enableFilter: true,
+      inputDecorationTheme: const InputDecorationTheme(
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10.0)))),
+      label: Text(label),
+      onSelected: (String? value) {},
+      dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((dynamic value) {
+        return DropdownMenuEntry<String>(value: value.id, label: value.name);
+      }).toList(),
+    );
   }
 }

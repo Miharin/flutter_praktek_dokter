@@ -1,6 +1,22 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:get/get.dart';
+
+class Place {
+  final String id;
+  final String name;
+
+  Place({
+    required this.id,
+    required this.name,
+  });
+
+  Place.fromJson(Map<String, dynamic> json)
+      : id = json['id'] as String,
+        name = json['name'] as String;
+}
 
 class RegisterData {
   final String id;
@@ -65,20 +81,14 @@ class RegisterHelper extends GetxController {
       type: TextInputType.datetime,
     ),
     RegisterData(
-      id: "RT",
-      label: "RT",
+      id: "Province",
+      label: "Provinsi",
       controller: TextEditingController(),
       errorMessage: "",
     ),
     RegisterData(
-      id: "RW",
-      label: "RW",
-      controller: TextEditingController(),
-      errorMessage: "",
-    ),
-    RegisterData(
-      id: "Desa",
-      label: "Kelurahan / Desa",
+      id: "Kota",
+      label: "Kota / Kabupaten",
       controller: TextEditingController(),
       errorMessage: "",
     ),
@@ -89,8 +99,20 @@ class RegisterHelper extends GetxController {
       errorMessage: "",
     ),
     RegisterData(
-      id: "Kota",
-      label: "Kota / Kabupaten",
+      id: "Desa",
+      label: "Kelurahan / Desa",
+      controller: TextEditingController(),
+      errorMessage: "",
+    ),
+    RegisterData(
+      id: "RT",
+      label: "RT",
+      controller: TextEditingController(),
+      errorMessage: "",
+    ),
+    RegisterData(
+      id: "RW",
+      label: "RW",
       controller: TextEditingController(),
       errorMessage: "",
     ),
@@ -106,8 +128,11 @@ class RegisterHelper extends GetxController {
     final provinces = await get(
       Uri.parse(
           "https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json"),
-    );
-    print(provinces.statusCode);
-    print(provinces.body);
+    ).then((value) => jsonDecode(value.body));
+    final place = [];
+    for (var province in provinces) {
+      place.add(Place.fromJson(province));
+    }
+    return place;
   }
 }

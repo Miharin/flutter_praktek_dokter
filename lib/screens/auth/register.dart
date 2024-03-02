@@ -88,6 +88,7 @@ class RegisterScreen extends StatelessWidget {
                                 return ExpansionTile(
                                   title: const Text("Identity Addon"),
                                   children: [
+                                    const Gap(10.0),
                                     Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: List.generate(
@@ -112,7 +113,7 @@ class RegisterScreen extends StatelessWidget {
                                     Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: List.generate(
-                                        3,
+                                        4,
                                         (index) {
                                           index = index + 9;
                                           return CustomTextFormField(
