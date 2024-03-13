@@ -62,18 +62,21 @@ class CustomTextFormField extends StatelessWidget {
   final InputBorder? border;
 
   // Default Border If border is Null
-  final InputBorder defaultBorder = const OutlineInputBorder(
-    borderRadius: BorderRadius.all(
-      Radius.circular(10.0),
+  final InputBorder defaultBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(5.0),
+    borderSide: BorderSide(
+      color: Colors.grey[300]!,
+      width: 1.0,
     ),
   );
 
   // Error Border
-  final defaultErrorBorder = const OutlineInputBorder(
-    borderRadius: BorderRadius.all(
-      Radius.circular(10.0),
+  final defaultErrorBorder = OutlineInputBorder(
+    borderRadius: BorderRadius.circular(5.0),
+    borderSide: BorderSide(
+      color: Colors.red[300]!,
+      width: 1.0,
     ),
-    borderSide: BorderSide(color: Colors.red),
   );
 
   // Function

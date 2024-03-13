@@ -79,116 +79,179 @@ class LoginScreen extends StatelessWidget {
 
       // Return
       return Center(
-        child: ConstrainedBox(
-          constraints: constrained,
-          child: Card(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // Header
-                  const Text(
-                    "Login",
-                    style: TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-
-                  // Text Field and Button with Constrained Box
-                  ConstrainedBox(
-                    constraints: constrained,
-                    child: const Divider(
-                      indent: 3.0,
-                      endIndent: 3.0,
-                    ),
-                  ),
-                  const Gap(5.0),
-
-                  // Email and Password Text Field with Map
-                  // textFields,
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: List.generate(_authController.loginList.length,
-                        (index) {
-                      bool isPassword =
-                          _authController.loginList[index].id == "password";
-                      return Obx(
-                        () => CustomTextFormField(
-                          label: _authController.loginList[index].label,
-                          icon: _authController.loginList[index].icon,
-                          controller:
-                              _authController.loginList[index].controller,
-                          verification: _authController
-                              .loginList[index].verification.value,
-                          obscureText:
-                              _authController.loginList[index].obscureText,
-                          suffixIcon: isPassword
-                              ? IconButton(
-                                  icon: Icon(
-                                    !_authController
-                                            .loginList[index].obscureText
-                                        ? Icons.visibility_off
-                                        : Icons.visibility,
-                                  ),
-                                  onPressed: () {
-                                    _authController.toggleObscure(
-                                        _authController.loginList[index]);
-                                  },
-                                )
-                              : null,
-                          errorMessage:
-                              _authController.loginList[index].errorMessage,
-                          onSave: (value) {
-                            if (!isPassword) {
-                              if (value!.isEmail) {
-                                _authController
-                                    .loginList[index].verification.value = true;
-                              } else {
-                                _authController.loginList[index].verification
-                                    .value = false;
-                              }
-                            } else {
-                              if (value!.length >= 8) {
-                                _authController
-                                    .loginList[index].verification.value = true;
-                              } else {
-                                _authController.loginList[index].verification
-                                    .value = false;
-                              }
-                            }
-                            List checkVerification = List.generate(
-                              _authController.loginList.length,
-                              (index) => _authController
-                                  .loginList[index].verification.value,
-                            );
-                            if (checkVerification.every((element) => element)) {
-                              _authController.disabledLoginButton.value = false;
-                            } else {
-                              _authController.disabledLoginButton.value = true;
-                            }
-                          },
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                  const Gap(10.0),
-
-                  // Button to Input Token
-                  Flexible(
-                    child: Obx(
-                      () => CustomFilledButton(
-                        label: "Login",
-                        icon: const Icon(Icons.login_rounded),
-                        onPressed: _authController.disabledLoginButton.value
-                            ? null
-                            : () => Get.dialog(customDialog),
+        child: SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: constrained,
+            child: Card(
+              elevation: 0.0,
+              shape: RoundedRectangleBorder(
+                side: BorderSide(
+                  color: Colors.grey[200]!,
+                  width: 1.0,
+                ),
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // Header
+                    const Text(
+                      "Login",
+                      style: TextStyle(
+                        fontSize: 30.0,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
-                  )
-                ],
+
+                    const Gap(10.0),
+
+                    // Email and Password Text Field with Map
+                    // textFields,
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: List.generate(_authController.loginList.length,
+                          (index) {
+                        bool isPassword =
+                            _authController.loginList[index].id == "password";
+                        return Obx(
+                          () => CustomTextFormField(
+                            label: _authController.loginList[index].label,
+                            // icon: _authController.loginList[index].icon,
+                            controller:
+                                _authController.loginList[index].controller,
+                            verification: _authController
+                                .loginList[index].verification.value,
+                            obscureText:
+                                _authController.loginList[index].obscureText,
+                            suffixIcon: isPassword
+                                ? IconButton(
+                                    icon: Icon(
+                                      color: Colors.grey[400],
+                                      !_authController
+                                              .loginList[index].obscureText
+                                          ? Icons.visibility_off
+                                          : Icons.visibility,
+                                    ),
+                                    onPressed: () {
+                                      _authController.toggleObscure(
+                                          _authController.loginList[index]);
+                                    },
+                                  )
+                                : null,
+                            errorMessage:
+                                _authController.loginList[index].errorMessage,
+                            onSave: (value) {
+                              if (!isPassword) {
+                                if (value!.isEmail) {
+                                  _authController.loginList[index].verification
+                                      .value = true;
+                                } else {
+                                  _authController.loginList[index].verification
+                                      .value = false;
+                                }
+                              } else {
+                                if (value!.length >= 8) {
+                                  _authController.loginList[index].verification
+                                      .value = true;
+                                } else {
+                                  _authController.loginList[index].verification
+                                      .value = false;
+                                }
+                              }
+                              List checkVerification = List.generate(
+                                _authController.loginList.length,
+                                (index) => _authController
+                                    .loginList[index].verification.value,
+                              );
+                              if (checkVerification
+                                  .every((element) => element)) {
+                                _authController.disabledLoginButton.value =
+                                    false;
+                              } else {
+                                _authController.disabledLoginButton.value =
+                                    true;
+                              }
+                            },
+                          ),
+                        );
+                      }).toList(),
+                    ),
+                    const Gap(10.0),
+
+                    // Button to Input Token
+                    Flexible(
+                      child: Obx(
+                        () => CustomFilledButton(
+                          label: "Log In",
+                          // icon: const Icon(Icons.login_rounded),
+                          onPressed: _authController.disabledLoginButton.value
+                              ? null
+                              : () => Get.dialog(customDialog),
+                        ),
+                      ),
+                    ),
+                    const Gap(5.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                          style: ButtonStyle(
+                            overlayColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                                    (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.hovered)) {
+                                return Colors.transparent;
+                              }
+                              return Colors.transparent;
+                            }),
+                            foregroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                                    (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.hovered)) {
+                                return Theme.of(context).colorScheme.secondary;
+                              }
+                              return Theme.of(context).primaryColor;
+                            }),
+                          ),
+                          onPressed: () {},
+                          child: const Text("Lupa Password"),
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                          child: VerticalDivider(
+                            width: 0.5,
+                            color: Colors.grey[400],
+                          ),
+                        ),
+                        TextButton(
+                          style: ButtonStyle(
+                            overlayColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                                    (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.hovered)) {
+                                return Colors.transparent;
+                              }
+                              return Colors.transparent;
+                            }),
+                            foregroundColor:
+                                MaterialStateProperty.resolveWith<Color>(
+                                    (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.hovered)) {
+                                return Theme.of(context).colorScheme.secondary;
+                              }
+                              return Theme.of(context).primaryColor;
+                            }),
+                          ),
+                          onPressed: () {},
+                          child: const Text("Daftar Akun"),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
