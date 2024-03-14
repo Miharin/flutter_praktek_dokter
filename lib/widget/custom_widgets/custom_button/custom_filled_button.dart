@@ -20,11 +20,11 @@ class CustomFilledButton extends StatelessWidget {
               style: FilledButton.styleFrom(
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(
-                    Radius.circular(10.0),
+                    Radius.circular(5.0),
                   ),
                 ),
                 fixedSize: width,
-                minimumSize: const Size.fromHeight(40.0),
+                minimumSize: const Size.fromHeight(50.0),
               ),
               onPressed: onPressed,
             )
@@ -34,10 +34,11 @@ class CustomFilledButton extends StatelessWidget {
               style: FilledButton.styleFrom(
                 shape: const RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(
-                    Radius.circular(10.0),
+                    Radius.circular(5.0),
                   ),
                 ),
                 fixedSize: width,
+                minimumSize: const Size.fromHeight(50.0),
               ),
               onPressed: onPressed ?? () {},
               child: Text(label),
