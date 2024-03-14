@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_button/custom__text_button.dart';
+import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_card/custom_card.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_divider/custom_dialog/custom_dialog.dart';
+import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_divider/custom_divider.dart';
+import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_text/custom_text.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_textfromfield/custom_textformfield.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -82,15 +86,7 @@ class LoginScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: ConstrainedBox(
             constraints: constrained,
-            child: Card(
-              elevation: 0.0,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(
-                  color: Colors.grey[200]!,
-                  width: 1.0,
-                ),
-                borderRadius: BorderRadius.circular(15),
-              ),
+            child: FlatCard(
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
@@ -98,14 +94,7 @@ class LoginScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     // Header
-                    const Text(
-                      "Login",
-                      style: TextStyle(
-                        fontSize: 30.0,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-
+                    const Header(child: "Login"),
                     const Gap(10.0),
 
                     // Email and Password Text Field with Map
@@ -197,54 +186,14 @@ class LoginScreen extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TextButton(
-                          style: ButtonStyle(
-                            overlayColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                                    (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.hovered)) {
-                                return Colors.transparent;
-                              }
-                              return Colors.transparent;
-                            }),
-                            foregroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                                    (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.hovered)) {
-                                return Theme.of(context).colorScheme.secondary;
-                              }
-                              return Theme.of(context).primaryColor;
-                            }),
-                          ),
+                        CustomFlatTextButton(
                           onPressed: () {},
                           child: const Text("Lupa Password"),
                         ),
-                        SizedBox(
+                        const CustomVerticalDivider(
                           height: 20.0,
-                          child: VerticalDivider(
-                            width: 0.5,
-                            color: Colors.grey[400],
-                          ),
                         ),
-                        TextButton(
-                          style: ButtonStyle(
-                            overlayColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                                    (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.hovered)) {
-                                return Colors.transparent;
-                              }
-                              return Colors.transparent;
-                            }),
-                            foregroundColor:
-                                MaterialStateProperty.resolveWith<Color>(
-                                    (Set<MaterialState> states) {
-                              if (states.contains(MaterialState.hovered)) {
-                                return Theme.of(context).colorScheme.secondary;
-                              }
-                              return Theme.of(context).primaryColor;
-                            }),
-                          ),
+                        CustomFlatTextButton(
                           onPressed: () {},
                           child: const Text("Daftar Akun"),
                         ),

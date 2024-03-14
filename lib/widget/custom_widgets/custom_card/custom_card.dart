@@ -39,3 +39,26 @@ class CustomCardWithHeader extends StatelessWidget {
     );
   }
 }
+
+class FlatCard extends StatelessWidget {
+  const FlatCard({
+    super.key,
+    required this.child,
+  });
+
+  final Widget child;
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 0.0,
+      shape: RoundedRectangleBorder(
+        side: BorderSide(
+          color: Colors.grey[200]!,
+          width: 1.0,
+        ),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: child,
+    );
+  }
+}
