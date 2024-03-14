@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_praktek_dokter/helpers/auth/register_helper.dart';
@@ -9,7 +12,6 @@ class CustomTextFormField extends StatelessWidget {
   CustomTextFormField({
     super.key,
     required this.label,
-    required this.controller,
     required this.verification,
     this.keyboardType,
     this.obscureText,
@@ -26,7 +28,7 @@ class CustomTextFormField extends StatelessWidget {
 
 // Start Required Properties
   final String label;
-  final TextEditingController controller;
+  final TextEditingController controller = TextEditingController();
   final bool verification;
 
 // End Required Properties
@@ -94,7 +96,7 @@ class CustomTextFormField extends StatelessWidget {
       flex: 1,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(8.0, 0.0, 4.0, 8.0),
-        child: label == "Provinsi"
+        child: keyboardType == TextInputType.streetAddress
             ? FutureBuilder(
                 future: _registerHelper.getDataFromAPI(),
                 builder: (context, snapshot) {
@@ -139,7 +141,7 @@ class CustomTextFormField extends StatelessWidget {
                   // if Icon is Empty Then Null
                   prefixIcon: icon != null
                       ? Icon(
-                          controller.text.isNotEmpty
+                          controller!.text.isNotEmpty
                               ? !verification
                                   ? Icons.close_rounded
                                   : Icons.check

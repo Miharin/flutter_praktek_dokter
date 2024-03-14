@@ -20,17 +20,16 @@ class RegisterScreen extends StatelessWidget {
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Card(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Obx(
-                      () => Wrap(
-                        runSpacing: 10.0,
-                        children: [
-                          CustomCardWithHeader(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Obx(
+                    () => Wrap(
+                      runSpacing: 10.0,
+                      children: [
+                        CustomCardWithHeader(
                             header: "Autentikasi",
                             fontzise: 18.0,
                             fontweight: FontWeight.bold,
@@ -39,21 +38,25 @@ class RegisterScreen extends StatelessWidget {
                             ),
                             children: Row(
                               mainAxisSize: MainAxisSize.min,
-                              children: List.generate(
-                                3,
-                                (index) => CustomTextFormField(
-                                  label: _registerHelper.registerList[index].id,
-                                  controller: _registerHelper
-                                      .registerList[index].controller,
-                                  verification: _registerHelper
-                                      .registerList[index].verification,
-                                  keyboardType:
-                                      _registerHelper.registerList[index].type,
+                              children: [
+                                CustomTextFormField(
+                                  label: "NIK",
+                                  verification:
+                                      _registerHelper.nikVerification.value,
                                 ),
-                              ).toList(),
-                            ),
-                          ),
-                          CustomCardWithHeader(
+                                CustomTextFormField(
+                                  label: "Email",
+                                  verification:
+                                      _registerHelper.emailVerification.value,
+                                ),
+                                CustomTextFormField(
+                                  label: "Password",
+                                  verification: _registerHelper
+                                      .passwordVerification.value,
+                                ),
+                              ],
+                            )),
+                        CustomCardWithHeader(
                             header: "Identity",
                             fontzise: 18.0,
                             fontweight: FontWeight.bold,
@@ -62,105 +65,100 @@ class RegisterScreen extends StatelessWidget {
                             ),
                             children: Row(
                               mainAxisSize: MainAxisSize.min,
-                              children: List.generate(
-                                3,
-                                (index) {
-                                  index = index + 3;
-                                  return CustomTextFormField(
-                                    label: _registerHelper
-                                        .registerList[index].label,
-                                    controller: _registerHelper
-                                        .registerList[index].controller,
-                                    verification: _registerHelper
-                                        .registerList[index].verification,
-                                    keyboardType: _registerHelper
-                                        .registerList[index].type,
-                                    onSave: (value) => print(value),
-                                  );
-                                },
-                              ).toList(),
-                            ),
-                          ),
-                          ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: 1,
-                              itemBuilder: (context, index) {
-                                return ExpansionTile(
-                                  title: const Text("Identity Addon"),
-                                  children: [
-                                    const Gap(10.0),
-                                    Row(
+                              children: [
+                                CustomTextFormField(
+                                  label: "Nama",
+                                  verification:
+                                      _registerHelper.namaVerification.value,
+                                ),
+                                CustomTextFormField(
+                                  label: "Tempat Lahir",
+                                  verification: _registerHelper
+                                      .tempatlahirVerification.value,
+                                ),
+                                CustomTextFormField(
+                                  label: "Tanggal Lahir",
+                                  verification: _registerHelper
+                                      .taggallahirVerification.value,
+                                ),
+                              ],
+                            )),
+                        ListView.builder(
+                            shrinkWrap: true,
+                            itemCount: 1,
+                            itemBuilder: (context, index) {
+                              return ExpansionTile(
+                                title: const Text("Identity Addon"),
+                                children: [
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      CustomTextFormField(
+                                        label: "Provinsi",
+                                        verification: _registerHelper
+                                            .provinsiVerification.value,
+                                      ),
+                                      CustomTextFormField(
+                                        label: "Kota / Kabupaten",
+                                        verification: _registerHelper
+                                            .kotaVerification.value,
+                                      ),
+                                      CustomTextFormField(
+                                        label: "Kecamatan",
+                                        verification: _registerHelper
+                                            .kecamatanVerification.value,
+                                      ),
+                                    ],
+                                  ),
+                                  const Gap(10.0),
+                                  Row(
                                       mainAxisSize: MainAxisSize.min,
-                                      children: List.generate(
-                                        3,
-                                        (index) {
-                                          index = index + 6;
-                                          var isProvince = _registerHelper
-                                                  .registerList[index].id ==
-                                              "Province";
-                                          return CustomTextFormField(
-                                              label: _registerHelper
-                                                  .registerList[index].label,
-                                              controller: _registerHelper
-                                                  .registerList[index]
-                                                  .controller,
-                                              verification: _registerHelper
-                                                  .registerList[index]
-                                                  .verification,
-                                              keyboardType: _registerHelper
-                                                  .registerList[index].type,
-                                              onSave: isProvince
-                                                  ? _registerHelper
-                                                      .functionProvince("35")
-                                                  : (value) => print(value));
-                                        },
-                                      ).toList(),
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: List.generate(
-                                        4,
-                                        (index) {
-                                          index = index + 9;
-                                          return CustomTextFormField(
-                                            label: _registerHelper
-                                                .registerList[index].label,
-                                            controller: _registerHelper
-                                                .registerList[index].controller,
-                                            verification: _registerHelper
-                                                .registerList[index]
-                                                .verification,
-                                            keyboardType: _registerHelper
-                                                .registerList[index].type,
-                                            onSave: (value) => print(value),
-                                          );
-                                        },
-                                      ).toList(),
-                                    ),
-                                  ],
-                                );
-                              }),
-                        ],
-                      ),
-                    ),
-                    const Gap(8.0),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.1,
-                          child: const CustomFilledButton(label: "Submit"),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            print(_registerHelper.registerList[5].controller);
-                          },
-                          child: const Text("Cancel"),
-                        ),
+                                      children: [
+                                        CustomTextFormField(
+                                          label: "Kelurahan / Desa",
+                                          verification: _registerHelper
+                                              .kelurahanVerification.value,
+                                        ),
+                                        CustomTextFormField(
+                                          label: "RT",
+                                          verification: _registerHelper
+                                              .rtVerification.value,
+                                        ),
+                                        CustomTextFormField(
+                                          label: "RW",
+                                          verification: _registerHelper
+                                              .rwVerification.value,
+                                        ),
+                                        CustomTextFormField(
+                                          label: "Kode Pos",
+                                          verification: _registerHelper
+                                              .kodeposVerification.value,
+                                        ),
+                                      ]),
+                                  const Gap(10.0),
+                                ],
+                              );
+                            }),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                  const Gap(8.0),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.1,
+                        child: const CustomFilledButton(label: "Submit"),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          print(_registerHelper.registerList[5].controller);
+                        },
+                        child: const Text("Cancel"),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
           ),

@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:html';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:get/get.dart';
@@ -39,6 +41,10 @@ class RegisterData {
       this.showIcon = false,
       this.onSave})
       : verification = false.obs.value;
+}
+
+dataLocation(label, value) {
+  [label] = value;
 }
 
 class Provinces {
@@ -100,9 +106,10 @@ class RegisterHelper extends GetxController {
     ),
     RegisterData(
       id: "Province",
-      label: "Provinsi",
+      label: "Prvinsi",
       controller: TextEditingController(),
       errorMessage: "",
+      type: TextInputType.streetAddress,
       onSave: (value) => {},
     ),
     RegisterData(
@@ -110,6 +117,8 @@ class RegisterHelper extends GetxController {
       label: "Kota / Kabupaten",
       controller: TextEditingController(),
       errorMessage: "",
+      type: TextInputType.streetAddress,
+      onSave: (value) => {},
     ),
     RegisterData(
       id: "Kecamatan",
@@ -164,9 +173,22 @@ class RegisterHelper extends GetxController {
     for (var province in provinces) {
       place.add(Place.fromJson(province));
     }
-
     return place;
   }
 
   var provincesValue = "0".obs;
+
+  var nikVerification = false.obs;
+  var emailVerification = false.obs;
+  var passwordVerification = false.obs;
+  var namaVerification = false.obs;
+  var tempatlahirVerification = false.obs;
+  var taggallahirVerification = false.obs;
+  var provinsiVerification = false.obs;
+  var kotaVerification = false.obs;
+  var kecamatanVerification = false.obs;
+  var kelurahanVerification = false.obs;
+  var rtVerification = false.obs;
+  var rwVerification = false.obs;
+  var kodeposVerification = false.obs;
 }

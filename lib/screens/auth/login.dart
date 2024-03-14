@@ -48,7 +48,7 @@ class LoginScreen extends StatelessWidget {
                       _authController.tokenList[0].verification.value = false;
                     }
                   },
-                  controller: _authController.tokenList[0].controller,
+                  // controller: _authController.tokenList[0].controller,
                   verification: _authController.tokenList[0].verification.value,
                   errorMessage: _authController.tokenList[0].errorMessage,
                 ),
@@ -120,8 +120,8 @@ class LoginScreen extends StatelessWidget {
                           () => CustomTextFormField(
                             label: _authController.loginList[index].label,
                             // icon: _authController.loginList[index].icon,
-                            controller:
-                                _authController.loginList[index].controller,
+                            // controller:
+                            //     _authController.loginList[index].controller,
                             verification: _authController
                                 .loginList[index].verification.value,
                             obscureText:
