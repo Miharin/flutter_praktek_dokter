@@ -20,8 +20,7 @@ class CustomCardWithHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 0.0,
+    return FlatCard(
       child: Column(
         children: [
           Text(
