@@ -95,18 +95,24 @@ class RegisterScreen extends StatelessWidget {
                                         3,
                                         (index) {
                                           index = index + 6;
+                                          var isProvince = _registerHelper
+                                                  .registerList[index].id ==
+                                              "Province";
                                           return CustomTextFormField(
-                                            label: _registerHelper
-                                                .registerList[index].label,
-                                            controller: _registerHelper
-                                                .registerList[index].controller,
-                                            verification: _registerHelper
-                                                .registerList[index]
-                                                .verification,
-                                            keyboardType: _registerHelper
-                                                .registerList[index].type,
-                                            onSave: (value) => print(value),
-                                          );
+                                              label: _registerHelper
+                                                  .registerList[index].label,
+                                              controller: _registerHelper
+                                                  .registerList[index]
+                                                  .controller,
+                                              verification: _registerHelper
+                                                  .registerList[index]
+                                                  .verification,
+                                              keyboardType: _registerHelper
+                                                  .registerList[index].type,
+                                              onSave: isProvince
+                                                  ? _registerHelper
+                                                      .functionProvince("35")
+                                                  : (value) => print(value));
                                         },
                                       ).toList(),
                                     ),

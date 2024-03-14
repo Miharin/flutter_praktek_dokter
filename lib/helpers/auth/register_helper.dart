@@ -1,8 +1,5 @@
 import 'dart:convert';
 
-import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:get/get.dart';
@@ -30,16 +27,18 @@ class RegisterData {
   final String errorMessage;
   final IconData? icon;
   final bool showIcon;
+  final Function(String?)? onSave;
 
-  RegisterData({
-    required this.id,
-    required this.label,
-    required this.controller,
-    required this.errorMessage,
-    this.icon,
-    this.type = TextInputType.text,
-    this.showIcon = false,
-  }) : verification = false.obs.value;
+  RegisterData(
+      {required this.id,
+      required this.label,
+      required this.controller,
+      required this.errorMessage,
+      this.icon,
+      this.type = TextInputType.text,
+      this.showIcon = false,
+      this.onSave})
+      : verification = false.obs.value;
 }
 
 class Provinces {
@@ -104,6 +103,7 @@ class RegisterHelper extends GetxController {
       label: "Provinsi",
       controller: TextEditingController(),
       errorMessage: "",
+      onSave: (value) => {},
     ),
     RegisterData(
       id: "Kota",
@@ -143,15 +143,30 @@ class RegisterHelper extends GetxController {
     ),
   ].obs;
 
+  functionProvince(value) {
+    provincesValue.value = value!;
+    print(provincesValue.value);
+    getDataFromAPI();
+  }
+
   getDataFromAPI() async {
+    final provincesID =
+        provincesValue.value != "0" ? provincesValue.value : "35";
     final provinces = await get(
       Uri.parse(
-          "https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json"),
+          "https://miharin.github.io/api-wilayah-indonesia/api/provinces.json"),
+    ).then((value) => jsonDecode(value.body));
+    final regencies = await get(
+      Uri.parse(
+          "https://miharin.github.io/api-wilayah-indonesia/api/regencies/${provincesID}.json"),
     ).then((value) => jsonDecode(value.body));
     final place = [];
     for (var province in provinces) {
       place.add(Place.fromJson(province));
     }
+
     return place;
   }
+
+  var provincesValue = "0".obs;
 }

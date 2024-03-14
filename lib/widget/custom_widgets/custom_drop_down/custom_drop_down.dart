@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class CustomDropDown extends StatelessWidget {
   const CustomDropDown({
     super.key,
+    this.onSelected,
     required this.list,
     required this.label,
     required this.controller,
@@ -14,6 +15,7 @@ class CustomDropDown extends StatelessWidget {
   final TextEditingController controller;
   final bool verification;
   final String? errorText;
+  final void Function(String?)? onSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,7 @@ class CustomDropDown extends StatelessWidget {
           border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(10.0)))),
       label: Text(label),
-      onSelected: (String? value) {},
+      onSelected: onSelected,
       dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((dynamic value) {
         return DropdownMenuEntry<String>(value: value.id, label: value.name);
       }).toList(),
