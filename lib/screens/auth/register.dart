@@ -148,8 +148,9 @@ class RegisterScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.1,
-                            child: const CustomFilledButton(label: "Submit")),
+                          width: MediaQuery.of(context).size.width * 0.1,
+                          child: const CustomFilledButton(label: "Submit"),
+                        ),
                         TextButton(
                           onPressed: () {
                             print(_registerHelper.registerList[5].controller);
