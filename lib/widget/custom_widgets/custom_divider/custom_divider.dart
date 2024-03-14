@@ -24,3 +24,25 @@ class CustomDivider extends StatelessWidget {
     );
   }
 }
+
+class CustomVerticalDivider extends StatelessWidget {
+  const CustomVerticalDivider({
+    super.key,
+    required this.height,
+    this.color,
+  });
+
+  final double height;
+  final Color? color;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: height,
+      child: VerticalDivider(
+        width: 0.5,
+        color: color ?? Colors.grey[400],
+      ),
+    );
+  }
+}
