@@ -105,6 +105,7 @@ class CustomTextFormField extends StatelessWidget {
                       controller: controller,
                       verification: verification,
                       errorText: errorVerification ? errorMessage : null,
+                      onSelected: onSave,
                     );
                   } else {
                     return const CircularProgressIndicator();
