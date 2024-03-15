@@ -1,6 +1,3 @@
-import 'dart:async';
-import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_praktek_dokter/helpers/auth/register_helper.dart';
@@ -13,6 +10,8 @@ class CustomTextFormField extends StatelessWidget {
     super.key,
     required this.label,
     required this.verification,
+    this.focusNode,
+    this.validator,
     this.keyboardType,
     this.obscureText,
     this.readOnly,
@@ -28,9 +27,9 @@ class CustomTextFormField extends StatelessWidget {
 
 // Start Required Properties
   final String label;
-  final TextEditingController controller = TextEditingController();
   final bool verification;
-
+  final String? Function(String?)? validator;
+  final FocusNode? focusNode;
 // End Required Properties
 
 // Start Additional Properties
@@ -89,8 +88,6 @@ class CustomTextFormField extends StatelessWidget {
   // Start Building Widget
   @override
   Widget build(BuildContext context) {
-    // Search if Error Verification true or false
-    bool errorVerification = !verification && controller.text.isNotEmpty;
     // return Text Form Field
     return Flexible(
       flex: 1,
@@ -104,9 +101,9 @@ class CustomTextFormField extends StatelessWidget {
                     return CustomDropDown(
                       list: snapshot.data as List,
                       label: label,
-                      controller: controller,
+                      controller: TextEditingController(),
                       verification: verification,
-                      errorText: errorVerification ? errorMessage : null,
+                      errorText: !verification ? errorMessage : null,
                       onSelected: onSave,
                     );
                   } else {
@@ -114,6 +111,8 @@ class CustomTextFormField extends StatelessWidget {
                   }
                 })
             : TextFormField(
+                focusNode: focusNode,
+                validator: validator,
                 keyboardType: keyboardType ?? TextInputType.text,
                 inputFormatters: keyboardType == TextInputType.number
                     ? [FilteringTextInputFormatter.digitsOnly]
@@ -130,7 +129,8 @@ class CustomTextFormField extends StatelessWidget {
                     if (pickedDate != null) {
                       String formattedDate =
                           DateFormat.yMMMMd('in-in').format(pickedDate);
-                      controller.text = formattedDate;
+                      print(formattedDate);
+                      // controller.text = formattedDate;
                     }
                   }
                 },
@@ -141,30 +141,21 @@ class CustomTextFormField extends StatelessWidget {
                   // if Icon is Empty Then Null
                   prefixIcon: icon != null
                       ? Icon(
-                          controller!.text.isNotEmpty
-                              ? !verification
-                                  ? Icons.close_rounded
-                                  : Icons.check
-                              : icon,
+                          icon,
                           // If Text is Empty Set Colors to Black
-                          color: controller.text.isNotEmpty
-                              // If Verification == true then Colors set to Green
-                              ? !verification
-                                  ? Colors.red
-                                  : Colors.greenAccent
-                              : Colors.black,
+                          color:
+                              !verification ? Colors.red : Colors.greenAccent,
                         )
                       : null,
                   suffixIcon: suffixIcon,
                   border: border ?? defaultBorder,
                   label: Text(label),
                   // If errorVerificationFinal == true then send errorText and error Border
-                  errorText: errorVerification ? errorMessage : null,
-                  errorBorder: errorVerification
-                      ? errorBorder ?? defaultErrorBorder
-                      : null,
+                  errorText: !verification ? errorMessage : null,
+                  errorBorder:
+                      !verification ? errorBorder ?? defaultErrorBorder : null,
                 ),
-                controller: controller,
+                // controller: controller,
               ),
       ),
     );

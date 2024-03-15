@@ -6,6 +6,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_praktek_dokter/models/user/authentication_model.dart';
 import 'package:get/get.dart';
 
+class AuthData {
+  final String email;
+  final String password;
+  final String token;
+
+  AuthData({
+    required this.email,
+    required this.password,
+    required this.token,
+  });
+}
+
 class AuthField {
   final String id;
   final String label;
@@ -32,6 +44,7 @@ class AuthField {
 }
 
 class AuthHelper extends GetxController {
+  final FocusNode focusPassword = FocusNode();
   final RxList<AuthField> loginList = [
     AuthField(
       id: "email",
@@ -76,9 +89,11 @@ class AuthHelper extends GetxController {
   final List<TextEditingController> controllers =
       List.generate(3, (index) => TextEditingController()).toList();
 
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController tokenController = TextEditingController();
+  final Map<String, bool> verificationData = {
+    "email": false,
+    "password": false,
+    "token": false,
+  }.obs;
 
   var emailVerification = false.obs;
   var passwordVerification = false.obs;
@@ -107,21 +122,22 @@ class AuthHelper extends GetxController {
     showToken.value = !showToken.value;
   }
 
-  setAuth(name, value, isValid) {
+  setAuth(name, value) {
     auth[name] = value;
+
     switch (name) {
       case "email":
-        isValid
+        value
             ? emailVerification.value = true
             : emailVerification.value = false;
         break;
       case "password":
-        isValid
+        value.length > 8
             ? passwordVerification.value = true
             : passwordVerification.value = false;
         break;
       case "token":
-        isValid
+        value
             ? tokenVerification.value = true
             : tokenVerification.value = false;
       default:
@@ -168,9 +184,6 @@ class AuthHelper extends GetxController {
               "Welcome ${user.username}",
               backgroundColor: Colors.white,
             );
-            emailController.clear();
-            passwordController.clear();
-            tokenController.clear();
           }
         });
       });
@@ -181,13 +194,5 @@ class AuthHelper extends GetxController {
         print("Wrong Password Provided for That User !");
       }
     }
-  }
-
-  @override
-  void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    tokenController.dispose();
-    super.dispose();
   }
 }

@@ -99,74 +99,96 @@ class LoginScreen extends StatelessWidget {
 
                     // Email and Password Text Field with Map
                     // textFields,
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: List.generate(_authController.loginList.length,
-                          (index) {
-                        bool isPassword =
-                            _authController.loginList[index].id == "password";
-                        return Obx(
-                          () => CustomTextFormField(
-                            label: _authController.loginList[index].label,
-                            // icon: _authController.loginList[index].icon,
-                            // controller:
-                            //     _authController.loginList[index].controller,
-                            verification: _authController
-                                .loginList[index].verification.value,
-                            obscureText:
-                                _authController.loginList[index].obscureText,
-                            suffixIcon: isPassword
-                                ? IconButton(
-                                    icon: Icon(
-                                      color: Colors.grey[400],
-                                      !_authController
-                                              .loginList[index].obscureText
-                                          ? Icons.visibility_off
-                                          : Icons.visibility,
-                                    ),
-                                    onPressed: () {
-                                      _authController.toggleObscure(
-                                          _authController.loginList[index]);
-                                    },
-                                  )
-                                : null,
-                            errorMessage:
-                                _authController.loginList[index].errorMessage,
-                            onSave: (value) {
-                              if (!isPassword) {
-                                if (value!.isEmail) {
-                                  _authController.loginList[index].verification
-                                      .value = true;
-                                } else {
-                                  _authController.loginList[index].verification
-                                      .value = false;
-                                }
-                              } else {
-                                if (value!.length >= 8) {
-                                  _authController.loginList[index].verification
-                                      .value = true;
-                                } else {
-                                  _authController.loginList[index].verification
-                                      .value = false;
-                                }
-                              }
-                              List checkVerification = List.generate(
-                                _authController.loginList.length,
-                                (index) => _authController
-                                    .loginList[index].verification.value,
-                              );
-                              if (checkVerification
-                                  .every((element) => element)) {
-                                _authController.disabledLoginButton.value =
-                                    false;
-                              } else {
-                                _authController.disabledLoginButton.value =
-                                    true;
-                              }
-                            },
+                    Form(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      child: Column(mainAxisSize: MainAxisSize.min, children: [
+                        CustomTextFormField(
+                          label: "Email",
+                          verification: false,
+                          validator: (value) {
+                            if (value!.isNotEmpty && !value.isEmail) {
+                              return "Email Tidak Sesuai Format";
+                            }
+                          },
+                        ),
+                        CustomTextFormField(
+                          label: "Password",
+                          focusNode: _authController.focusPassword,
+                          verification: false,
+                          validator: (value) {
+                            if (value!.isNotEmpty && value.length < 8) {
+                              return "Password Wajib Diisi dan Minimal Terdiri dari 8 Digit";
+                            }
+                          },
+                        ),
+                      ]
+                          // List.generate(_authController.loginList.length,
+                          //     (index) {
+                          //   bool isPassword =
+                          //       _authController.loginList[index].id == "password";
+                          //   return Obx(
+                          //     () => CustomTextFormField(
+                          //       label: _authController.loginList[index].label,
+                          //       // icon: _authController.loginList[index].icon,
+                          //       // controller:
+                          //       //     _authController.loginList[index].controller,
+                          //       verification: _authController
+                          //           .loginList[index].verification.value,
+                          //       obscureText:
+                          //           _authController.loginList[index].obscureText,
+                          //       suffixIcon: isPassword
+                          //           ? IconButton(
+                          //               icon: Icon(
+                          //                 color: Colors.grey[400],
+                          //                 !_authController
+                          //                         .loginList[index].obscureText
+                          //                     ? Icons.visibility_off
+                          //                     : Icons.visibility,
+                          //               ),
+                          //               onPressed: () {
+                          //                 _authController.toggleObscure(
+                          //                     _authController.loginList[index]);
+                          //               },
+                          //             )
+                          //           : null,
+                          //       errorMessage:
+                          //           _authController.loginList[index].errorMessage,
+                          //       onSave: (value) {
+                          //         if (!isPassword) {
+                          //           if (value!.isEmail) {
+                          //             _authController.loginList[index].verification
+                          //                 .value = true;
+                          //           } else {
+                          //             _authController.loginList[index].verification
+                          //                 .value = false;
+                          //           }
+                          //         } else {
+                          //           if (value!.length >= 8) {
+                          //             _authController.loginList[index].verification
+                          //                 .value = true;
+                          //           } else {
+                          //             _authController.loginList[index].verification
+                          //                 .value = false;
+                          //           }
+                          //         }
+                          //         List checkVerification = List.generate(
+                          //           _authController.loginList.length,
+                          //           (index) => _authController
+                          //               .loginList[index].verification.value,
+                          //         );
+                          //         if (checkVerification
+                          //             .every((element) => element)) {
+                          //           _authController.disabledLoginButton.value =
+                          //               false;
+                          //         } else {
+                          //           _authController.disabledLoginButton.value =
+                          //               true;
+                          //         }
+                          //       },
+                          //     ),
+                          //   );
+                          // }).toList(),
                           ),
-                        );
-                      }).toList(),
                     ),
                     const Gap(10.0),
 
