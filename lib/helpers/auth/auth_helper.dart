@@ -45,6 +45,38 @@ class AuthField {
 
 class AuthHelper extends GetxController {
   final FocusNode focusPassword = FocusNode();
+  final RxMap<String, dynamic> authData = {
+    "email": "",
+    "password": "",
+    "token": "",
+  }.obs;
+
+  final RxMap<String, bool> verificationData = {
+    "email": false,
+    "password": false,
+    "token": false,
+  }.obs;
+
+  final RxBool disabledSignInButton = true.obs;
+
+  void handleSignInButton() {
+    if (verificationData["email"] == true &&
+        verificationData["password"] == true) {
+      disabledSignInButton.value = false;
+    } else {
+      disabledLoginButton.value = true;
+    }
+  }
+
+  void handleLoginTextFormFieldChanged(name, value) {
+    authData[name] = value;
+    print(authData);
+  }
+
+  void handleVerification(name, verification) {
+    verificationData[name] = !verification;
+  }
+
   final RxList<AuthField> loginList = [
     AuthField(
       id: "email",
@@ -76,11 +108,6 @@ class AuthHelper extends GetxController {
       errorMessage: "Token Wajib Diisi dan Minimat Terdiri dari 10 Digit",
     ),
   ].obs;
-  var auth = {
-    'email': '',
-    'password': '',
-    'token': '',
-  }.obs;
 
   var db = FirebaseFirestore.instance;
 
@@ -88,12 +115,6 @@ class AuthHelper extends GetxController {
 
   final List<TextEditingController> controllers =
       List.generate(3, (index) => TextEditingController()).toList();
-
-  final Map<String, bool> verificationData = {
-    "email": false,
-    "password": false,
-    "token": false,
-  }.obs;
 
   var emailVerification = false.obs;
   var passwordVerification = false.obs;
@@ -123,7 +144,7 @@ class AuthHelper extends GetxController {
   }
 
   setAuth(name, value) {
-    auth[name] = value;
+    authData[name] = value;
 
     switch (name) {
       case "email":
@@ -177,7 +198,7 @@ class AuthHelper extends GetxController {
           // If UserData is Not Empty Next();
           final data = userData.data()!;
           final user = AuthenticationModel.fromJson(data);
-          if (user.token == auth["token"]) {
+          if (user.token == authData["token"]) {
             userIsLogin.value = true;
             Get.snackbar(
               "Login Success",
