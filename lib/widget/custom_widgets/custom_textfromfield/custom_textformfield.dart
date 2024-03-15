@@ -95,13 +95,12 @@ class CustomTextFormField extends StatelessWidget {
         padding: const EdgeInsets.fromLTRB(8.0, 0.0, 4.0, 8.0),
         child: keyboardType == TextInputType.streetAddress
             ? FutureBuilder(
-                future: _registerHelper.getDataFromAPI(),
+                future: _registerHelper.getDataProvinces(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return CustomDropDown(
                       list: snapshot.data as List,
                       label: label,
-                      controller: TextEditingController(),
                       verification: verification,
                       errorText: !verification ? errorMessage : null,
                       onSelected: onSave,

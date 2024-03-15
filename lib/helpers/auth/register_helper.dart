@@ -1,7 +1,4 @@
 import 'dart:convert';
-import 'dart:html';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:get/get.dart';
@@ -43,10 +40,6 @@ class RegisterData {
       : verification = false.obs.value;
 }
 
-dataLocation(label, value) {
-  [label] = value;
-}
-
 class Provinces {
   final String provinces;
   final String provincesid;
@@ -60,6 +53,54 @@ class Provinces {
   Map<String, dynamic> toJson() => {
         "Provinces": provinces,
         "ProvincesId": provincesid,
+      };
+}
+
+class Regencies {
+  final String regencies;
+  final String regenciesid;
+
+  Regencies(this.regencies, this.regenciesid);
+
+  Regencies.fromJson(Map<String, dynamic> json)
+      : regencies = json["name"] as String,
+        regenciesid = json["id"] as String;
+
+  Map<String, dynamic> toJson() => {
+        "Regencies": regencies,
+        "Regenciesid": regenciesid,
+      };
+}
+
+class Districts {
+  final String districts;
+  final String districtsid;
+
+  Districts(this.districts, this.districtsid);
+
+  Districts.fromJson(Map<String, dynamic> json)
+      : districts = json["name"] as String,
+        districtsid = json["id"] as String;
+
+  Map<String, dynamic> toJson() => {
+        "Districts": districts,
+        "Districtsid": districtsid,
+      };
+}
+
+class Villages {
+  final String villages;
+  final String villagesid;
+
+  Villages(this.villages, this.villagesid);
+
+  Villages.fromJson(Map<String, dynamic> json)
+      : villages = json["name"] as String,
+        villagesid = json["id"] as String;
+
+  Map<String, dynamic> toJson() => {
+        "Villages": villages,
+        "Villagesid": villagesid,
       };
 }
 
@@ -152,31 +193,88 @@ class RegisterHelper extends GetxController {
     ),
   ].obs;
 
-  functionProvince(value) {
-    provincesValue.value = value!;
-    print(provincesValue.value);
-    getDataFromAPI();
-  }
+  // functionProvince(value) {
+  //   provincesValue.value = value!;
+  //   print(provincesValue.value);
+  //   getDataProvinces();
+  // }
 
-  getDataFromAPI() async {
+  // functionRegencies(value) {
+  //   regenciesValue.value = value!;
+  //   print(regenciesValue.value);
+  //   getDataRegencies(regenciesValue);
+  // }
+
+  // functionDistricts(value) {
+  //   districtsValue.value = value!;
+  //   print(districtsValue.value);
+  //   getDataDistrict(districtsValue);
+  // }
+
+  // fungtionVillages(value) {
+  //   villagesValue.value = value!;
+  //   print(villagesValue.value);
+  //   getDataVillage(villagesValue);
+  // }
+
+  getDataProvinces() async {
     final provincesID =
         provincesValue.value != "0" ? provincesValue.value : "35";
     final provinces = await get(
       Uri.parse(
           "https://miharin.github.io/api-wilayah-indonesia/api/provinces.json"),
     ).then((value) => jsonDecode(value.body));
+    final provincesData = [];
+    for (var province in provinces) {
+      provincesData.add(Place.fromJson(province));
+    }
+    return provincesData;
+  }
+
+  getDataRegencies() async {
+    final regenciesData = [];
+    final regenciesID = regenciesValue;
     final regencies = await get(
       Uri.parse(
-          "https://miharin.github.io/api-wilayah-indonesia/api/regencies/${provincesID}.json"),
+          "https://miharin.github.io/api-wilayah-indonesia/api/regencies/$regenciesID.json"),
     ).then((value) => jsonDecode(value.body));
-    final place = [];
-    for (var province in provinces) {
-      place.add(Place.fromJson(province));
+    print(regenciesValue);
+    for (var regencie in regencies) {
+      regenciesData.add(Place.fromJson(regencie));
     }
-    return place;
+    return regenciesData;
+  }
+
+  getDataDistrict() async {
+    final districtsData = [];
+    final districtsID = districtsValue;
+    final districts = await get(
+      Uri.parse(
+          "https://miharin.github.io/api-wilayah-indonesia/api/districts/$districtsID.json"),
+    ).then((value) => jsonDecode(value.body));
+    for (var district in districts) {
+      districtsData.add(Place.fromJson(district));
+    }
+    return districtsData;
+  }
+
+  getDataVillage() async {
+    final villagesData = [];
+    final villagesID = villagesValue;
+    final villages = await get(
+      Uri.parse(
+          "https://miharin.github.io/api-wilayah-indonesia/api/villages/$villagesID.json"),
+    ).then((value) => jsonDecode(value.body));
+    for (var village in villages) {
+      villagesData.add(Place.fromJson(village));
+    }
+    return villagesData;
   }
 
   var provincesValue = "0".obs;
+  var regenciesValue = "0".obs;
+  var districtsValue = "0".obs;
+  var villagesValue = "0".obs;
 
   var nikVerification = false.obs;
   var emailVerification = false.obs;

@@ -3,9 +3,11 @@ import 'package:flutter_praktek_dokter/helpers/auth/register_helper.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_button/custom_filled_button.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_card/custom_card.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_divider/custom_divider.dart';
+import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_drop_down/custom_drop_down.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_textfromfield/custom_textformfield.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
@@ -14,7 +16,7 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _registerHelper.getDataFromAPI();
+    _registerHelper.getDataProvinces();
     return LayoutBuilder(
       builder: (context, constraint) {
         return SingleChildScrollView(
@@ -93,20 +95,132 @@ class RegisterScreen extends StatelessWidget {
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
-                                      CustomTextFormField(
-                                        label: "Provinsi",
-                                        verification: _registerHelper
-                                            .provinsiVerification.value,
+                                      const Gap(10.0),
+                                      Obx(
+                                        () => FutureBuilder(
+                                            future: _registerHelper
+                                                .getDataProvinces(),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                return CustomDropDown(
+                                                  list: snapshot.data as List,
+                                                  label: "Provinsi",
+                                                  verification: _registerHelper
+                                                      .provinsiVerification
+                                                      .value,
+                                                  errorText: !_registerHelper
+                                                          .provinsiVerification
+                                                          .value
+                                                      ? ''
+                                                      : null,
+                                                  onSelected: (value) =>
+                                                      _registerHelper
+                                                          .regenciesValue
+                                                          .value = value!,
+                                                );
+                                              } else {
+                                                return const CircularProgressIndicator();
+                                              }
+                                            }),
                                       ),
-                                      CustomTextFormField(
-                                        label: "Kota / Kabupaten",
-                                        verification: _registerHelper
-                                            .kotaVerification.value,
+                                      const Gap(10.0),
+                                      Obx(
+                                        () => FutureBuilder(
+                                            future: _registerHelper
+                                                .getDataRegencies(),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                return CustomDropDown(
+                                                  list: snapshot.data as List,
+                                                  label: "Kabupaten / Kota",
+                                                  verification: _registerHelper
+                                                      .provinsiVerification
+                                                      .value,
+                                                  errorText: !_registerHelper
+                                                          .provinsiVerification
+                                                          .value
+                                                      ? ''
+                                                      : null,
+                                                  onSelected: (value) =>
+                                                      _registerHelper
+                                                          .districtsValue
+                                                          .value = value!,
+                                                );
+                                              } else {
+                                                return CustomDropDown(
+                                                    list: const [],
+                                                    label: "Kabupaten / Kota",
+                                                    verification: _registerHelper
+                                                        .kecamatanVerification
+                                                        .isTrue,
+                                                    errorText: "");
+                                              }
+                                            }),
                                       ),
-                                      CustomTextFormField(
-                                        label: "Kecamatan",
-                                        verification: _registerHelper
-                                            .kecamatanVerification.value,
+                                      const Gap(10.0),
+                                      Obx(
+                                        () => FutureBuilder(
+                                            future: _registerHelper
+                                                .getDataDistrict(),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                return CustomDropDown(
+                                                  list: snapshot.data as List,
+                                                  label: "Kecamatan",
+                                                  verification: _registerHelper
+                                                      .provinsiVerification
+                                                      .value,
+                                                  errorText: !_registerHelper
+                                                          .provinsiVerification
+                                                          .value
+                                                      ? ''
+                                                      : null,
+                                                  onSelected: (value) =>
+                                                      _registerHelper
+                                                          .villagesValue
+                                                          .value = value!,
+                                                );
+                                              } else {
+                                                return CustomDropDown(
+                                                    list: const [],
+                                                    label: "Kecamatan",
+                                                    verification: _registerHelper
+                                                        .kecamatanVerification
+                                                        .isTrue,
+                                                    errorText: "");
+                                                ;
+                                              }
+                                            }),
+                                      ),
+                                      const Gap(10.0),
+                                      Obx(
+                                        () => FutureBuilder(
+                                            future: _registerHelper
+                                                .getDataVillage(),
+                                            builder: (context, snapshot) {
+                                              if (snapshot.hasData) {
+                                                return CustomDropDown(
+                                                  list: snapshot.data as List,
+                                                  label: "Kelurahan / Desa",
+                                                  verification: _registerHelper
+                                                      .provinsiVerification
+                                                      .value,
+                                                  errorText: !_registerHelper
+                                                          .provinsiVerification
+                                                          .value
+                                                      ? ''
+                                                      : null,
+                                                );
+                                              } else {
+                                                return CustomDropDown(
+                                                    list: const [],
+                                                    label: "Kelurahan / Desa",
+                                                    verification: _registerHelper
+                                                        .kecamatanVerification
+                                                        .isTrue,
+                                                    errorText: "");
+                                              }
+                                            }),
                                       ),
                                     ],
                                   ),
@@ -114,16 +228,13 @@ class RegisterScreen extends StatelessWidget {
                                   Row(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
-                                        CustomTextFormField(
-                                          label: "Kelurahan / Desa",
-                                          verification: _registerHelper
-                                              .kelurahanVerification.value,
-                                        ),
+                                        const Gap(10.0),
                                         CustomTextFormField(
                                           label: "RT",
                                           verification: _registerHelper
                                               .rtVerification.value,
                                         ),
+                                        const Gap(10.0),
                                         CustomTextFormField(
                                           label: "RW",
                                           verification: _registerHelper
