@@ -1,29 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class CustomForm extends StatelessWidget {
-  const CustomForm({
+  CustomForm({
     super.key,
-    required this.trigger,
     required this.child,
+    this.onChanged,
   });
-
-  final LogicalKeyboardKey trigger;
+  final _controller = Get.put(CustomFormState());
   final Widget child;
+  final void Function()? onChanged;
 
   @override
   Widget build(BuildContext context) {
-    return Shortcuts(
-      shortcuts: <ShortcutActivator, Intent>{
-        SingleActivator(trigger): const NextFocusIntent()
-      },
-      child: FocusTraversalGroup(
-        child: Form(
-          autovalidateMode: AutovalidateMode.always,
-          onChanged: () => Form.of(primaryFocus!.context!).save(),
-          child: child,
-        ),
+    return Obx(
+      () => Form(
+        key: _controller._formkey.value,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        onChanged: onChanged,
+        child: child,
       ),
     );
   }
+}
+
+class CustomFormState extends GetxController {
+  final _formkey = GlobalKey<FormState>().obs;
 }

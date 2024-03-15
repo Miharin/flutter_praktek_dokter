@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 
 class CustomFilledButton extends StatelessWidget {
   const CustomFilledButton(
-      {super.key, this.icon, required this.label, this.width, this.onPressed});
+      {super.key,
+      this.icon,
+      required this.label,
+      this.width,
+      required this.onPressed});
   final Icon? icon;
   final String label;
   final Size? width;
@@ -40,7 +44,7 @@ class CustomFilledButton extends StatelessWidget {
                 fixedSize: width,
                 minimumSize: const Size.fromHeight(50.0),
               ),
-              onPressed: onPressed ?? () {},
+              onPressed: onPressed,
               child: Text(label),
             ),
     );
