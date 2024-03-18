@@ -11,7 +11,6 @@ import 'package:get/get.dart';
 
 import 'package:flutter_praktek_dokter/helpers/auth/auth_helper.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_button/custom_filled_button.dart';
-// import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_text_field/custom_text_field.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
@@ -30,6 +29,7 @@ class LoginScreen extends StatelessWidget {
       // Custom Dialog
       var customDialog = CustomDialog(
         title: "Please Input Token !",
+        constraints: constrained,
         content: ConstrainedBox(
           constraints: constrained,
           child: Column(
@@ -105,7 +105,9 @@ class LoginScreen extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+// on Save and validator simplified with make function and passing the value
                           CustomTextFormField(
+                            focusNode: _authController.focusEmail,
                             label: "Email",
                             verification:
                                 _authController.verificationData["email"]!,
@@ -115,20 +117,16 @@ class LoginScreen extends StatelessWidget {
                               value,
                             ),
                             validator: (value) {
-                              if (value!.isNotEmpty && !value.isEmail) {
-                                return "Email Tidak Sesuai Format";
-                              } else {
-                                _authController.handleVerification(
-                                  "email",
-                                  _authController.verificationData["email"],
-                                );
-                              }
+                              return _authController.validatorLogIn(
+                                "email",
+                                value,
+                              );
                             },
                             keyboardType: TextInputType.emailAddress,
                           ),
                           CustomTextFormField(
-                            label: "Password",
                             focusNode: _authController.focusPassword,
+                            label: "Password",
                             obscureText: true,
                             verification:
                                 _authController.verificationData["password"]!,
@@ -142,28 +140,115 @@ class LoginScreen extends StatelessWidget {
                               icon: const Icon(Icons.visibility),
                             ),
                             validator: (value) {
-                              if (value!.isNotEmpty && value.length < 8) {
-                                return "Password Wajib Diisi dan Minimal Terdiri dari 8 Digit";
-                              } else {
-                                _authController.handleVerification(
-                                  "password",
-                                  _authController.verificationData["password"],
-                                );
-                              }
+                              return _authController.validatorLogIn(
+                                "password",
+                                value,
+                              );
                             },
                           ),
 
                           const Gap(10.0),
                           // Button to Input Token
-                          Flexible(
-                            child: Obx(
-                              () => CustomFilledButton(
-                                label: "Log In",
-                                onPressed:
-                                    _authController.disabledSignInButton.value
-                                        ? null
-                                        : () => Get.dialog(customDialog),
-                              ),
+                          Obx(
+                            // on pressed simplified, custom dialog in oneline
+                            () => CustomFilledButton(
+                              label: "Log In",
+                              onPressed: _authController
+                                      .disabledSignInButton.value
+                                  ? () => showModalBottomSheet(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const Text(
+                                                "Token Input !",
+                                                style: TextStyle(
+                                                  fontSize: 18.0,
+                                                ),
+                                              ),
+                                              Gap(10.0),
+                                              CustomTextFormField(
+                                                label: "Token",
+                                                verification: _authController
+                                                    .verificationData["token"]!,
+                                              ),
+                                              Gap(10.0),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  Obx(
+                                                    () => TextButton(
+                                                      onPressed: _authController
+                                                              .tokenList[0]
+                                                              .verification
+                                                              .value
+                                                          ? () {
+                                                              _authController
+                                                                  .signIn();
+                                                              Get.back();
+                                                            }
+                                                          : null,
+                                                      child:
+                                                          const Text("Login"),
+                                                    ),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Get.back();
+                                                    },
+                                                    child: const Text("Cancel"),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                      // CustomDialog(
+                                      //   title: "Token Input",
+                                      //   constraints: constrained,
+                                      //   content: Row(
+                                      //     mainAxisSize: MainAxisSize.min,
+                                      //     children: [
+                                      //       CustomTextFormField(
+                                      //         label: "Token",
+                                      //         verification: _authController
+                                      //             .verificationData["token"]!,
+                                      //       ),
+                                      //     ],
+                                      //   ),
+                                      //   actions: [
+                                      //     TextButton(
+                                      //       onPressed: () {
+                                      //         Get.back();
+                                      //       },
+                                      //       child: const Text("Cancel"),
+                                      //     ),
+                                      //     Obx(
+                                      //       () => TextButton(
+                                      //         onPressed: _authController
+                                      //                 .tokenList[0]
+                                      //                 .verification
+                                      //                 .value
+                                      //             ? () {
+                                      //                 _authController
+                                      //                     .signIn();
+                                      //                 Get.back();
+                                      //               }
+                                      //             : null,
+                                      //         child: const Text("Login"),
+                                      //       ),
+                                      //     ),
+                                      //   ],
+                                      // ),
+                                      )
+                                  : () => Get.dialog(customDialog),
                             ),
                           ),
                           Row(

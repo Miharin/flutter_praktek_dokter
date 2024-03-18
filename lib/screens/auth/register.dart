@@ -7,7 +7,6 @@ import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_drop_down/cu
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_textfromfield/custom_textformfield.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
@@ -16,10 +15,11 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _registerHelper.getDataProvinces();
+    _registerHelper.getDataProvinces(); // coba liat getx on init
     return LayoutBuilder(
       builder: (context, constraint) {
         return SingleChildScrollView(
+// padding jadiin 1
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Padding(
@@ -31,9 +31,10 @@ class RegisterScreen extends StatelessWidget {
                     () => Wrap(
                       runSpacing: 10.0,
                       children: [
+// cari cari simplified biar nda banyak baris
                         CustomCardWithHeader(
                             header: "Autentikasi",
-                            fontzise: 18.0,
+                            fontsize: 18.0,
                             fontweight: FontWeight.bold,
                             divider: const CustomDivider(
                               space: 20.0,
@@ -41,6 +42,7 @@ class RegisterScreen extends StatelessWidget {
                             children: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
+// onSave ?
                                 CustomTextFormField(
                                   label: "NIK",
                                   verification:
@@ -60,7 +62,7 @@ class RegisterScreen extends StatelessWidget {
                             )),
                         CustomCardWithHeader(
                             header: "Identity",
-                            fontzise: 18.0,
+                            fontsize: 18.0,
                             fontweight: FontWeight.bold,
                             divider: const CustomDivider(
                               space: 20.0,
@@ -68,6 +70,7 @@ class RegisterScreen extends StatelessWidget {
                             children: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
+//onSave
                                 CustomTextFormField(
                                   label: "Nama",
                                   verification:
@@ -95,6 +98,7 @@ class RegisterScreen extends StatelessWidget {
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
+//onSave
                                       const Gap(10.0),
                                       Obx(
                                         () => FutureBuilder(
@@ -108,6 +112,7 @@ class RegisterScreen extends StatelessWidget {
                                                   verification: _registerHelper
                                                       .provinsiVerification
                                                       .value,
+// kalau misalnya errortext sama bisa di simplified make function
                                                   errorText: !_registerHelper
                                                           .provinsiVerification
                                                           .value
@@ -119,6 +124,7 @@ class RegisterScreen extends StatelessWidget {
                                                           .value = value!,
                                                 );
                                               } else {
+                                                // circular di custom
                                                 return const CircularProgressIndicator();
                                               }
                                             }),
@@ -182,13 +188,13 @@ class RegisterScreen extends StatelessWidget {
                                                 );
                                               } else {
                                                 return CustomDropDown(
-                                                    list: const [],
-                                                    label: "Kecamatan",
-                                                    verification: _registerHelper
-                                                        .kecamatanVerification
-                                                        .isTrue,
-                                                    errorText: "");
-                                                ;
+                                                  list: const [],
+                                                  label: "Kecamatan",
+                                                  verification: _registerHelper
+                                                      .kecamatanVerification
+                                                      .isTrue,
+                                                  errorText: "",
+                                                );
                                               }
                                             }),
                                       ),

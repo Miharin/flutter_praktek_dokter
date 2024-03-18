@@ -44,6 +44,7 @@ class AuthField {
 }
 
 class AuthHelper extends GetxController {
+  final FocusNode focusEmail = FocusNode();
   final FocusNode focusPassword = FocusNode();
   final RxMap<String, dynamic> authData = {
     "email": "",
@@ -68,13 +69,36 @@ class AuthHelper extends GetxController {
     }
   }
 
-  void handleLoginTextFormFieldChanged(name, value) {
-    authData[name] = value;
-    print(authData);
+  void handleLoginTextFormFieldChanged(name, value) => authData[name] = value;
+
+  validatorLogIn(String? name, String? value) {
+    if (value!.isNotEmpty) {
+      switch (name) {
+        case "email":
+          if (!value.isEmail) {
+            handleVerification(name, verificationData[name], false);
+            return "Email Tidak Sesuai Format";
+          } else {
+            handleVerification(name, verificationData[name], true);
+          }
+          break;
+        case "password":
+          if (value.length < 8) {
+            handleVerification(name, verificationData[name], false);
+            return "Password Wajib Diisi dan Minimal Terdiri dari 8 Digit";
+          } else {
+            handleVerification(name, verificationData[name], true);
+          }
+          break;
+        default:
+      }
+    } else {}
   }
 
-  void handleVerification(name, verification) {
-    verificationData[name] = !verification;
+  void handleVerification(name, verification, value) {
+    verificationData[name] = value;
+    verificationData.refresh();
+    print(verificationData);
   }
 
   final RxList<AuthField> loginList = [
