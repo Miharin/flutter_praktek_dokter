@@ -105,6 +105,7 @@ class LoginScreen extends StatelessWidget {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
+// on Save and validator simplified with make function and passing the value
                           CustomTextFormField(
                             label: "Email",
                             verification:
@@ -157,6 +158,7 @@ class LoginScreen extends StatelessWidget {
                           // Button to Input Token
                           Flexible(
                             child: Obx(
+// on pressed simplified, custom dialog in oneline
                               () => CustomFilledButton(
                                 label: "Log In",
                                 onPressed:
