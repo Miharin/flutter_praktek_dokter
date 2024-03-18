@@ -7,7 +7,6 @@ import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_drop_down/cu
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_textfromfield/custom_textformfield.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
@@ -35,7 +34,7 @@ class RegisterScreen extends StatelessWidget {
 // cari cari simplified biar nda banyak baris
                         CustomCardWithHeader(
                             header: "Autentikasi",
-                            fontzise: 18.0,
+                            fontsize: 18.0,
                             fontweight: FontWeight.bold,
                             divider: const CustomDivider(
                               space: 20.0,
@@ -63,7 +62,7 @@ class RegisterScreen extends StatelessWidget {
                             )),
                         CustomCardWithHeader(
                             header: "Identity",
-                            fontzise: 18.0,
+                            fontsize: 18.0,
                             fontweight: FontWeight.bold,
                             divider: const CustomDivider(
                               space: 20.0,
@@ -124,7 +123,8 @@ class RegisterScreen extends StatelessWidget {
                                                           .regenciesValue
                                                           .value = value!,
                                                 );
-                                              } else {// circular di custom
+                                              } else {
+                                                // circular di custom
                                                 return const CircularProgressIndicator();
                                               }
                                             }),
@@ -188,13 +188,13 @@ class RegisterScreen extends StatelessWidget {
                                                 );
                                               } else {
                                                 return CustomDropDown(
-                                                    list: const [],
-                                                    label: "Kecamatan",
-                                                    verification: _registerHelper
-                                                        .kecamatanVerification
-                                                        .isTrue,
-                                                    errorText: "");
-                                                ;
+                                                  list: const [],
+                                                  label: "Kecamatan",
+                                                  verification: _registerHelper
+                                                      .kecamatanVerification
+                                                      .isTrue,
+                                                  errorText: "",
+                                                );
                                               }
                                             }),
                                       ),
@@ -265,7 +265,10 @@ class RegisterScreen extends StatelessWidget {
                     children: [
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.1,
-                        child: const CustomFilledButton(label: "Submit"),
+                        child: CustomFilledButton(
+                          label: "Submit",
+                          onPressed: () {},
+                        ),
                       ),
                       TextButton(
                         onPressed: () {
