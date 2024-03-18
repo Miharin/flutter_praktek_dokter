@@ -193,30 +193,6 @@ class RegisterHelper extends GetxController {
     ),
   ].obs;
 
-  // functionProvince(value) {
-  //   provincesValue.value = value!;
-  //   print(provincesValue.value);
-  //   getDataProvinces();
-  // }
-
-  // functionRegencies(value) {
-  //   regenciesValue.value = value!;
-  //   print(regenciesValue.value);
-  //   getDataRegencies(regenciesValue);
-  // }
-
-  // functionDistricts(value) {
-  //   districtsValue.value = value!;
-  //   print(districtsValue.value);
-  //   getDataDistrict(districtsValue);
-  // }
-
-  // fungtionVillages(value) {
-  //   villagesValue.value = value!;
-  //   print(villagesValue.value);
-  //   getDataVillage(villagesValue);
-  // }
-
   getDataProvinces() async {
     final provincesID =
         provincesValue.value != "0" ? provincesValue.value : "35";
@@ -238,7 +214,6 @@ class RegisterHelper extends GetxController {
       Uri.parse(
           "https://miharin.github.io/api-wilayah-indonesia/api/regencies/$regenciesID.json"),
     ).then((value) => jsonDecode(value.body));
-    print(regenciesValue);
     for (var regencie in regencies) {
       regenciesData.add(Place.fromJson(regencie));
     }
