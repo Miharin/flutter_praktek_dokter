@@ -259,7 +259,10 @@ class RegisterScreen extends StatelessWidget {
                     children: [
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.1,
-                        child: const CustomFilledButton(label: "Submit"),
+                        child: CustomFilledButton(
+                          label: "Submit",
+                          onPressed: () {},
+                        ),
                       ),
                       TextButton(
                         onPressed: () {
