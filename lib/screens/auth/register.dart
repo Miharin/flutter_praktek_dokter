@@ -16,10 +16,11 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _registerHelper.getDataProvinces();
+    _registerHelper.getDataProvinces(); // coba liat getx on init
     return LayoutBuilder(
       builder: (context, constraint) {
         return SingleChildScrollView(
+// padding jadiin 1
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Padding(
@@ -31,6 +32,7 @@ class RegisterScreen extends StatelessWidget {
                     () => Wrap(
                       runSpacing: 10.0,
                       children: [
+// cari cari simplified biar nda banyak baris
                         CustomCardWithHeader(
                             header: "Autentikasi",
                             fontzise: 18.0,
@@ -41,6 +43,7 @@ class RegisterScreen extends StatelessWidget {
                             children: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
+// onSave ?
                                 CustomTextFormField(
                                   label: "NIK",
                                   verification:
@@ -68,6 +71,7 @@ class RegisterScreen extends StatelessWidget {
                             children: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
+//onSave
                                 CustomTextFormField(
                                   label: "Nama",
                                   verification:
@@ -95,6 +99,7 @@ class RegisterScreen extends StatelessWidget {
                                   Row(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
+//onSave
                                       const Gap(10.0),
                                       Obx(
                                         () => FutureBuilder(
@@ -108,6 +113,7 @@ class RegisterScreen extends StatelessWidget {
                                                   verification: _registerHelper
                                                       .provinsiVerification
                                                       .value,
+// kalau misalnya errortext sama bisa di simplified make function
                                                   errorText: !_registerHelper
                                                           .provinsiVerification
                                                           .value
@@ -118,7 +124,7 @@ class RegisterScreen extends StatelessWidget {
                                                           .regenciesValue
                                                           .value = value!,
                                                 );
-                                              } else {
+                                              } else {// circular di custom
                                                 return const CircularProgressIndicator();
                                               }
                                             }),
