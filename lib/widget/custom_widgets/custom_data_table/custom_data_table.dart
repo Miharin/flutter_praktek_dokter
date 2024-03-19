@@ -7,40 +7,19 @@ class CustomDataTable extends StatelessWidget {
     required this.datalabel,
   });
 
-  final String title;
-  final String datalabel;
+  final List<String> title;
+  final List<String> datalabel;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.8,
-      child: Card(
-        child: DataTable(
-          columns: <DataColumn>[
-            DataColumn(
-              label: Text("Name"),
-            ),
-            DataColumn(
-              label: Text("Test"),
-            ),
-          ],
-          rows: <DataRow>[
-            DataRow(
-              cells: <DataCell>[
-                DataCell(
-                  Text(datalabel),
-                ),
-                DataCell(
-                  TextField(
-                    decoration: InputDecoration(
-                      label: Text("Name"),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
+    List<Widget> listtitle = title.map((label) => Text(label)).toList();
+    List<Widget> listdatatitle = datalabel.map((label) => Text(label)).toList();
+
+    return Flexible(
+      flex: 1,
+      child: DataTable(
+        columns: listtitle.map((title) => DataColumn(label: title)).toList(),
+        rows: [DataRow(cells: listdatatitle.map((e) => DataCell(e)).toList())],
       ),
     );
   }

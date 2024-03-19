@@ -62,12 +62,11 @@ class LoginScreen extends StatelessWidget {
                                 "email",
                                 value,
                               ),
-                              validator: (value) {
-                                return _authController.validatorLogIn(
-                                  "email",
-                                  value,
-                                );
-                              },
+                              validator: (value) =>
+                                  _authController.validatorLogIn(
+                                "email",
+                                value,
+                              ),
                               keyboardType: TextInputType.emailAddress,
                             ),
                             CustomTextFormField(
@@ -94,6 +93,7 @@ class LoginScreen extends StatelessWidget {
                                   value,
                                 );
                               },
+                              keyboardType: TextInputType.visiblePassword,
                             ),
 
                             const Gap(10.0),
@@ -125,6 +125,19 @@ class LoginScreen extends StatelessWidget {
                                                 obscureText: true,
                                                 verification: _authController
                                                     .verificationData["token"]!,
+                                                onSave: (value) => _authController
+                                                    .handleLoginTextFormFieldChanged(
+                                                  "token",
+                                                  value,
+                                                ),
+                                                validator: (value) =>
+                                                    _authController
+                                                        .validatorLogIn(
+                                                  "token",
+                                                  value,
+                                                ),
+                                                keyboardType: TextInputType
+                                                    .visiblePassword,
                                               ),
                                               const Gap(10.0),
                                               Row(

@@ -21,6 +21,7 @@ class Routes {
                   return const CircularProgressIndicator();
                 } else {
                   if (snapshot.hasData) {
+                    print(snapshot.data!.email);
                     _isUserLogin.userIsLogin.value = true;
                   } else {
                     _isUserLogin.userIsLogin.value = false;

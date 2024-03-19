@@ -76,6 +76,14 @@ class AuthHelper extends GetxController {
     }
   }
 
+  void handleTokenButton() {
+    if (verificationData["token"]!) {
+      disabledTokenButton.value = false;
+    } else {
+      disabledTokenButton.value = true;
+    }
+  }
+
   void handleLoginTextFormFieldChanged(name, value) => authData[name] = value;
 
   validatorLogIn(String? name, String? value) {
@@ -97,6 +105,14 @@ class AuthHelper extends GetxController {
             handleVerification(name, verificationData[name], true);
           }
           break;
+        case "token":
+          if (value.length < 10) {
+            handleVerification(name, verificationData[name], false);
+            return "Token Wajib Diisi dan Minimal Terdiri dari 10 Digit";
+          } else {
+            handleVerification(name, verificationData[name], true);
+          }
+          break;
         default:
       }
     }
@@ -106,6 +122,7 @@ class AuthHelper extends GetxController {
     verificationData[name] = value;
     verificationData.refresh();
     handleSignInButton();
+    handleTokenButton();
   }
 
   void handleObscureText(name) {
@@ -116,6 +133,8 @@ class AuthHelper extends GetxController {
   Stream<User?> checkAuthState() {
     return FirebaseAuth.instance.authStateChanges();
   }
+
+  checkIsUserLogin() {}
 
   void signIn() async {
     try {
