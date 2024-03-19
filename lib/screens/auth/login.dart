@@ -141,15 +141,11 @@ class LoginScreen extends StatelessWidget {
                                                       "token"]!,
                                                   onSave: (value) => _authController
                                                       .handleLoginTextFormFieldChanged(
-                                                    "token",
-                                                    value,
-                                                  ),
+                                                          "token", value),
                                                   validator: (value) =>
                                                       _authController
                                                           .validatorLogIn(
-                                                    "token",
-                                                    value,
-                                                  ),
+                                                              "token", value),
                                                   suffixIcon: IconButton(
                                                     onPressed: () {
                                                       _authController
