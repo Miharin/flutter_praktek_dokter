@@ -7,13 +7,13 @@ class CustomCardWithHeader extends StatelessWidget {
     super.key,
     required this.header,
     required this.children,
-    required this.divider,
+    this.divider,
     this.fontsize,
     this.fontweight = FontWeight.bold,
   });
   final String header;
   final Widget children;
-  final CustomDivider divider;
+  final CustomDivider? divider;
 
   final double? fontsize;
   final FontWeight fontweight;
@@ -26,11 +26,11 @@ class CustomCardWithHeader extends StatelessWidget {
           Text(
             header.toUpperCase(),
             style: TextStyle(
-              fontSize: fontsize,
+              fontSize: fontsize ?? 18.0,
               fontWeight: fontweight,
             ),
           ),
-          divider,
+          divider ?? const CustomDivider(space: 20.0),
           const Gap(10.0),
           children,
         ],

@@ -24,9 +24,14 @@ class CustomDropDown extends StatelessWidget {
         expandedInsets: EdgeInsets.zero,
         menuHeight: MediaQuery.of(context).size.height * 0.35,
         enableFilter: true,
-        inputDecorationTheme: const InputDecorationTheme(
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.all(Radius.circular(5.0)))),
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5.0),
+              borderSide: BorderSide(
+                color: Colors.grey[300]!,
+                width: 1.0,
+              )),
+        ),
         label: Text(label),
         onSelected: onSelected,
         dropdownMenuEntries:

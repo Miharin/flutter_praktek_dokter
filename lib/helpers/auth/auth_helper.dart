@@ -18,31 +18,6 @@ class AuthData {
   });
 }
 
-class AuthField {
-  final String id;
-  final String label;
-  bool obscureText;
-  final TextEditingController controller;
-  final TextInputType type;
-  RxBool verification;
-  final String errorMessage;
-  final IconData? icon;
-  final Function(String?)? onSave;
-  final bool showIcon;
-
-  AuthField({
-    required this.id,
-    required this.label,
-    required this.controller,
-    this.onSave,
-    this.obscureText = false,
-    this.errorMessage = "",
-    this.icon,
-    this.type = TextInputType.text,
-    this.showIcon = false,
-  }) : verification = false.obs;
-}
-
 class AuthHelper extends GetxController {
   final FirebaseFirestore db = FirebaseFirestore.instance;
   final formKeyLogin = GlobalKey<FormState>().obs;
