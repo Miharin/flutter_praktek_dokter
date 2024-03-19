@@ -44,12 +44,18 @@ class AuthField {
 }
 
 class AuthHelper extends GetxController {
+  final FirebaseFirestore db = FirebaseFirestore.instance;
   final FocusNode focusEmail = FocusNode();
   final FocusNode focusPassword = FocusNode();
   final RxMap<String, dynamic> authData = {
     "email": "",
     "password": "",
     "token": "",
+  }.obs;
+
+  final RxMap<String, bool> obscureText = {
+    "password": true,
+    "token": true,
   }.obs;
 
   final RxMap<String, bool> verificationData = {
@@ -59,13 +65,14 @@ class AuthHelper extends GetxController {
   }.obs;
 
   final RxBool disabledSignInButton = true.obs;
+  final RxBool disabledTokenButton = true.obs;
+  final RxBool userIsLogin = false.obs;
 
   void handleSignInButton() {
-    if (verificationData["email"] == true &&
-        verificationData["password"] == true) {
+    if (verificationData["email"]! && verificationData["password"]!) {
       disabledSignInButton.value = false;
     } else {
-      disabledLoginButton.value = true;
+      disabledSignInButton.value = true;
     }
   }
 
@@ -92,112 +99,18 @@ class AuthHelper extends GetxController {
           break;
         default:
       }
-    } else {}
+    }
   }
 
   void handleVerification(name, verification, value) {
     verificationData[name] = value;
     verificationData.refresh();
-    print(verificationData);
+    handleSignInButton();
   }
 
-  final RxList<AuthField> loginList = [
-    AuthField(
-      id: "email",
-      label: "Email",
-      icon: Icons.email_rounded,
-      showIcon: true,
-      controller: TextEditingController(),
-      errorMessage: "Email Tidak Sesuai Format",
-    ),
-    AuthField(
-      id: "password",
-      label: "Password",
-      obscureText: true,
-      icon: Icons.lock_rounded,
-      showIcon: true,
-      controller: TextEditingController(),
-      errorMessage: "Password Wajib Diisi dan Minimal Terdiri dari 8 Digit",
-    ),
-  ].obs;
-
-  final RxList<AuthField> tokenList = [
-    AuthField(
-      id: "token",
-      label: "Token",
-      obscureText: true,
-      icon: Icons.password_rounded,
-      showIcon: true,
-      controller: TextEditingController(),
-      errorMessage: "Token Wajib Diisi dan Minimat Terdiri dari 10 Digit",
-    ),
-  ].obs;
-
-  var db = FirebaseFirestore.instance;
-
-  var userIsLogin = false.obs;
-
-  final List<TextEditingController> controllers =
-      List.generate(3, (index) => TextEditingController()).toList();
-
-  var emailVerification = false.obs;
-  var passwordVerification = false.obs;
-  var tokenVerification = false.obs;
-  var disabledLoginButton = true.obs;
-  var disabledTokenButton = true.obs;
-
-  var showPassword = false.obs;
-  var showToken = false.obs;
-
-  toggleObscure(AuthField field) {
-    field.obscureText = !field.obscureText;
-    loginList.refresh();
-  }
-
-  showPasswordToggle() {
-    showPassword.value = !showPassword.value;
-    for (var login in loginList) {
-      if (login.id == "password") {
-        login.obscureText = !login.obscureText;
-      }
-    }
-  }
-
-  showTokenToggle() {
-    showToken.value = !showToken.value;
-  }
-
-  setAuth(name, value) {
-    authData[name] = value;
-
-    switch (name) {
-      case "email":
-        value
-            ? emailVerification.value = true
-            : emailVerification.value = false;
-        break;
-      case "password":
-        value.length > 8
-            ? passwordVerification.value = true
-            : passwordVerification.value = false;
-        break;
-      case "token":
-        value
-            ? tokenVerification.value = true
-            : tokenVerification.value = false;
-      default:
-    }
-    if (emailVerification.value && passwordVerification.value) {
-      disabledLoginButton.value = false;
-    } else {
-      disabledLoginButton.value = true;
-    }
-
-    if (tokenVerification.value) {
-      disabledTokenButton.value = false;
-    } else {
-      disabledTokenButton.value = true;
-    }
+  void handleObscureText(name) {
+    obscureText[name] = !obscureText[name]!;
+    obscureText.refresh();
   }
 
   Stream<User?> checkAuthState() {
@@ -208,8 +121,8 @@ class AuthHelper extends GetxController {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(
-        email: loginList[0].controller.text,
-        password: loginList[1].controller.text,
+        email: authData["email"],
+        password: authData["password"],
       )
           .then((userCredential) async {
         final users = db.collection("Users");

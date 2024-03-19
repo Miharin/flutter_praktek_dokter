@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_praktek_dokter/colors/color_schemes.dart';
 import 'package:flutter_praktek_dokter/colors/custom_color.dart';
+import 'package:flutter_praktek_dokter/helpers/store_controller.dart';
 import 'package:flutter_praktek_dokter/routes.dart';
 import 'package:get/get.dart';
 
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
         ),
         getPages: Routes().routes,
         initialRoute: '/',
+        initialBinding: StoreBinding(),
       );
     });
   }
