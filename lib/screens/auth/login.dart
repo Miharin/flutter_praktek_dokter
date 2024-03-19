@@ -44,32 +44,33 @@ class LoginScreen extends StatelessWidget {
                     // Email and Password Text Field with Map
                     // textFields,
                     CustomForm(
+                      formKey: _authController.formKeyLogin.value,
                       onChanged: () {
                         _authController.handleSignInButton();
                       },
-                      child: Obx(
-                        () => Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
 // on Save and validator simplified with make function and passing the value
-                            CustomTextFormField(
-                              focusNode: _authController.focusEmail,
-                              label: "Email",
-                              verification:
-                                  _authController.verificationData["email"]!,
-                              onSave: (value) => _authController
-                                  .handleLoginTextFormFieldChanged(
-                                "email",
-                                value,
-                              ),
-                              validator: (value) =>
-                                  _authController.validatorLogIn(
-                                "email",
-                                value,
-                              ),
-                              keyboardType: TextInputType.emailAddress,
+                          CustomTextFormField(
+                            focusNode: _authController.focusEmail,
+                            label: "Email",
+                            verification:
+                                _authController.verificationData["email"]!,
+                            onSave: (value) =>
+                                _authController.handleLoginTextFormFieldChanged(
+                              "email",
+                              value,
                             ),
-                            CustomTextFormField(
+                            validator: (value) =>
+                                _authController.validatorLogIn(
+                              "email",
+                              value,
+                            ),
+                            keyboardType: TextInputType.emailAddress,
+                          ),
+                          Obx(
+                            () => CustomTextFormField(
                               focusNode: _authController.focusPassword,
                               label: "Password",
                               obscureText:
@@ -85,7 +86,13 @@ class LoginScreen extends StatelessWidget {
                                 onPressed: () {
                                   _authController.handleObscureText("password");
                                 },
-                                icon: const Icon(Icons.visibility),
+                                icon: _authController.obscureText["password"]!
+                                    ? const Icon(
+                                        Icons.visibility,
+                                      )
+                                    : const Icon(
+                                        Icons.visibility_off,
+                                      ),
                               ),
                               validator: (value) {
                                 return _authController.validatorLogIn(
@@ -95,10 +102,12 @@ class LoginScreen extends StatelessWidget {
                               },
                               keyboardType: TextInputType.visiblePassword,
                             ),
+                          ),
 
-                            const Gap(10.0),
-                            // Button to Input Token
-                            CustomFilledButton(
+                          const Gap(10.0),
+                          // Button to Input Token
+                          Obx(
+                            () => CustomFilledButton(
                               label: "Log In",
                               onPressed: _authController
                                       .disabledSignInButton.value
@@ -106,46 +115,68 @@ class LoginScreen extends StatelessWidget {
                                   : () => showModalBottomSheet(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return Padding(
-                                          padding: const EdgeInsets.all(20.0),
-                                          child: Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              const Text(
-                                                "Token Input !",
-                                                style: TextStyle(
-                                                  fontSize: 18.0,
+                                        return CustomForm(
+                                          formKey: _authController
+                                              .formKeyToken.value,
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(20.0),
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                const Text(
+                                                  "Token Input !",
+                                                  style: TextStyle(
+                                                    fontSize: 18.0,
+                                                  ),
                                                 ),
-                                              ),
-                                              const Gap(10.0),
-                                              CustomTextFormField(
-                                                label: "Token",
-                                                obscureText: true,
-                                                verification: _authController
-                                                    .verificationData["token"]!,
-                                                onSave: (value) => _authController
-                                                    .handleLoginTextFormFieldChanged(
-                                                  "token",
-                                                  value,
+                                                const Gap(10.0),
+                                                CustomTextFormField(
+                                                  label: "Token",
+                                                  obscureText: _authController
+                                                      .obscureText["token"],
+                                                  verification: _authController
+                                                          .verificationData[
+                                                      "token"]!,
+                                                  onSave: (value) => _authController
+                                                      .handleLoginTextFormFieldChanged(
+                                                    "token",
+                                                    value,
+                                                  ),
+                                                  validator: (value) =>
+                                                      _authController
+                                                          .validatorLogIn(
+                                                    "token",
+                                                    value,
+                                                  ),
+                                                  suffixIcon: IconButton(
+                                                    onPressed: () {
+                                                      _authController
+                                                          .handleObscureText(
+                                                        "token",
+                                                      );
+                                                    },
+                                                    icon: _authController
+                                                                .obscureText[
+                                                            "token"]!
+                                                        ? const Icon(
+                                                            Icons.visibility,
+                                                          )
+                                                        : const Icon(
+                                                            Icons
+                                                                .visibility_off,
+                                                          ),
+                                                  ),
+                                                  keyboardType: TextInputType
+                                                      .visiblePassword,
                                                 ),
-                                                validator: (value) =>
-                                                    _authController
-                                                        .validatorLogIn(
-                                                  "token",
-                                                  value,
-                                                ),
-                                                keyboardType: TextInputType
-                                                    .visiblePassword,
-                                              ),
-                                              const Gap(10.0),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  Obx(
-                                                    () => TextButton(
+                                                const Gap(10.0),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    TextButton(
                                                       onPressed: _authController
                                                               .disabledTokenButton
                                                               .value
@@ -158,39 +189,39 @@ class LoginScreen extends StatelessWidget {
                                                       child:
                                                           const Text("Login"),
                                                     ),
-                                                  ),
-                                                  TextButton(
-                                                    onPressed: () {
-                                                      Get.back();
-                                                    },
-                                                    child: const Text("Cancel"),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Get.back();
+                                                      },
+                                                      child:
+                                                          const Text("Cancel"),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         );
                                       }),
                             ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CustomFlatTextButton(
-                                  onPressed: () {},
-                                  child: const Text("Lupa Password"),
-                                ),
-                                const CustomVerticalDivider(
-                                  height: 20.0,
-                                ),
-                                CustomFlatTextButton(
-                                  onPressed: () =>
-                                      Get.offAndToNamed("/register"),
-                                  child: const Text("Daftar Akun"),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CustomFlatTextButton(
+                                onPressed: () {},
+                                child: const Text("Lupa Password"),
+                              ),
+                              const CustomVerticalDivider(
+                                height: 20.0,
+                              ),
+                              CustomFlatTextButton(
+                                onPressed: () => Get.offAndToNamed("/register"),
+                                child: const Text("Daftar Akun"),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   ],

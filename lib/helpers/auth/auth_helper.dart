@@ -45,6 +45,8 @@ class AuthField {
 
 class AuthHelper extends GetxController {
   final FirebaseFirestore db = FirebaseFirestore.instance;
+  final formKeyLogin = GlobalKey<FormState>().obs;
+  final formKeyToken = GlobalKey<FormState>().obs;
   final FocusNode focusEmail = FocusNode();
   final FocusNode focusPassword = FocusNode();
   final RxMap<String, dynamic> authData = {
@@ -134,7 +136,20 @@ class AuthHelper extends GetxController {
     return FirebaseAuth.instance.authStateChanges();
   }
 
-  checkIsUserLogin() {}
+  checkIsUserLogin(uid) async {
+    final users = db.collection("Users");
+    final query = users.doc(uid).get();
+
+    await query.then((userData) async {
+      final data = userData.data()!;
+
+      if (data.isNotEmpty) {
+        userIsLogin.value = true;
+      } else {
+        userIsLogin.value = false;
+      }
+    });
+  }
 
   void signIn() async {
     try {
@@ -149,7 +164,6 @@ class AuthHelper extends GetxController {
 
         await query.then((userData) async {
           // Catch if User Data if Empty
-          print(userData);
 
           // If UserData is Not Empty Next();
           final data = userData.data()!;
