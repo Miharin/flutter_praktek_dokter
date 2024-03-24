@@ -5,10 +5,12 @@ class CustomFlatTextButton extends StatelessWidget {
     super.key,
     required this.child,
     this.onPressed,
+    this.isDisabled = false,
   });
 
   final Widget child;
   final void Function()? onPressed;
+  final bool isDisabled;
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +25,14 @@ class CustomFlatTextButton extends StatelessWidget {
         }),
         foregroundColor: MaterialStateProperty.resolveWith<Color>(
             (Set<MaterialState> states) {
-          if (states.contains(MaterialState.hovered)) {
-            return Theme.of(context).colorScheme.secondary;
+          if (isDisabled) {
+            return Colors.grey;
+          } else {
+            if (states.contains(MaterialState.hovered)) {
+              return Theme.of(context).colorScheme.secondary;
+            }
+            return Theme.of(context).primaryColor;
           }
-          return Theme.of(context).primaryColor;
         }),
       ),
       onPressed: onPressed,

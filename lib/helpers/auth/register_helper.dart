@@ -17,30 +17,11 @@ class Place {
         name = json['name'] as String;
 }
 
-class RegisterData {
-  final String id;
-  final String label;
-  final TextEditingController controller;
-  final TextInputType type;
-  final bool verification;
-  final String errorMessage;
-  final IconData? icon;
-  final bool showIcon;
-  final Function(String?)? onSave;
-
-  RegisterData(
-      {required this.id,
-      required this.label,
-      required this.controller,
-      required this.errorMessage,
-      this.icon,
-      this.type = TextInputType.text,
-      this.showIcon = false,
-      this.onSave})
-      : verification = false.obs.value;
-}
-
 class RegisterHelper extends GetxController {
+  final RxInt currentStep = 0.obs;
+  final formKeyAuthentication = GlobalKey<FormState>().obs;
+  final formKeyIdentity = GlobalKey<FormState>().obs;
+  final formKeyIdentityAddon = GlobalKey<FormState>().obs;
   final RxMap<String, bool> registerVerification = {
     "nik": false,
     "email": false,
@@ -57,23 +38,106 @@ class RegisterHelper extends GetxController {
     "posCode": false,
   }.obs;
 
-  var nikVerification = false.obs;
-  var emailVerification = false.obs;
-  var passwordVerification = false.obs;
-  var namaVerification = false.obs;
-  var tempatlahirVerification = false.obs;
-  var taggallahirVerification = false.obs;
-  var provinsiVerification = false.obs;
-  var kotaVerification = false.obs;
-  var kecamatanVerification = false.obs;
-  var kelurahanVerification = false.obs;
-  var rtVerification = false.obs;
-  var rwVerification = false.obs;
-  var kodeposVerification = false.obs;
+  final RxMap<String, dynamic> registerData = {
+    "nik": "",
+    "email": "",
+    "password": "",
+    "name": "",
+    "birthPlace": "",
+    "birthDate": "",
+    "province": "",
+    "regency": "",
+    "district": "",
+    "village": "",
+    "rt": "",
+    "rw": "",
+    "posCode": "",
+  }.obs;
+
   final RxString provincesValue = "0".obs;
   final RxString regenciesValue = "0".obs;
   final RxString districtsValue = "0".obs;
   final RxString villagesValue = "0".obs;
+
+  void handleRegisterTextFormFieldChanged(name, value) {
+    registerData[name] = value;
+  }
+
+  helperText(name) {
+    switch (name) {
+      case "authentication":
+        final List verification = [];
+        verification.addAll([
+          registerVerification["nik"],
+          registerVerification["email"],
+          registerVerification["password"]
+        ]);
+        List textHelper = [];
+        for (int i = 0; i < verification.length; i++) {
+          if (!verification[i]) {
+            switch (i) {
+              case 0:
+                textHelper.add("NIK");
+                break;
+              case 1:
+                textHelper.add("Email");
+                break;
+              case 2:
+                textHelper.add("Password");
+                break;
+              default:
+            }
+          }
+        }
+        String finalTextHelper =
+            "${textHelper.join(", ")} ${textHelper.isNotEmpty ? "Belum Sesuai" : ""}";
+        return finalTextHelper;
+      default:
+    }
+  }
+
+  validatorRegister(String name, String? value) {
+    if (value!.isNotEmpty) {
+      switch (name) {
+        case "nik":
+          if (value.length < 16) {
+            handleVerification(name, registerVerification[name], false);
+            return "NIK Wajib Diisi dan Minimal 16 Digit";
+          } else {
+            handleVerification(name, registerVerification[name], true);
+          }
+          break;
+        case "email":
+          if (!value.isEmail) {
+            handleVerification(name, registerVerification[name], false);
+            return "Email Tidak Sesuai Format";
+          } else {
+            handleVerification(name, registerVerification[name], true);
+          }
+          break;
+        case "password":
+          if (value.length < 8) {
+            handleVerification(name, registerVerification[name], false);
+            return "Password Wajib Diisi dan Minimal Terdiri dari 8 Digit";
+          } else {
+            handleVerification(name, registerVerification[name], true);
+          }
+          break;
+        default:
+      }
+    }
+  }
+
+  void handleVerification(name, verification, value) {
+    registerVerification[name] = value;
+    registerVerification.refresh();
+  }
+
+  handleNextButton() {
+    if (currentStep.value <= 2) {
+      currentStep.value++;
+    }
+  }
 
   getDataProvinces() async {
     final provincesData = [];
