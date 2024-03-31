@@ -122,6 +122,7 @@ class RegisterHelper extends GetxController {
   }
 
   validatorRegister(String name, String? value) {
+    // Not Done
     if (value!.isNotEmpty) {
       switch (name) {
         case "nik":
