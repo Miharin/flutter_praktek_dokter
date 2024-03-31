@@ -21,12 +21,9 @@ class RegisterScreen extends StatelessWidget {
         title: Obx(
           () => Row(
             children: [
-              const Text("Authentication"),
+              const Text("Autentikasi"),
               const Gap(5.0),
-              Text(
-                _registerHelper.helperText("authentication"),
-                style: TextStyle(color: Theme.of(context).colorScheme.error),
-              ),
+              _registerHelper.helperText(0, 3),
             ],
           ),
         ),
@@ -84,7 +81,15 @@ class RegisterScreen extends StatelessWidget {
         ),
       ),
       Step(
-        title: const Text("Identitas"),
+        title: Obx(
+          () => Row(
+            children: [
+              const Text("Identitas"),
+              const Gap(5.0),
+              _registerHelper.helperText(3, 6),
+            ],
+          ),
+        ),
         content: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -93,160 +98,195 @@ class RegisterScreen extends StatelessWidget {
               //onSave
               CustomTextFormField(
                 label: "Nama",
-                verification: _registerHelper.registerVerification["name"]!,
+                verification: _registerHelper.registerVerification["nama"]!,
               ),
               CustomTextFormField(
                 label: "Tempat Lahir",
                 verification:
-                    _registerHelper.registerVerification["birthPlace"]!,
+                    _registerHelper.registerVerification["tempat_lahir"]!,
               ),
               CustomTextFormField(
                 label: "Tanggal Lahir",
                 keyboardType: TextInputType.datetime,
                 verification:
-                    _registerHelper.registerVerification["birthDate"]!,
+                    _registerHelper.registerVerification["tanggal_lahir"]!,
               ),
             ],
           ),
         ),
       ),
       Step(
-        title: const Text("Identitas Pelengkap"),
-        content: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
+        title: Obx(
+          () => Row(
             children: [
-              //onSave
-              FutureBuilder(
-                  future: _registerHelper.getDataProvinces(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return CustomDropDown(
-                        flex: 3,
-                        list: snapshot.data as List,
-                        label: "Provinsi",
-                        verification:
-                            _registerHelper.registerVerification["province"]!,
-                        // kalau misalnya errortext sama bisa di
-                        // simplified make function
-                        onSelected: (value) =>
-                            _registerHelper.regenciesValue.value = value!,
-                      );
-                    } else {
-                      return CustomDropDown(
-                        flex: 3,
-                        list: const [],
-                        enabled: false,
-                        label: "Provinsi",
-                        verification:
-                            _registerHelper.registerVerification["province"]!,
-                        errorText: "",
-                      );
-                    }
-                  }),
-              const Gap(10.0),
-              Obx(
-                () => FutureBuilder(
-                    future: _registerHelper.getDataRegencies(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return CustomDropDown(
-                          flex: 3,
-                          list: snapshot.data as List,
-                          label: "Kabupaten / Kota",
-                          verification:
-                              _registerHelper.registerVerification["regency"]!,
-                          onSelected: (value) =>
-                              _registerHelper.districtsValue.value = value!,
-                        );
-                      } else {
-                        return CustomDropDown(
+              const Text("Identitas Lengkap"),
+              const Gap(5.0),
+              _registerHelper.helperText(6, 13),
+            ],
+          ),
+        ),
+        content: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  //onSave
+                  FutureBuilder(
+                      future: _registerHelper.getDataProvinces(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return CustomDropDown(
+                            flex: 3,
+                            list: snapshot.data as List,
+                            label: "Provinsi",
+                            verification: _registerHelper
+                                .registerVerification["provinsi"]!,
+                            // kalau misalnya errortext sama bisa di
+                            // simplified make function
+                            onSelected: (value) =>
+                                _registerHelper.regenciesValue.value = value!,
+                          );
+                        } else {
+                          return CustomDropDown(
                             flex: 3,
                             list: const [],
                             enabled: false,
-                            label: "Kabupaten / Kota",
+                            label: "Provinsi",
                             verification: _registerHelper
-                                .registerVerification["regency"]!,
-                            errorText: "");
-                      }
-                    }),
-              ),
-              const Gap(10.0),
-              Obx(
-                () => FutureBuilder(
-                    future: _registerHelper.getDataDistrict(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return CustomDropDown(
-                          flex: 3,
-                          list: snapshot.data as List,
-                          label: "Kecamatan",
-                          verification:
-                              _registerHelper.registerVerification["district"]!,
-                          onSelected: (value) =>
-                              _registerHelper.villagesValue.value = value!,
-                        );
-                      } else {
-                        return CustomDropDown(
-                          flex: 3,
-                          list: const [],
-                          label: "Kecamatan",
-                          enabled: false,
-                          verification:
-                              _registerHelper.registerVerification["district"]!,
-                          errorText: "",
-                        );
-                      }
-                    }),
-              ),
-              const Gap(10.0),
-              Obx(
-                () => FutureBuilder(
-                    future: _registerHelper.getDataVillage(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return CustomDropDown(
-                          flex: 3,
-                          list: snapshot.data as List,
-                          label: "Kelurahan / Desa",
-                          verification:
-                              _registerHelper.registerVerification["village"]!,
-                        );
-                      } else {
-                        return CustomDropDown(
-                          flex: 3,
-                          list: const [],
-                          enabled: false,
-                          label: "Kelurahan / Desa",
-                          verification:
-                              _registerHelper.registerVerification["village"]!,
-                          errorText: "",
-                        );
-                      }
-                    }),
-              ),
+                                .registerVerification["provinsi"]!,
+                            errorText: "",
+                          );
+                        }
+                      }),
+                  const Gap(10.0),
+                  Obx(
+                    () => FutureBuilder(
+                        future: _registerHelper.getDataRegencies(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return CustomDropDown(
+                              flex: 3,
+                              list: snapshot.data as List,
+                              label: "Kabupaten / Kota",
+                              verification: _registerHelper
+                                  .registerVerification["kabupaten"]!,
+                              onSelected: (value) =>
+                                  _registerHelper.districtsValue.value = value!,
+                            );
+                          } else {
+                            return CustomDropDown(
+                                flex: 3,
+                                list: const [],
+                                enabled: false,
+                                label: "Kabupaten / Kota",
+                                verification: _registerHelper
+                                    .registerVerification["kabupaten"]!,
+                                errorText: "");
+                          }
+                        }),
+                  ),
+                  const Gap(10.0),
+                  Obx(
+                    () => FutureBuilder(
+                        future: _registerHelper.getDataDistrict(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return CustomDropDown(
+                              flex: 3,
+                              list: snapshot.data as List,
+                              label: "Kecamatan",
+                              verification: _registerHelper
+                                  .registerVerification["kecamatan"]!,
+                              onSelected: (value) =>
+                                  _registerHelper.villagesValue.value = value!,
+                            );
+                          } else {
+                            return CustomDropDown(
+                              flex: 3,
+                              list: const [],
+                              label: "Kecamatan",
+                              enabled: false,
+                              verification: _registerHelper
+                                  .registerVerification["kecamatan"]!,
+                              errorText: "",
+                            );
+                          }
+                        }),
+                  ),
+                  const Gap(10.0),
+                  Obx(
+                    () => FutureBuilder(
+                        future: _registerHelper.getDataVillage(),
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return CustomDropDown(
+                              flex: 3,
+                              list: snapshot.data as List,
+                              label: "Kelurahan / Desa",
+                              verification: _registerHelper
+                                  .registerVerification["kelurahan"]!,
+                            );
+                          } else {
+                            return CustomDropDown(
+                              flex: 3,
+                              list: const [],
+                              enabled: false,
+                              label: "Kelurahan / Desa",
+                              verification: _registerHelper
+                                  .registerVerification["kelurahan"]!,
+                              errorText: "",
+                            );
+                          }
+                        }),
+                  ),
 
-              CustomTextFormField(
-                label: "RT",
-                length: 2,
-                verification: _registerHelper.registerVerification["rt"]!,
-                keyboardType: TextInputType.number,
+                  CustomTextFormField(
+                    label: "RT",
+                    length: 2,
+                    verification: _registerHelper.registerVerification["rt"]!,
+                    keyboardType: TextInputType.number,
+                  ),
+                  CustomTextFormField(
+                    label: "RW",
+                    length: 2,
+                    verification: _registerHelper.registerVerification["rw"]!,
+                    keyboardType: TextInputType.number,
+                  ),
+                  CustomTextFormField(
+                    label: "Kode Pos",
+                    length: 5,
+                    verification:
+                        _registerHelper.registerVerification["kode_pos"]!,
+                    keyboardType: TextInputType.number,
+                  ),
+                ],
               ),
-              CustomTextFormField(
-                label: "RW",
-                length: 2,
-                verification: _registerHelper.registerVerification["rw"]!,
-                keyboardType: TextInputType.number,
-              ),
-              CustomTextFormField(
-                label: "Kode Pos",
-                length: 5,
-                verification: _registerHelper.registerVerification["posCode"]!,
-                keyboardType: TextInputType.number,
-              ),
-            ],
-          ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  width: 120.0,
+                  child: CustomFilledButton(
+                    onPressed: () {},
+                    label: "Submit",
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: CustomFlatTextButton(
+                    onPressed: () {
+                      _registerHelper.currentStep.value--;
+                    },
+                    child: const Text("Cancel"),
+                  ),
+                ),
+              ],
+            )
+          ],
         ),
       ),
     ];
@@ -267,29 +307,35 @@ class RegisterScreen extends StatelessWidget {
                     _registerHelper.currentStep.value--;
                   }
                 },
+                onStepTapped: (step) {
+                  _registerHelper.currentStep.value = step;
+                },
                 controlsBuilder: (BuildContext context, _) {
                   final isFirstStep = _registerHelper.currentStep.value == 0;
                   final isLastStep = _registerHelper.currentStep.value == 2;
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(
-                        width: isLastStep ? 150.0 : 100.0,
-                        child: CustomFilledButton(
-                          onPressed: !isLastStep ? _.onStepContinue : null,
-                          label: isLastStep ? "Submit" : "Next",
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8.0, 4.0, 4.0, 8.0),
-                        child: CustomFlatTextButton(
-                          isDisabled: isFirstStep ? true : false,
-                          onPressed: isFirstStep ? null : _.onStepCancel,
-                          child: const Text("Cancel"),
-                        ),
-                      ),
-                    ],
+                    children: isLastStep
+                        ? []
+                        : [
+                            SizedBox(
+                              width: 100.0,
+                              child: CustomFilledButton(
+                                onPressed: _.onStepContinue,
+                                label: "Next",
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.fromLTRB(8.0, 4.0, 4.0, 8.0),
+                              child: CustomFlatTextButton(
+                                isDisabled: isFirstStep ? true : false,
+                                onPressed: isFirstStep ? null : _.onStepCancel,
+                                child: const Text("Cancel"),
+                              ),
+                            ),
+                          ],
                   );
                 },
                 steps: steps,

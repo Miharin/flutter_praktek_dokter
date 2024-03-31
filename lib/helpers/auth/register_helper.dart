@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:http/http.dart';
 import 'package:get/get.dart';
 
@@ -26,16 +27,16 @@ class RegisterHelper extends GetxController {
     "nik": false,
     "email": false,
     "password": false,
-    "name": false,
-    "birthPlace": false,
-    "birthDate": false,
-    "province": false,
-    "regency": false,
-    "district": false,
-    "village": false,
+    "nama": false,
+    "tempat_lahir": false,
+    "tanggal_lahir": false,
+    "provinsi": false,
+    "kabupaten": false,
+    "kecamatan": false,
+    "kelurahan": false,
     "rt": false,
     "rw": false,
-    "posCode": false,
+    "kode_pos": false,
   }.obs;
 
   final RxMap<String, dynamic> registerData = {
@@ -63,37 +64,61 @@ class RegisterHelper extends GetxController {
     registerData[name] = value;
   }
 
-  helperText(name) {
-    switch (name) {
-      case "authentication":
-        final List verification = [];
-        verification.addAll([
-          registerVerification["nik"],
-          registerVerification["email"],
-          registerVerification["password"]
-        ]);
-        List textHelper = [];
-        for (int i = 0; i < verification.length; i++) {
-          if (!verification[i]) {
-            switch (i) {
-              case 0:
-                textHelper.add("NIK");
-                break;
-              case 1:
-                textHelper.add("Email");
-                break;
-              case 2:
-                textHelper.add("Password");
-                break;
-              default:
-            }
-          }
+  helperText(int start, int end) {
+    final List verification = [];
+    verification
+        .addAll(registerVerification.values.toList().getRange(start, end));
+    final List<String?> keys =
+        registerVerification.keys.toList().getRange(start, end).toList().map(
+      (element) {
+        if (element == "nik" || element == "rt" || element == "rw") {
+          return element.toUpperCase();
+        } else if (element.contains("_")) {
+          final List elementChange = element.split("_");
+          return elementChange.join(" ").capitalize;
+        } else {
+          return element.capitalize;
         }
-        String finalTextHelper =
-            "${textHelper.join(", ")} ${textHelper.isNotEmpty ? "Belum Sesuai" : ""}";
-        return finalTextHelper;
-      default:
+      },
+    ).toList();
+    final List<String> textHelperValue = [];
+    for (var i = 0; i < verification.length; i++) {
+      if (!verification[i]) {
+        textHelperValue.add(keys[i]!);
+      }
     }
+    String finalTextHelper = "${textHelperValue.join(", ")}"
+        " "
+        "${textHelperValue.isNotEmpty ? "Belum Sesuai" : "Sudah Lengkap"}";
+    return Row(
+      children: textHelperValue.isNotEmpty
+          ? [
+              Text(
+                finalTextHelper,
+                style: TextStyle(
+                  color: textHelperValue.isEmpty ? Colors.green : Colors.red,
+                ),
+              ),
+              const Gap(5.0),
+              const Icon(
+                Icons.close,
+                color: Colors.red,
+              ),
+            ]
+          : [
+              Text(
+                finalTextHelper,
+                style: TextStyle(
+                  color: textHelperValue.isEmpty ? Colors.green : Colors.red,
+                ),
+              ),
+              const Gap(5.0),
+              const Icon(
+                Icons.check,
+                color: Colors.green,
+              ),
+            ],
+    );
   }
 
   validatorRegister(String name, String? value) {
