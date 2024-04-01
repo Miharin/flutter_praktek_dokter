@@ -18,6 +18,39 @@ class Place {
         name = json['name'] as String;
 }
 
+class Keys {
+  final List<String> label;
+  Keys({
+    required this.label,
+  });
+
+  Keys.capitalize(this.label) {
+    for (var element in label) {
+      const List<String> keyForUpperCase = ["nik", "rt", "rw"];
+      if (keyForUpperCase.where((key) => key.contains(element)).isNotEmpty) {
+        label[label.indexOf(element)] = element.toUpperCase();
+      } else if (element.contains("_")) {
+        label[label.indexOf(element)] =
+            element.split("_").join(" ").capitalize!;
+      } else {
+        label[label.indexOf(element)] = element.capitalize!;
+      }
+    }
+  }
+}
+
+class VerificationData {
+  final String name;
+  final bool isValid;
+  final int? length;
+
+  VerificationData({
+    required this.name,
+    required this.isValid,
+    this.length,
+  });
+}
+
 class RegisterHelper extends GetxController {
   final RxInt currentStep = 0.obs;
   final formKeyAuthentication = GlobalKey<FormState>().obs;
@@ -65,22 +98,11 @@ class RegisterHelper extends GetxController {
   }
 
   helperText(int start, int end) {
-    final List verification = [];
-    verification
-        .addAll(registerVerification.values.toList().getRange(start, end));
-    final List<String?> keys =
-        registerVerification.keys.toList().getRange(start, end).toList().map(
-      (element) {
-        if (element == "nik" || element == "rt" || element == "rw") {
-          return element.toUpperCase();
-        } else if (element.contains("_")) {
-          final List elementChange = element.split("_");
-          return elementChange.join(" ").capitalize;
-        } else {
-          return element.capitalize;
-        }
-      },
-    ).toList();
+    final List verification =
+        registerVerification.values.toList().getRange(start, end).toList();
+    final List<String?> keys = Keys.capitalize(
+      registerVerification.keys.toList().getRange(start, end).toList(),
+    ).label;
     final List<String> textHelperValue = [];
     for (var i = 0; i < verification.length; i++) {
       if (!verification[i]) {
