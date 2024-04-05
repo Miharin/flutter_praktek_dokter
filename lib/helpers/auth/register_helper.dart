@@ -165,12 +165,12 @@ class RegisterHelper extends GetxController {
           break;
         case "name":
           if (value.isEmpty) {
-           handleVerification(name, registerVerification[name], false);
-           return "Nama Wajib Diisi";
+            handleVerification(name, registerVerification[name], false);
+            return "Nama Wajib Diisi";
           } else {
-           handleVerification(name, registerVerification[name], true);
+            handleVerification(name, registerVerification[name], true);
           }
-          break:
+          break;
         case "password":
           if (value.length < 8) {
             handleVerification(name, registerVerification[name], false);
