@@ -7,6 +7,7 @@ import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_form/custom_
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_textfromfield/custom_textformfield.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
@@ -15,6 +16,7 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var dateTimeController = TextEditingController();
     _registerHelper.getDataProvinces(); // coba liat getx on init
     final steps = <Step>[
       Step(
@@ -62,19 +64,35 @@ class RegisterScreen extends StatelessWidget {
                 ),
                 keyboardType: TextInputType.emailAddress,
               ),
-              CustomTextFormField(
-                label: "Password",
-                verification: _registerHelper.registerVerification["password"]!,
-                onSave: (value) =>
-                    _registerHelper.handleRegisterTextFormFieldChanged(
-                  "password",
-                  value,
+              Obx(
+                () => CustomTextFormField(
+                  label: "Password",
+                  verification:
+                      _registerHelper.registerVerification["password"]!,
+                  obscureText: _registerHelper.passwordHide.value,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      _registerHelper.togglePassword();
+                    },
+                    icon: _registerHelper.passwordHide.value
+                        ? const Icon(
+                            Icons.visibility,
+                          )
+                        : const Icon(
+                            Icons.visibility_off,
+                          ),
+                  ),
+                  onSave: (value) =>
+                      _registerHelper.handleRegisterTextFormFieldChanged(
+                    "password",
+                    value,
+                  ),
+                  validator: (value) => _registerHelper.validatorRegister(
+                    "password",
+                    value,
+                  ),
+                  keyboardType: TextInputType.text,
                 ),
-                validator: (value) => _registerHelper.validatorRegister(
-                  "password",
-                  value,
-                ),
-                keyboardType: TextInputType.text,
               ),
             ],
           ),
@@ -99,6 +117,10 @@ class RegisterScreen extends StatelessWidget {
               CustomTextFormField(
                 label: "Nama",
                 verification: _registerHelper.registerVerification["nama"]!,
+                validator: (value) => _registerHelper.validatorRegister(
+                  "nama",
+                  value,
+                ),
               ),
               CustomTextFormField(
                 label: "Tempat Lahir",
@@ -106,11 +128,23 @@ class RegisterScreen extends StatelessWidget {
                     _registerHelper.registerVerification["tempat_lahir"]!,
               ),
               CustomTextFormField(
-                label: "Tanggal Lahir",
-                keyboardType: TextInputType.datetime,
-                verification:
-                    _registerHelper.registerVerification["tanggal_lahir"]!,
-              ),
+                  label: "Tanggal Lahir",
+                  keyboardType: TextInputType.datetime,
+                  controller: dateTimeController,
+                  verification:
+                      _registerHelper.registerVerification["tanggal_lahir"]!,
+                  onTap: () async {
+                    DateTime? pickedDate = await showDatePicker(
+                        context: context,
+                        firstDate: DateTime(1900),
+                        lastDate: DateTime.now(),
+                        initialDate: DateTime.now());
+                    if (pickedDate != null) {
+                      String formattedDate =
+                          DateFormat.yMMMMd('in-in').format(pickedDate);
+                      dateTimeController.text = formattedDate;
+                    }
+                  }),
             ],
           ),
         ),

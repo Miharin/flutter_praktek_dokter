@@ -88,10 +88,16 @@ class RegisterHelper extends GetxController {
     "posCode": "",
   }.obs;
 
+  final RxBool passwordHide = true.obs;
+
   final RxString provincesValue = "0".obs;
   final RxString regenciesValue = "0".obs;
   final RxString districtsValue = "0".obs;
   final RxString villagesValue = "0".obs;
+
+  void togglePassword() {
+    passwordHide.value = !passwordHide.value;
+  }
 
   void handleRegisterTextFormFieldChanged(name, value) {
     registerData[name] = value;
@@ -149,34 +155,62 @@ class RegisterHelper extends GetxController {
       switch (name) {
         case "nik":
           if (value.length < 16) {
-            handleVerification(name, registerVerification[name], false);
+            handleVerification(name, false);
             return "NIK Wajib Diisi dan Minimal 16 Digit";
           } else {
-            handleVerification(name, registerVerification[name], true);
+            handleVerification(name, true);
           }
           break;
         case "email":
           if (!value.isEmail) {
-            handleVerification(name, registerVerification[name], false);
+            handleVerification(name, false);
             return "Email Tidak Sesuai Format";
           } else {
-            handleVerification(name, registerVerification[name], true);
+            handleVerification(name, true);
           }
           break;
-        case "name":
-          if (value.isEmpty) {
-            handleVerification(name, registerVerification[name], false);
-            return "Nama Wajib Diisi";
+        case "nama" ||
+              "provinsi" ||
+              "kabupaten" ||
+              "kecamatan" ||
+              "kelurahan" ||
+              "tanggal_lahir":
+          handleVerification(name, true);
+          break;
+        case "rt" || "rw":
+          if (value.length < 2) {
+            handleVerification(name, false);
+            return "${Keys.capitalize([
+                  name
+                ]).label} Minimal terdiri dari 2 Digit";
           } else {
-            handleVerification(name, registerVerification[name], true);
+            handleVerification(name, true);
+          }
+          break;
+        case "kodePos":
+          if (value.length < 5) {
+            handleVerification(name, false);
+            return "${Keys.capitalize([
+                  name
+                ]).label} Minimal terdiri dari 5 Digit";
+          } else {
+            handleVerification(name, true);
+          }
+          break;
+        case "tempat_lahir":
+          if (value.length < 4) {
+            handleVerification(name, false);
+            return "Tempat Lahir Minimal Terdiri dari 4 Huruf";
+          } else {
+            handleVerification(name, true);
           }
           break;
         case "password":
           if (value.length < 8) {
-            handleVerification(name, registerVerification[name], false);
+            handleVerification(name, false);
             return "Password Wajib Diisi dan Minimal Terdiri dari 8 Digit";
           } else {
-            handleVerification(name, registerVerification[name], true);
+            handleVerification(name, true);
           }
           break;
         default:
@@ -184,7 +218,7 @@ class RegisterHelper extends GetxController {
     }
   }
 
-  void handleVerification(name, verification, value) {
+  void handleVerification(name, value) {
     registerVerification[name] = value;
     registerVerification.refresh();
   }

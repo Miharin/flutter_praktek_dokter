@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 
 class CustomTextFormField extends StatelessWidget {
   CustomTextFormField({
@@ -18,8 +17,10 @@ class CustomTextFormField extends StatelessWidget {
     this.errorBorder,
     this.border,
     this.onSave,
+    this.onTap,
     this.flex,
     this.length,
+    this.controller,
   });
 
 // Start Required Properties
@@ -29,6 +30,7 @@ class CustomTextFormField extends StatelessWidget {
   final FocusNode? focusNode;
   final int? flex;
   final int? length;
+  final TextEditingController? controller;
 // End Required Properties
 
 // Start Additional Properties
@@ -81,6 +83,7 @@ class CustomTextFormField extends StatelessWidget {
 
   // Function
   final Function(String?)? onSave;
+  final void Function()? onTap;
 
   // End Additional Properties
 
@@ -93,6 +96,7 @@ class CustomTextFormField extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(right: 4.0),
         child: TextFormField(
+          controller: controller,
           focusNode: focusNode,
           validator: validator,
           keyboardType: keyboardType ?? TextInputType.text,
@@ -102,21 +106,7 @@ class CustomTextFormField extends StatelessWidget {
           onChanged: onSave,
           maxLength: length,
           // if Date Time onTap Popup Date Picker
-          onTap: () async {
-            if (keyboardType == TextInputType.datetime) {
-              DateTime? pickedDate = await showDatePicker(
-                  context: context,
-                  firstDate: DateTime(1900),
-                  lastDate: DateTime.now(),
-                  initialDate: DateTime.now());
-              if (pickedDate != null) {
-                String formattedDate =
-                    DateFormat.yMMMMd('in-in').format(pickedDate);
-                print(formattedDate);
-                // controller.text = formattedDate;
-              }
-            }
-          },
+          onTap: onTap,
           // If Obscure Text is Empty or Null Set Obscure Text to False
           obscureText: obscureText ?? false,
           readOnly: readOnly ?? false,
