@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_praktek_dokter/helpers/auth/register_helper.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_button/custom__text_button.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_button/custom_filled_button.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_form/custom_
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_textfromfield/custom_textformfield.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
@@ -16,7 +16,6 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var dateTimeController = TextEditingController();
     _registerHelper.getDataProvinces(); // coba liat getx on init
     final steps = <Step>[
       Step(
@@ -121,30 +120,43 @@ class RegisterScreen extends StatelessWidget {
                   "nama",
                   value,
                 ),
+                onSave: (value) =>
+                    _registerHelper.handleRegisterTextFormFieldChanged(
+                  "nama",
+                  value,
+                ),
               ),
               CustomTextFormField(
                 label: "Tempat Lahir",
                 verification:
                     _registerHelper.registerVerification["tempat_lahir"]!,
+                validator: (value) => _registerHelper.validatorRegister(
+                  "tempat_lahir",
+                  value,
+                ),
+                onSave: (value) =>
+                    _registerHelper.handleRegisterTextFormFieldChanged(
+                  "tempat_lahir",
+                  value,
+                ),
               ),
               CustomTextFormField(
-                  label: "Tanggal Lahir",
-                  keyboardType: TextInputType.datetime,
-                  controller: dateTimeController,
-                  verification:
-                      _registerHelper.registerVerification["tanggal_lahir"]!,
-                  onTap: () async {
-                    DateTime? pickedDate = await showDatePicker(
-                        context: context,
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime.now(),
-                        initialDate: DateTime.now());
-                    if (pickedDate != null) {
-                      String formattedDate =
-                          DateFormat.yMMMMd('in-in').format(pickedDate);
-                      dateTimeController.text = formattedDate;
-                    }
-                  }),
+                label: "Tanggal Lahir",
+                readOnly: true,
+                focusNode: _registerHelper.focusDateTime,
+                keyboardType: TextInputType.datetime,
+                controller: _registerHelper.dateTimeController,
+                verification:
+                    _registerHelper.registerVerification["tanggal_lahir"]!,
+                validator: (value) => _registerHelper.validatorRegister(
+                  "tanggal_lahir",
+                  value,
+                ),
+                onTap: () => _registerHelper.dateTimePicker(
+                  context,
+                  _registerHelper.dateTimeController,
+                ),
+              ),
             ],
           ),
         ),
@@ -179,8 +191,18 @@ class RegisterScreen extends StatelessWidget {
                                 .registerVerification["provinsi"]!,
                             // kalau misalnya errortext sama bisa di
                             // simplified make function
-                            onSelected: (value) =>
-                                _registerHelper.regenciesValue.value = value!,
+                            onSelected: (value) {
+                              _registerHelper.regenciesValue.value = value!;
+                              _registerHelper
+                                  .handleRegisterTextFormFieldChanged(
+                                "provinsi",
+                                value,
+                              );
+                              _registerHelper.validatorRegister(
+                                "provinsi",
+                                value,
+                              );
+                            },
                           );
                         } else {
                           return CustomDropDown(
@@ -206,8 +228,18 @@ class RegisterScreen extends StatelessWidget {
                               label: "Kabupaten / Kota",
                               verification: _registerHelper
                                   .registerVerification["kabupaten"]!,
-                              onSelected: (value) =>
-                                  _registerHelper.districtsValue.value = value!,
+                              onSelected: (value) {
+                                _registerHelper.districtsValue.value = value!;
+                                _registerHelper
+                                    .handleRegisterTextFormFieldChanged(
+                                  "kabupaten",
+                                  value,
+                                );
+                                _registerHelper.validatorRegister(
+                                  "kabupaten",
+                                  value,
+                                );
+                              },
                             );
                           } else {
                             return CustomDropDown(
@@ -233,8 +265,18 @@ class RegisterScreen extends StatelessWidget {
                               label: "Kecamatan",
                               verification: _registerHelper
                                   .registerVerification["kecamatan"]!,
-                              onSelected: (value) =>
-                                  _registerHelper.villagesValue.value = value!,
+                              onSelected: (value) {
+                                _registerHelper.villagesValue.value = value!;
+                                _registerHelper
+                                    .handleRegisterTextFormFieldChanged(
+                                  "kecamatan",
+                                  value,
+                                );
+                                _registerHelper.validatorRegister(
+                                  "kecamatan",
+                                  value,
+                                );
+                              },
                             );
                           } else {
                             return CustomDropDown(
@@ -261,6 +303,17 @@ class RegisterScreen extends StatelessWidget {
                               label: "Kelurahan / Desa",
                               verification: _registerHelper
                                   .registerVerification["kelurahan"]!,
+                              onSelected: (value) {
+                                _registerHelper
+                                    .handleRegisterTextFormFieldChanged(
+                                  "kelurahan",
+                                  value,
+                                );
+                                _registerHelper.validatorRegister(
+                                  "kelurahan",
+                                  value,
+                                );
+                              },
                             );
                           } else {
                             return CustomDropDown(
@@ -280,12 +333,30 @@ class RegisterScreen extends StatelessWidget {
                     label: "RT",
                     length: 2,
                     verification: _registerHelper.registerVerification["rt"]!,
+                    validator: (value) => _registerHelper.validatorRegister(
+                      "rt",
+                      value,
+                    ),
+                    onSave: (value) =>
+                        _registerHelper.handleRegisterTextFormFieldChanged(
+                      "rt",
+                      value,
+                    ),
                     keyboardType: TextInputType.number,
                   ),
                   CustomTextFormField(
                     label: "RW",
                     length: 2,
                     verification: _registerHelper.registerVerification["rw"]!,
+                    validator: (value) => _registerHelper.validatorRegister(
+                      "rw",
+                      value,
+                    ),
+                    onSave: (value) =>
+                        _registerHelper.handleRegisterTextFormFieldChanged(
+                      "rw",
+                      value,
+                    ),
                     keyboardType: TextInputType.number,
                   ),
                   CustomTextFormField(
@@ -293,6 +364,15 @@ class RegisterScreen extends StatelessWidget {
                     length: 5,
                     verification:
                         _registerHelper.registerVerification["kode_pos"]!,
+                    validator: (value) => _registerHelper.validatorRegister(
+                      "kode_pos",
+                      value,
+                    ),
+                    onSave: (value) =>
+                        _registerHelper.handleRegisterTextFormFieldChanged(
+                      "kode_pos",
+                      value,
+                    ),
                     keyboardType: TextInputType.number,
                   ),
                 ],
@@ -305,7 +385,15 @@ class RegisterScreen extends StatelessWidget {
                 SizedBox(
                   width: 120.0,
                   child: CustomFilledButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (_registerHelper.registerVerification.values
+                          .toList()
+                          .every((element) => element == true)) {
+                        print("passed");
+                      } else {
+                        print("not verified");
+                      }
+                    },
                     label: "Submit",
                   ),
                 ),

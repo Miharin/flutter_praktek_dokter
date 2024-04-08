@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:http/http.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class Place {
   final String id;
@@ -54,6 +55,8 @@ class VerificationData {
 class RegisterHelper extends GetxController {
   final RxInt currentStep = 0.obs;
   final formKeyAuthentication = GlobalKey<FormState>().obs;
+  final FocusNode focusDateTime = FocusNode();
+  final dateTimeController = TextEditingController();
   final formKeyIdentity = GlobalKey<FormState>().obs;
   final formKeyIdentityAddon = GlobalKey<FormState>().obs;
   final RxMap<String, bool> registerVerification = {
@@ -76,16 +79,16 @@ class RegisterHelper extends GetxController {
     "nik": "",
     "email": "",
     "password": "",
-    "name": "",
-    "birthPlace": "",
-    "birthDate": "",
-    "province": "",
-    "regency": "",
-    "district": "",
-    "village": "",
+    "nama": "",
+    "tempat_lahir": "",
+    "tanggal_lahir": "",
+    "provinsi": "",
+    "kabupaten": "",
+    "kecamatan": "",
+    "kelurahan": "",
     "rt": "",
     "rw": "",
-    "posCode": "",
+    "kode_pos": "",
   }.obs;
 
   final RxBool passwordHide = true.obs;
@@ -94,6 +97,37 @@ class RegisterHelper extends GetxController {
   final RxString regenciesValue = "0".obs;
   final RxString districtsValue = "0".obs;
   final RxString villagesValue = "0".obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    focusDateTime.addListener(() {
+      if (focusDateTime.hasFocus) {
+        dateTimePicker(focusDateTime.context, dateTimeController);
+      }
+    });
+  }
+
+  dateTimePicker(context, controller) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      firstDate: DateTime(1900),
+      lastDate: DateTime.now(),
+      initialDate: DateTime.now(),
+    ).then((value) {
+      primaryFocus!.unfocus(disposition: UnfocusDisposition.scope);
+      return value;
+    });
+    if (pickedDate != null) {
+      String formattedDate = DateFormat.yMMMMd('in-in').format(pickedDate);
+      validatorRegister(
+        "tanggal_lahir",
+        formattedDate,
+      );
+      registerData["tanggal_lahir"] = formattedDate;
+      controller.text = formattedDate;
+    }
+  }
 
   void togglePassword() {
     passwordHide.value = !passwordHide.value;
@@ -180,19 +214,15 @@ class RegisterHelper extends GetxController {
         case "rt" || "rw":
           if (value.length < 2) {
             handleVerification(name, false);
-            return "${Keys.capitalize([
-                  name
-                ]).label} Minimal terdiri dari 2 Digit";
+            return "Minimal 2 Digit";
           } else {
             handleVerification(name, true);
           }
           break;
-        case "kodePos":
+        case "kode_pos":
           if (value.length < 5) {
             handleVerification(name, false);
-            return "${Keys.capitalize([
-                  name
-                ]).label} Minimal terdiri dari 5 Digit";
+            return "Minimal 5 Digit";
           } else {
             handleVerification(name, true);
           }
