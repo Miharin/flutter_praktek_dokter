@@ -14,7 +14,7 @@ import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_button/custo
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
-  final _authController = Get.find<AuthHelper>();
+  final _authController = Get.put(AuthHelper());
 
   @override
   Widget build(BuildContext context) {
@@ -115,87 +115,82 @@ class LoginScreen extends StatelessWidget {
                                   : () => showModalBottomSheet(
                                       context: context,
                                       builder: (BuildContext context) {
-                                        return CustomForm(
-                                          formKey: _authController
-                                              .formKeyToken.value,
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(20.0),
-                                            child: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                const Text(
-                                                  "Token Input !",
-                                                  style: TextStyle(
-                                                    fontSize: 18.0,
-                                                  ),
+                                        return Padding(
+                                          padding: const EdgeInsets.all(20.0),
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              const Text(
+                                                "Token Input !",
+                                                style: TextStyle(
+                                                  fontSize: 18.0,
                                                 ),
-                                                const Gap(10.0),
-                                                CustomTextFormField(
-                                                  label: "Token",
-                                                  obscureText: _authController
-                                                      .obscureText["token"],
-                                                  verification: _authController
-                                                          .verificationData[
-                                                      "token"]!,
-                                                  onSave: (value) => _authController
-                                                      .handleLoginTextFormFieldChanged(
-                                                          "token", value),
-                                                  validator: (value) =>
-                                                      _authController
-                                                          .validatorLogIn(
-                                                              "token", value),
-                                                  suffixIcon: IconButton(
-                                                    onPressed: () {
-                                                      _authController
-                                                          .handleObscureText(
-                                                        "token",
-                                                      );
-                                                    },
-                                                    icon: _authController
-                                                                .obscureText[
-                                                            "token"]!
-                                                        ? const Icon(
-                                                            Icons.visibility,
-                                                          )
-                                                        : const Icon(
-                                                            Icons
-                                                                .visibility_off,
-                                                          ),
-                                                  ),
-                                                  keyboardType: TextInputType
-                                                      .visiblePassword,
-                                                ),
-                                                const Gap(10.0),
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment.end,
-                                                  children: [
-                                                    TextButton(
-                                                      onPressed: _authController
-                                                              .disabledTokenButton
-                                                              .value
-                                                          ? () {
-                                                              _authController
-                                                                  .signIn();
-                                                              Get.back();
-                                                            }
-                                                          : null,
-                                                      child:
-                                                          const Text("Login"),
-                                                    ),
-                                                    TextButton(
+                                              ),
+                                              const Gap(10.0),
+                                              Obx(() => CustomTextFormField(
+                                                    label: "Token",
+                                                    obscureText: _authController
+                                                        .obscureText["token"],
+                                                    verification: _authController
+                                                            .verificationData[
+                                                        "token"]!,
+                                                    onSave: (value) =>
+                                                        _authController
+                                                            .handleLoginTextFormFieldChanged(
+                                                                "token", value),
+                                                    validator: (value) =>
+                                                        _authController
+                                                            .validatorLogIn(
+                                                                "token", value),
+                                                    suffixIcon: IconButton(
                                                       onPressed: () {
-                                                        Get.back();
+                                                        _authController
+                                                            .handleObscureText(
+                                                          "token",
+                                                        );
                                                       },
-                                                      child:
-                                                          const Text("Cancel"),
+                                                      icon: _authController
+                                                                  .obscureText[
+                                                              "token"]!
+                                                          ? const Icon(
+                                                              Icons.visibility,
+                                                            )
+                                                          : const Icon(
+                                                              Icons
+                                                                  .visibility_off,
+                                                            ),
                                                     ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
+                                                    keyboardType: TextInputType
+                                                        .visiblePassword,
+                                                  )),
+                                              const Gap(10.0),
+                                              Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  TextButton(
+                                                    onPressed: _authController
+                                                            .disabledTokenButton
+                                                            .value
+                                                        ? () {
+                                                            _authController
+                                                                .signIn();
+                                                            Get.back();
+                                                          }
+                                                        : null,
+                                                    child: const Text("Login"),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () {
+                                                      Get.back();
+                                                    },
+                                                    child: const Text("Cancel"),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
                                           ),
                                         );
                                       }),

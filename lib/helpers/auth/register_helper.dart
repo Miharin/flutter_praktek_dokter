@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:http/http.dart';
@@ -259,10 +260,37 @@ class RegisterHelper extends GetxController {
       final checkUserNIK =
           users.where("nik", isEqualTo: registerData["nik"]).limit(1).get();
       await checkUserNIK.then((value) async {
-        for (var element in value.docs) {
-          if (element.data().isNotEmpty) {
-            Get.snackbar("Gagal Daftar", "NIK Telah Terpakai");
-          } else {}
+        if (value.docs.isNotEmpty) {
+          Get.snackbar("Gagal Daftar", "NIK Telah Terpakai");
+        } else {
+          registerData["token"] = registerData["password"];
+          try {
+            await FirebaseAuth.instance
+                .createUserWithEmailAndPassword(
+              email: registerData["email"],
+              password: registerData["password"],
+            )
+                .then((value) async {
+              final setUsers = users.doc(value.user!.uid).set(registerData);
+              await setUsers.then(
+                (value) async {
+                  return Get.snackbar(
+                    "Berhasil Daftar",
+                    "Token Sama Dengan Password !",
+                    duration: const Duration(seconds: 5),
+                  );
+                },
+              );
+            });
+          } on FirebaseAuthException catch (e) {
+            if (e.code == 'weak-password') {
+              Get.snackbar("Gagal Daftar !", "Password Terlalu Pendek !");
+            } else if (e.code == 'email-already-in-use') {
+              Get.snackbar("Gagal Daftar !", "Email Telah Dipakai !");
+            }
+          } catch (e) {
+            debugPrint(e.toString());
+          }
         }
       });
     } else {

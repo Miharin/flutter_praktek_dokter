@@ -112,18 +112,21 @@ class AuthHelper extends GetxController {
   }
 
   checkIsUserLogin(uid) async {
-    final users = db.collection("Users");
-    final query = users.doc(uid).get();
+    // FirebaseAuth.instance.signOut();
+    if (uid == null) {
+      userIsLogin.value = false;
+    } else {
+      final users = db.collection("Users");
+      final query = users.doc(uid).get();
 
-    await query.then((userData) async {
-      final data = userData.data()!;
-
-      if (data.isNotEmpty) {
-        userIsLogin.value = true;
-      } else {
-        userIsLogin.value = false;
-      }
-    });
+      await query.then((userData) async {
+        if (userData.data()!.isNotEmpty) {
+          userIsLogin.value = true;
+        } else {
+          userIsLogin.value = false;
+        }
+      });
+    }
   }
 
   void signIn() async {
@@ -136,6 +139,7 @@ class AuthHelper extends GetxController {
           .then((userCredential) async {
         final users = db.collection("Users");
         final query = users.doc(userCredential.user!.uid).get();
+        // print(userCredential.user!.uid);
 
         await query.then((userData) async {
           // Catch if User Data if Empty

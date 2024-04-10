@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_praktek_dokter/helpers/auth/register_helper.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_button/custom__text_button.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_button/custom_filled_button.dart';
@@ -12,7 +11,7 @@ import 'package:get/get.dart';
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
 
-  final _registerHelper = Get.find<RegisterHelper>();
+  final _registerHelper = Get.put(RegisterHelper());
 
   @override
   Widget build(BuildContext context) {
