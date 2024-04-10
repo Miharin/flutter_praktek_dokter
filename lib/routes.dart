@@ -27,6 +27,10 @@ class Routes {
                     () => CustomRoutes(
                       widget: DashboardScreen(),
                       isShowFirst: !_isUserLogin.userIsLogin.value,
+                      secondWidget: AuthScreen(
+                        title: "Login Screen",
+                        child: LoginScreen(),
+                      ),
                     ),
                   );
                 }
@@ -34,10 +38,29 @@ class Routes {
         }),
     GetPage(
       name: '/register',
-      page: () => AuthScreen(
-        title: 'Register Screen',
-        child: RegisterScreen(),
-      ),
+      page: () {
+        return StreamBuilder(
+            stream: _isUserLogin.checkAuthState(),
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else {
+                if (snapshot.hasData) {
+                  _isUserLogin.checkIsUserLogin(snapshot.data!.uid);
+                }
+                return Obx(
+                  () => CustomRoutes(
+                    widget: DashboardScreen(),
+                    isShowFirst: !_isUserLogin.userIsLogin.value,
+                    secondWidget: AuthScreen(
+                      title: 'Register Screen',
+                      child: RegisterScreen(),
+                    ),
+                  ),
+                );
+              }
+            });
+      },
     ),
     GetPage(
       name: '/test',
@@ -53,9 +76,11 @@ class CustomRoutes extends StatelessWidget {
   const CustomRoutes({
     super.key,
     required this.widget,
+    required this.secondWidget,
     required this.isShowFirst,
   });
   final Widget widget;
+  final Widget secondWidget;
   final bool isShowFirst;
 
   @override
@@ -68,10 +93,7 @@ class CustomRoutes extends StatelessWidget {
         bottomChildKey,
       ) =>
           topChild,
-      firstChild: AuthScreen(
-        title: "Login Screen",
-        child: LoginScreen(),
-      ),
+      firstChild: secondWidget,
       secondChild: widget,
       crossFadeState:
           isShowFirst ? CrossFadeState.showFirst : CrossFadeState.showSecond,
