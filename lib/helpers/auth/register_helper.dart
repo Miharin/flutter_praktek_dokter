@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:http/http.dart';
@@ -53,6 +54,7 @@ class VerificationData {
 }
 
 class RegisterHelper extends GetxController {
+  final FirebaseFirestore db = FirebaseFirestore.instance;
   final RxInt currentStep = 0.obs;
   final formKeyAuthentication = GlobalKey<FormState>().obs;
   final FocusNode focusDateTime = FocusNode();
@@ -101,6 +103,7 @@ class RegisterHelper extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    getDataProvinces();
     focusDateTime.addListener(() {
       if (focusDateTime.hasFocus) {
         dateTimePicker(focusDateTime.context, dateTimeController);
@@ -245,6 +248,40 @@ class RegisterHelper extends GetxController {
           break;
         default:
       }
+    }
+  }
+
+  signUp() async {
+    if (registerVerification.values
+        .toList()
+        .every((element) => element == true)) {
+      final users = db.collection("Users");
+      final checkUserNIK =
+          users.where("nik", isEqualTo: registerData["nik"]).limit(1).get();
+      await checkUserNIK.then((value) async {
+        for (var element in value.docs) {
+          if (element.data().isNotEmpty) {
+            Get.snackbar("Gagal Daftar", "NIK Telah Terpakai");
+          } else {}
+        }
+      });
+    } else {
+      final List falseVerification = registerVerification.values.toList();
+      final List falseKeys =
+          Keys.capitalize(registerVerification.keys.toList()).label;
+      final List<String> emptytFields = [];
+      for (var i = 0; i < falseVerification.length; i++) {
+        if (!falseVerification[i]) {
+          emptytFields.add(falseKeys[i]);
+        }
+      }
+      final String finalEmptyFields = emptytFields.join(", ");
+      Get.snackbar(
+        "Gagal Daftar !",
+        "$finalEmptyFields Belum Diisi/ Salah Format !",
+        duration: const Duration(seconds: 30),
+        isDismissible: true,
+      );
     }
   }
 

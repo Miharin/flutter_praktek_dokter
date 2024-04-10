@@ -16,7 +16,6 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    _registerHelper.getDataProvinces(); // coba liat getx on init
     final steps = <Step>[
       Step(
         title: Obx(
@@ -385,15 +384,7 @@ class RegisterScreen extends StatelessWidget {
                 SizedBox(
                   width: 120.0,
                   child: CustomFilledButton(
-                    onPressed: () {
-                      if (_registerHelper.registerVerification.values
-                          .toList()
-                          .every((element) => element == true)) {
-                        print("passed");
-                      } else {
-                        print("not verified");
-                      }
-                    },
+                    onPressed: () => _registerHelper.signUp(),
                     label: "Submit",
                   ),
                 ),
