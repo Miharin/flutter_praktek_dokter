@@ -14,57 +14,29 @@ class Routes {
     GetPage(
         name: '/',
         page: () {
-          return StreamBuilder(
-              stream: _isUserLogin.checkAuthState(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                } else {
-                  if (snapshot.hasData) {
-                    _isUserLogin.checkIsUserLogin(snapshot.data!.uid);
-                  }
-                  return Obx(
-                    () => CustomRoutes(
-                      widget: DashboardScreen(),
-                      isShowFirst: !_isUserLogin.userIsLogin.value,
-                      secondWidget: AuthScreen(
-                        title: "Login Screen",
-                        child: LoginScreen(),
-                      ),
-                    ),
-                  );
-                }
-              });
+          return CustomRoutes(
+            widget: DashboardScreen(),
+            secondWidget: AuthScreen(
+              title: "Login Screen",
+              child: LoginScreen(),
+            ),
+          );
         }),
     GetPage(
       name: '/register',
       page: () {
-        return StreamBuilder(
-            stream: _isUserLogin.checkAuthState(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const CircularProgressIndicator();
-              } else {
-                if (snapshot.hasData) {
-                  _isUserLogin.checkIsUserLogin(snapshot.data!.uid);
-                }
-                return Obx(
-                  () => CustomRoutes(
-                    widget: DashboardScreen(),
-                    isShowFirst: !_isUserLogin.userIsLogin.value,
-                    secondWidget: AuthScreen(
-                      title: 'Register Screen',
-                      child: RegisterScreen(),
-                    ),
-                  ),
-                );
-              }
-            });
+        return CustomRoutes(
+          widget: DashboardScreen(),
+          secondWidget: AuthScreen(
+            title: 'Register Screen',
+            child: RegisterScreen(),
+          ),
+        );
       },
     ),
     GetPage(
       name: '/test',
-      page: () => AuthScreen(
+      page: () => const AuthScreen(
         title: 'Register Screen',
         child: TableDataPatient(),
       ),
@@ -77,27 +49,37 @@ class CustomRoutes extends StatelessWidget {
     super.key,
     required this.widget,
     required this.secondWidget,
-    required this.isShowFirst,
   });
   final Widget widget;
   final Widget secondWidget;
-  final bool isShowFirst;
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedCrossFade(
-      layoutBuilder: (
-        topChild,
-        topChildKey,
-        bottomChild,
-        bottomChildKey,
-      ) =>
-          topChild,
-      firstChild: secondWidget,
-      secondChild: widget,
-      crossFadeState:
-          isShowFirst ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-      duration: const Duration(milliseconds: 1000),
-    );
+    return StreamBuilder(
+        stream: _isUserLogin.checkAuthState(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const CircularProgressIndicator();
+          } else {
+            if (snapshot.hasData) {
+              _isUserLogin.checkIsUserLogin(snapshot.data!.uid);
+            }
+            return Obx(() => AnimatedCrossFade(
+                  layoutBuilder: (
+                    topChild,
+                    topChildKey,
+                    bottomChild,
+                    bottomChildKey,
+                  ) =>
+                      topChild,
+                  firstChild: secondWidget,
+                  secondChild: widget,
+                  crossFadeState: !_isUserLogin.userIsLogin.value
+                      ? CrossFadeState.showFirst
+                      : CrossFadeState.showSecond,
+                  duration: const Duration(milliseconds: 1000),
+                ));
+          }
+        });
   }
 }

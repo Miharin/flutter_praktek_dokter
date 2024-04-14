@@ -137,25 +137,25 @@ class AuthHelper extends GetxController {
         password: authData["password"],
       )
           .then((userCredential) async {
-        final users = db.collection("Users");
-        final query = users.doc(userCredential.user!.uid).get();
-        // print(userCredential.user!.uid);
-
-        await query.then((userData) async {
-          // Catch if User Data if Empty
-
-          // If UserData is Not Empty Next();
-          final data = userData.data()!;
-          final user = AuthenticationModel.fromJson(data);
-          if (user.token == authData["token"]) {
-            userIsLogin.value = true;
-            Get.snackbar(
-              "Login Success",
-              "Welcome ${user.username}",
-              backgroundColor: Colors.white,
-            );
-          }
-        });
+        if (userCredential.user?.uid.runtimeType != null) {
+          final users = db.collection("Users");
+          final query = users.doc(userCredential.user?.uid).get();
+          await query.then((value) async {
+            if (value.data()!.isNotEmpty) {
+              final user = AuthenticationModel.fromJson(value.data()!);
+              if (user.token == authData["token"]) {
+                userIsLogin.value = true;
+                Get.showSnackbar(
+                  GetSnackBar(
+                    title: "Login Success",
+                    message: "Welcome ${user.username}",
+                    duration: const Duration(seconds: 3),
+                  ),
+                );
+              }
+            }
+          });
+        }
       });
     } on FirebaseAuthException catch (error) {
       if (error.code == "user-not-found") {
@@ -163,6 +163,8 @@ class AuthHelper extends GetxController {
       } else if (error.code == 'wrong-password') {
         print("Wrong Password Provided for That User !");
       }
+    } catch (error) {
+      debugPrint(error.toString());
     }
   }
 }
