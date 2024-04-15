@@ -8,7 +8,7 @@ class AuthenticationModel {
 
   factory AuthenticationModel.fromJson(Map<String, dynamic> authJSON) =>
       AuthenticationModel(
-        username: authJSON["name"],
+        username: authJSON["nama"],
         token: authJSON["token"],
       );
 }

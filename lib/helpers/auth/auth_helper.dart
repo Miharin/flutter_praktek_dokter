@@ -145,12 +145,10 @@ class AuthHelper extends GetxController {
               final user = AuthenticationModel.fromJson(value.data()!);
               if (user.token == authData["token"]) {
                 userIsLogin.value = true;
-                Get.showSnackbar(
-                  GetSnackBar(
-                    title: "Login Success",
-                    message: "Welcome ${user.username}",
-                    duration: const Duration(seconds: 3),
-                  ),
+                return Get.snackbar(
+                  "Login Success",
+                  "Welcome ${user.username}",
+                  snackPosition: SnackPosition.BOTTOM,
                 );
               }
             }

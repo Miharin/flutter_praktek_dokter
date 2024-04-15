@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_praktek_dokter/helpers/auth/auth_helper.dart';
 import 'package:flutter_praktek_dokter/screens/protected/protected_screen.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_button/custom_filled_button.dart';
+import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_divider/custom_divider.dart';
 import 'package:flutter_zoom_drawer/flutter_zoom_drawer.dart';
 import 'package:get/get.dart';
 
@@ -15,68 +16,96 @@ class DashboardScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProtectedScreen(
-      title: "Dashboard Screen",
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ZoomDrawer(
-          controller: _myDrawer.zoomDrawerController,
-          borderRadius: 24.0,
-          showShadow: false,
-          angle: 0.0,
-          drawerShadowsBackgroundColor: Colors.grey[300]!,
-          slideWidth: MediaQuery.of(context).size.width * 0.5,
-          menuScreen: Container(
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Colors.grey[300]!,
-                width: 0.2,
-              ),
-              color: Colors.white,
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Flexible(
-                    child: CustomFilledButton(
-                      label: "Toggle Drawer",
-                      onPressed: _myDrawer.toggleDrawer,
-                    ),
-                  ),
-                  Flexible(
-                    child: CustomFilledButton(
-                      label: "Logout",
-                      onPressed: () async {
-                        await FirebaseAuth.instance.signOut();
-                        _isUserLogin.userIsLogin.value = false;
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
+    return ZoomDrawer(
+      controller: _myDrawer.zoomDrawerController,
+      borderRadius: 24.0,
+      showShadow: true,
+      angle: -12.0,
+      style: DrawerStyle.defaultStyle,
+      drawerShadowsBackgroundColor: Colors.grey[300]!,
+      slideWidth: MediaQuery.of(context).size.width * 0.3,
+      menuScreen: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.grey[300]!,
+            width: 0.2,
           ),
-          mainScreen: Container(
-            color: Colors.white,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Flexible(
-                  child: CustomFilledButton(
-                    label: "Toggle Drawer",
-                    onPressed: _myDrawer.toggleDrawer,
+        ),
+        child: Drawer(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.zero),
+          ),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.1,
+                child: DrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    border: Border(
+                      bottom: BorderSide(
+                        width: 0.5,
+                        color: Colors.grey[300]!,
+                      ),
+                    ),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "Menu",
+                    ),
                   ),
                 ),
-                Flexible(
-                  child: CustomFilledButton(
-                    label: "Logout",
-                    onPressed: () async {
-                      await FirebaseAuth.instance.signOut();
-                      _isUserLogin.userIsLogin.value = false;
+              ),
+              ListTile(
+                leading: const Icon(Icons.dashboard_rounded),
+                title: const Text("Dashboard"),
+                onTap: () {
+                  print("Dashboard");
+                },
+              ),
+              const CustomDivider(
+                space: 15.0,
+              ),
+              ExpansionTile(
+                leading: const Icon(Icons.people_rounded),
+                title: const Text('Pasien'),
+                childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0),
+                children: [
+                  ListTile(
+                    leading: const Icon(Icons.leaderboard_rounded),
+                    title: const Text("Data Pasien"),
+                    onTap: () {
+                      print("Data Pasien");
+                      Get.toNamed("/test");
                     },
                   ),
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
+      mainScreen: ProtectedScreen(
+        title: "Dashboard Screen",
+        child: Container(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Flexible(
+                      child: CustomFilledButton(
+                        label: "Logout",
+                        onPressed: () async {
+                          await FirebaseAuth.instance.signOut();
+                          _isUserLogin.userIsLogin.value = false;
+                        },
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -91,7 +120,6 @@ class MyDrawerController extends GetxController {
   final zoomDrawerController = ZoomDrawerController();
 
   void toggleDrawer() {
-    print("Toggle drawer");
     zoomDrawerController.toggle?.call();
     update();
   }
