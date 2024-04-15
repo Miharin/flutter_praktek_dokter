@@ -45,13 +45,13 @@ class DefaultFirebaseOptions {
   }
 
   static FirebaseOptions web = FirebaseOptions(
-    apiKey: dotenv.env['WEB-API-KEY'] as String,
-    appId: dotenv.env['WEB-APP-ID'] as String,
-    messagingSenderId: dotenv.env['WEB-MESSAGING-SENDER-ID'] as String,
-    projectId: dotenv.env['WEB-PROJECT-ID'] as String,
-    authDomain: dotenv.env['WEB-AUTH-DOMAIN'] as String,
-    storageBucket: dotenv.env['WEB-STORAGE-BUCKET'] as String,
-    measurementId: dotenv.env['WEB-MEASUREMENT-ID'] as String,
+    apiKey: dotenv.env['WEB_API_KEY'] as String,
+    appId: dotenv.env['WEB_APP_ID'] as String,
+    messagingSenderId: dotenv.env['WEB_MESSAGING_SENDER_ID'] as String,
+    projectId: dotenv.env['WEB_PROJECT_ID'] as String,
+    authDomain: dotenv.env['WEB_AUTH_DOMAIN'] as String,
+    storageBucket: dotenv.env['WEB_STORAGE_BUCKET'] as String,
+    measurementId: dotenv.env['WEB_MEASUREMENT_ID'] as String,
   );
 
   static FirebaseOptions android = FirebaseOptions(
