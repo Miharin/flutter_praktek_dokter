@@ -8,18 +8,27 @@ class CustomDataTable extends StatelessWidget {
   });
 
   final List<String> title;
-  final List<String> datalabel;
+  final List<Map<String, dynamic>> datalabel;
 
   @override
   Widget build(BuildContext context) {
+    print(title);
     List<Widget> listtitle = title.map((label) => Text(label)).toList();
-    List<Widget> listdatatitle = datalabel.map((label) => Text(label)).toList();
 
     return Flexible(
       flex: 1,
       child: DataTable(
         columns: listtitle.map((title) => DataColumn(label: title)).toList(),
-        rows: [DataRow(cells: listdatatitle.map((e) => DataCell(e)).toList())],
+        rows: datalabel.map((e) {
+          return DataRow(
+            cells: List.generate(
+              title.length,
+              (index) => DataCell(
+                Text(e[title[index]]),
+              ),
+            ).toList(),
+          );
+        }).toList(),
       ),
     );
   }
