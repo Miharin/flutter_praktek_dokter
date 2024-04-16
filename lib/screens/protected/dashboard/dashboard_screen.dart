@@ -24,92 +24,117 @@ class DashboardScreen extends StatelessWidget {
       style: DrawerStyle.defaultStyle,
       drawerShadowsBackgroundColor: Colors.grey[300]!,
       slideWidth: MediaQuery.of(context).size.width * 0.3,
-      menuScreen: Container(
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.grey[300]!,
-            width: 0.2,
-          ),
-        ),
-        child: Drawer(
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.zero),
-          ),
-          child: ListView(
-            padding: EdgeInsets.zero,
+      menuScreen: const DrawerMenu(),
+      mainScreen: MainScreen(isUserLogin: _isUserLogin),
+    );
+  }
+}
+
+class MainScreen extends StatelessWidget {
+  const MainScreen({
+    super.key,
+    required AuthHelper isUserLogin,
+  }) : _isUserLogin = isUserLogin;
+
+  final AuthHelper _isUserLogin;
+
+  @override
+  Widget build(BuildContext context) {
+    return ProtectedScreen(
+      title: "Dashboard Screen",
+      child: Container(
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
             children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.1,
-                child: DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    border: Border(
-                      bottom: BorderSide(
-                        width: 0.5,
-                        color: Colors.grey[300]!,
-                      ),
-                    ),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      "Menu",
-                    ),
-                  ),
-                ),
-              ),
-              ListTile(
-                leading: const Icon(Icons.dashboard_rounded),
-                title: const Text("Dashboard"),
-                onTap: () {
-                  print("Dashboard");
-                },
-              ),
-              const CustomDivider(
-                space: 15.0,
-              ),
-              ExpansionTile(
-                leading: const Icon(Icons.people_rounded),
-                title: const Text('Pasien'),
-                childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0),
+              Row(
                 children: [
-                  ListTile(
-                    leading: const Icon(Icons.leaderboard_rounded),
-                    title: const Text("Data Pasien"),
-                    onTap: () {
-                      print("Data Pasien");
-                      Get.toNamed("/test");
-                    },
+                  Flexible(
+                    child: CustomFilledButton(
+                      label: "Logout",
+                      onPressed: () async {
+                        await FirebaseAuth.instance.signOut();
+                        _isUserLogin.userIsLogin.value = false;
+                      },
+                    ),
                   ),
                 ],
-              )
+              ),
             ],
           ),
         ),
       ),
-      mainScreen: ProtectedScreen(
-        title: "Dashboard Screen",
-        child: Container(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Flexible(
-                      child: CustomFilledButton(
-                        label: "Logout",
-                        onPressed: () async {
-                          await FirebaseAuth.instance.signOut();
-                          _isUserLogin.userIsLogin.value = false;
-                        },
-                      ),
+    );
+  }
+}
+
+class DrawerMenu extends StatelessWidget {
+  const DrawerMenu({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: Colors.grey[300]!,
+          width: 0.2,
+        ),
+      ),
+      child: Drawer(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.zero),
+        ),
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.1,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  border: Border(
+                    bottom: BorderSide(
+                      width: 0.5,
+                      color: Colors.grey[300]!,
                     ),
-                  ],
+                  ),
+                ),
+                child: const Center(
+                  child: Text(
+                    "Menu",
+                  ),
+                ),
+              ),
+            ),
+            ListTile(
+              leading: const Icon(Icons.dashboard_rounded),
+              title: const Text("Dashboard"),
+              onTap: () {
+                print("Dashboard");
+              },
+            ),
+            const CustomDivider(
+              space: 15.0,
+            ),
+            ExpansionTile(
+              leading: const Icon(Icons.people_rounded),
+              title: const Text('Pasien'),
+              childrenPadding: const EdgeInsets.symmetric(horizontal: 10.0),
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.leaderboard_rounded),
+                  title: const Text("Data Pasien"),
+                  onTap: () {
+                    print("Data Pasien");
+                    Get.toNamed("/test");
+                  },
                 ),
               ],
-            ),
-          ),
+            )
+          ],
         ),
       ),
     );
