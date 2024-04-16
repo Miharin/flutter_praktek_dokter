@@ -3,6 +3,7 @@ import 'package:flutter_praktek_dokter/helpers/auth/auth_helper.dart';
 import 'package:flutter_praktek_dokter/screens/auth/auth_screen.dart';
 import 'package:flutter_praktek_dokter/screens/auth/login.dart';
 import 'package:flutter_praktek_dokter/screens/auth/register.dart';
+import 'package:flutter_praktek_dokter/screens/auth/register_patient.dart';
 import 'package:flutter_praktek_dokter/screens/auth/table_data_patient.dart';
 import 'package:flutter_praktek_dokter/screens/protected/dashboard/dashboard_screen.dart';
 import 'package:get/get.dart';
@@ -36,9 +37,16 @@ class Routes {
     ),
     GetPage(
       name: '/test',
-      page: () => const AuthScreen(
-        title: 'Register Screen',
+      page: () => AuthScreen(
+        title: 'Table Data Patient',
         child: TableDataPatient(),
+      ),
+    ),
+    GetPage(
+      name: '/test1',
+      page: () => const AuthScreen(
+        title: 'Register Patient',
+        child: RegisterPatient(),
       ),
     ),
   ];

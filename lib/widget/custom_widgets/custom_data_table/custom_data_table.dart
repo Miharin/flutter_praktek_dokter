@@ -18,6 +18,8 @@ class CustomDataTable extends StatelessWidget {
     return Flexible(
       flex: 1,
       child: DataTable(
+        sortColumnIndex: 0,
+        sortAscending: true,
         columns: listtitle.map((title) => DataColumn(label: title)).toList(),
         rows: datalabel.map((e) {
           return DataRow(
