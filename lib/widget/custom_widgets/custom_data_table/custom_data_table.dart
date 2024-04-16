@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class CustomDataTable extends StatelessWidget {
   const CustomDataTable({
@@ -8,12 +9,14 @@ class CustomDataTable extends StatelessWidget {
   });
 
   final List<String> title;
-  final List<Map<String, dynamic>> datalabel;
+  final List datalabel;
 
   @override
   Widget build(BuildContext context) {
-    print(title);
-    List<Widget> listtitle = title.map((label) => Text(label)).toList();
+    List<Widget> listtitle = title
+        .map((label) =>
+            Text(label == "nik" ? label.toUpperCase() : label.capitalize!))
+        .toList();
 
     return Flexible(
       flex: 1,

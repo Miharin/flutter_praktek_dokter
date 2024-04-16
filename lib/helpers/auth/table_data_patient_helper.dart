@@ -8,16 +8,19 @@ class DataPatient {
 
 class DataPatientHelper extends GetxController {
   final RxList tableTitle = [].obs;
-  final RxList<Map<String, dynamic>> tableContent = [
-    {
-      "Nama": "Name",
-      "ID": "NIK",
-    }
-  ].obs;
-  final RxMap<String, dynamic> addNewTableContentData = {"Nama": ""}.obs;
+  final RxList tableContent = [].obs;
+  final RxMap<String, dynamic> addNewTableContentData = {
+    "nama": "",
+    "nik": "",
+  }.obs;
 
   handleAddNewTableContent(String name, dynamic value) {
     addNewTableContentData[name] = value;
+  }
+
+  handleSubmitAddDataContent() {
+    tableContent.add({...addNewTableContentData});
+    tableContent.refresh();
   }
 
   handleNewTableContentOnSubmit() {

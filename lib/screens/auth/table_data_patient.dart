@@ -22,18 +22,27 @@ class TableDataPatient extends StatelessWidget {
             ),
           ],
         ),
-        Card(
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CustomDataTable(
-                title: const [
-                  "Nama",
-                  "ID",
-                ],
-                datalabel: datapatienthelper.tableContent,
-              ),
-            ],
+        Obx(
+          () => Card(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                datapatienthelper.tableContent.isEmpty
+                    ? const CustomDataTable(
+                        title: ['nama', 'nik'],
+                        datalabel: [
+                          {
+                            "nama": "",
+                            "nik": "",
+                          }
+                        ],
+                      )
+                    : CustomDataTable(
+                        title: datapatienthelper.tableContent[0].keys.toList(),
+                        datalabel: datapatienthelper.tableContent,
+                      ),
+              ],
+            ),
           ),
         ),
       ],

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_praktek_dokter/helpers/auth/table_data_patient_helper.dart';
 import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_textfromfield/custom_textformfield.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
 class RegisterPatient extends StatelessWidget {
-  const RegisterPatient({super.key});
+  RegisterPatient({super.key});
+  final DataPatientHelper _dataPatientHelper = Get.put(DataPatientHelper());
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +27,20 @@ class RegisterPatient extends StatelessWidget {
                         CustomTextFormField(
                           label: "Nama Lengkap",
                           verification: true,
-                          onSave: (value) => print(value),
+                          onSave: (value) =>
+                              _dataPatientHelper.handleAddNewTableContent(
+                            "nama",
+                            value,
+                          ),
                         ),
                         CustomTextFormField(
-                          label: "ID",
+                          label: "NIK",
                           verification: true,
+                          onSave: (value) =>
+                              _dataPatientHelper.handleAddNewTableContent(
+                            "nik",
+                            value,
+                          ),
                         ),
                       ],
                     ),
@@ -44,13 +55,14 @@ class RegisterPatient extends StatelessWidget {
                   child: Row(
                     children: [
                       ElevatedButton.icon(
-                        onPressed: () => {},
+                        onPressed: () =>
+                            _dataPatientHelper.handleSubmitAddDataContent(),
                         label: const Text("ADD NEW LIST"),
                         icon: const Icon(Icons.add),
                       ),
                       const Gap(10.0),
                       ElevatedButton.icon(
-                        onPressed: () => Get.toNamed('/test'),
+                        onPressed: () => Get.back(),
                         label: const Text("Back"),
                         icon: const Icon(Icons.arrow_back),
                       ),
