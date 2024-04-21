@@ -410,6 +410,26 @@ class RegisterScreen extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             child: Obx(
               () => Stepper(
+                stepIconBuilder: (stepIndex, stepState) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: Theme.of(context).colorScheme.tertiary,
+                        width: 2.0,
+                      ),
+                    ),
+                    child: CircleAvatar(
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      child: Text(
+                        (stepIndex + 1).toString(),
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onInverseSurface,
+                        ),
+                      ),
+                    ),
+                  );
+                },
                 currentStep: _registerHelper.currentStep.value,
                 onStepContinue: () {
                   _registerHelper.handleNextButton();
