@@ -130,6 +130,7 @@ class AuthHelper extends GetxController {
   }
 
   void signIn() async {
+    String errorMessage = "";
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(
@@ -149,6 +150,7 @@ class AuthHelper extends GetxController {
                   "Login Success",
                   "Welcome ${user.username}",
                   snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.white,
                 );
               }
             }
@@ -157,10 +159,16 @@ class AuthHelper extends GetxController {
       });
     } on FirebaseAuthException catch (error) {
       if (error.code == "user-not-found") {
-        print("No User Friend for That Email !");
+        errorMessage = "Email Tidak Terdaftar";
       } else if (error.code == 'wrong-password') {
-        print("Wrong Password Provided for That User !");
+        errorMessage = "Password Salah";
       }
+      Get.snackbar(
+        "Login Gagal !",
+        errorMessage,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.white,
+      );
     } catch (error) {
       debugPrint(error.toString());
     }

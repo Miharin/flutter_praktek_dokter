@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_praktek_dokter/helpers/auth/table_data_patient_helper.dart';
-import 'package:flutter_praktek_dokter/widget/custom_widgets/custom_textfromfield/custom_textformfield.dart';
+import 'package:flutter_praktek_dokter/helpers/protected/table_data_patient_helper.dart';
+import 'package:flutter_praktek_dokter/widget/custom_textfromfield/custom_textformfield.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
 
