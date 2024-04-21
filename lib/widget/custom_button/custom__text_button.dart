@@ -29,9 +29,9 @@ class CustomFlatTextButton extends StatelessWidget {
             return Colors.grey;
           } else {
             if (states.contains(MaterialState.hovered)) {
-              return Theme.of(context).colorScheme.secondary;
+              return Theme.of(context).colorScheme.onPrimaryContainer;
             }
-            return Theme.of(context).primaryColor;
+            return Theme.of(context).colorScheme.tertiary;
           }
         }),
       ),

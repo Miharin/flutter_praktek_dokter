@@ -17,7 +17,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       title: Text(title),
       leading: leading,
-      elevation: 4.0,
+      elevation: 0.0,
       actions: actions,
     );
   }
