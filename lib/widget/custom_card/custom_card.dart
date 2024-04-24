@@ -23,11 +23,14 @@ class CustomCardWithHeader extends StatelessWidget {
     return FlatCard(
       child: Column(
         children: [
-          Text(
-            header.toUpperCase(),
-            style: TextStyle(
-              fontSize: fontsize ?? 18.0,
-              fontWeight: fontweight,
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Text(
+              header.toUpperCase(),
+              style: TextStyle(
+                fontSize: fontsize ?? 18.0,
+                fontWeight: fontweight,
+              ),
             ),
           ),
           divider ?? const CustomDivider(space: 20.0),
