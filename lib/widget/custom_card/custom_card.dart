@@ -24,7 +24,9 @@ class CustomCardWithHeader extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 10.0),
+            padding: const EdgeInsets.only(
+              top: 10.0,
+            ),
             child: Text(
               header.toUpperCase(),
               style: TextStyle(
@@ -35,7 +37,10 @@ class CustomCardWithHeader extends StatelessWidget {
           ),
           divider ?? const CustomDivider(space: 20.0),
           const Gap(10.0),
-          children,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: children,
+          ),
         ],
       ),
     );
