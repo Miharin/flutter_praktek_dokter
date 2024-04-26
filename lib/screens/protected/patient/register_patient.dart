@@ -14,22 +14,13 @@ class RegisterPatient extends StatelessWidget {
     return SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
+        child: Wrap(
           children: [
             CustomCardWithHeader(
-              header: "Identitas",
-              children: Row(
+              header: "Identitas Umum Pasien",
+              children: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  CustomTextFormField(
-                    label: "Nama Lengkap",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
                   CustomTextFormField(
                     label: "Nomer Rekam Medis",
                     verification: true,
@@ -49,7 +40,7 @@ class RegisterPatient extends StatelessWidget {
                     ),
                   ),
                   CustomTextFormField(
-                    label: "Nama Ibu Kandung",
+                    label: "Nama Lengkap",
                     verification: true,
                     onSave: (value) =>
                         _dataPatientHelper.handleAddNewTableContent(
@@ -57,14 +48,6 @@ class RegisterPatient extends StatelessWidget {
                       value,
                     ),
                   ),
-                ],
-              ),
-            ),
-            CustomCardWithHeader(
-              header: "Identitas",
-              children: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
                   CustomTextFormField(
                     label: "Tempat Lahir",
                     verification: true,
@@ -101,14 +84,245 @@ class RegisterPatient extends StatelessWidget {
                       value,
                     ),
                   ),
+                  CustomTextFormField(
+                    label: "Status Pernikahan",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    label: "Pekerjaan",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
                 ],
               ),
             ),
             CustomCardWithHeader(
-              header: "Identitas",
-              children: Row(
+              header: "Alamat",
+              children: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  CustomTextFormField(
+                    label: "Negara",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    label: "Provinsi",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    label: "Kota/kabupaten",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    label: "Kecamatan",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    label: "Kelurahan/Desa",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    label: "RT",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    label: "RW",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    label: "Kode Pos",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    label: "Alamat Lengkap",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            CustomCardWithHeader(
+              header: "Domisili",
+              children: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CustomTextFormField(
+                    label: "Negara",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    label: "Provinsi",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    label: "Kota/Kabupaten",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    label: "Kecamatan",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    label: "Kelurahan/Desa Domisili",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    label: "RT",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    label: "RW",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    label: "Kode Pos",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    label: "Alamat Domisili",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            CustomCardWithHeader(
+              header: "No.Telp",
+              children: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CustomTextFormField(
+                    label: "Nomer Telepon Rumah",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                  CustomTextFormField(
+                    label: "Nomer Telepon Selular Pasien",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            CustomCardWithHeader(
+              header: "Lain-Nya",
+              children: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CustomTextFormField(
+                    label: "Nama Ibu Kandung",
+                    verification: true,
+                    onSave: (value) =>
+                        _dataPatientHelper.handleAddNewTableContent(
+                      "nama",
+                      value,
+                    ),
+                  ),
                   CustomTextFormField(
                     label: "Suku",
                     verification: true,
@@ -128,236 +342,7 @@ class RegisterPatient extends StatelessWidget {
                     ),
                   ),
                   CustomTextFormField(
-                    label: "Alamat Lengkap",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                  CustomTextFormField(
-                    label: "RT",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            CustomCardWithHeader(
-              header: "Identitas",
-              children: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CustomTextFormField(
-                    label: "RW",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                  CustomTextFormField(
-                    label: "Desa",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                  CustomTextFormField(
-                    label: "Kecamatan",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                  CustomTextFormField(
-                    label: "Kode Pos",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            CustomCardWithHeader(
-              header: "Identitas",
-              children: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CustomTextFormField(
-                    label: "Provinsi",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                  CustomTextFormField(
-                    label: "Negara",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                  CustomTextFormField(
-                    label: "Alamat Domisili",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                  CustomTextFormField(
-                    label: "RT",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            CustomCardWithHeader(
-              header: "Identitas",
-              children: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CustomTextFormField(
-                    label: "RW",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                  CustomTextFormField(
-                    label: "Desa Domisili",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                  CustomTextFormField(
-                    label: "Kecamatan",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                  CustomTextFormField(
-                    label: "Kabupaten",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            CustomCardWithHeader(
-              header: "Identitas",
-              children: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CustomTextFormField(
-                    label: "Kode Pos",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                  CustomTextFormField(
-                    label: "Provinsi",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                  CustomTextFormField(
-                    label: "Negara",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                  CustomTextFormField(
-                    label: "Nomer Telepon Rumah",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            CustomCardWithHeader(
-              header: "Identitas",
-              children: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CustomTextFormField(
-                    label: "Nomer Telepon Selular Pasien",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                  CustomTextFormField(
                     label: "Pendidikan",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                  CustomTextFormField(
-                    label: "pekerjaan",
-                    verification: true,
-                    onSave: (value) =>
-                        _dataPatientHelper.handleAddNewTableContent(
-                      "nama",
-                      value,
-                    ),
-                  ),
-                  CustomTextFormField(
-                    label: "Status Pernikahan",
                     verification: true,
                     onSave: (value) =>
                         _dataPatientHelper.handleAddNewTableContent(
