@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -46,6 +48,7 @@ class MyApp extends StatelessWidget {
 
       return GetMaterialApp(
         title: 'Selamat Datang di Praktek Dokter App',
+        scrollBehavior: CustomScrollBehavior(),
         theme: ThemeData(
           useMaterial3: true,
           colorScheme: !darkMode ? lightScheme : darkScheme,
@@ -59,4 +62,12 @@ class MyApp extends StatelessWidget {
       );
     });
   }
+}
+
+class CustomScrollBehavior extends MaterialScrollBehavior {
+  @override
+  Set<PointerDeviceKind> get dragDevices => {
+        PointerDeviceKind.touch,
+        PointerDeviceKind.mouse,
+      };
 }

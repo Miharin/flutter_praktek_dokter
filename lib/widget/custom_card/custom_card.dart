@@ -7,6 +7,7 @@ class CustomCardWithHeader extends StatelessWidget {
     super.key,
     required this.header,
     required this.children,
+    this.flex,
     this.divider,
     this.fontsize,
     this.fontweight = FontWeight.bold,
@@ -15,6 +16,7 @@ class CustomCardWithHeader extends StatelessWidget {
   final Widget children;
   final CustomDivider? divider;
 
+  final int? flex;
   final double? fontsize;
   final FontWeight fontweight;
 
@@ -54,6 +56,7 @@ class FlatCard extends StatelessWidget {
   });
 
   final Widget child;
+
   @override
   Widget build(BuildContext context) {
     return Card(
